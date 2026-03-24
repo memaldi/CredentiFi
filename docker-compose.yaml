@@ -44,7 +44,7 @@ services:
 
   verifier-api:
     platform: linux/x86_64
-    #image: docker.io/waltid/verifier-api:${VERSION_TAG:-0.18.0}
+    image: docker.io/waltid/verifier-api:${VERSION_TAG:-0.18.0}
     profiles:
       - identity
       - all
@@ -127,7 +127,7 @@ services:
       PORT: $VC_REPO_PORT
 
   postgres:
-    image: postgres
+    image: postgres:18
     profiles:
       - identity
       - all
@@ -143,9 +143,10 @@ services:
       POSTGRES_PASSWORD: $DB_PASSWORD
     volumes:
       - wallet-api-db:/waltid-wallet-api/data
-      - keycloak-db:/var/lib/postgresql/data
+      - keycloak-db:/var/lib/postgresql
     ports:
       - $POSTGRES_DB_PORT:5432 #TODO: tcp/udp proxy with caddy
+  
   keycloak:
     image: quay.io/keycloak/keycloak:latest
     container_name: keycloak
