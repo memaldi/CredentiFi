@@ -37,6 +37,8 @@ const runtimeConfig = {
     import.meta.env.VITE_LOGO_INVERSE_URL,
     "/branding/deusto/logo-white.png"
   ),
+  primaryColor: import.meta.env.VITE_PRIMARY_COLOR || "#0153ce",
+  secondaryColor: import.meta.env.VITE_SECONDARY_COLOR || "#13448d",
   apiBaseUrl,
 };
 

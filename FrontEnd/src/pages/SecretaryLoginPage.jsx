@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import BrandLogo from "../components/BrandLogo";
 import { apiUrl, runtimeConfig } from "../config/runtime";
 
+const PRIMARY = runtimeConfig.primaryColor;
+
 const SecretaryLoginPage = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -61,11 +63,11 @@ const SecretaryLoginPage = () => {
                         width: "30%",
                         borderTopStyle: "solid",
                         borderWidth: "2px",
-                        borderTopColor: "#1B459A",
+                        borderTopColor: PRIMARY,
                         boxShadow: "0px 0px 10px 0px #000000",
                     }}
                 >
-                    <div className="secondBox" style={{ backgroundColor: "#0053CE" }}>
+                    <div className="secondBox" style={{ backgroundColor: PRIMARY }}>
                         <h6
                             style={{
                                 padding: "6%",
@@ -122,14 +124,14 @@ const SecretaryLoginPage = () => {
                     </div>
                     <a
                         href=""
-                        style={{ marginLeft: "5%", fontSize: "80%", color: "#6c94e3" }}
+                        style={{ marginLeft: "5%", fontSize: "80%", color: PRIMARY }}
                     >
                         No tengo una cuenta, solicitar registro
                     </a>
                     <br />
                     <a
                         href=""
-                        style={{ marginLeft: "5%", fontSize: "80%", color: "#6c94e3" }}
+                        style={{ marginLeft: "5%", fontSize: "80%", color: PRIMARY }}
                     >
                         {" "}
                         No sé o he olvidado mi contraseña

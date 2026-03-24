@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" role="img" aria-label="Université de Strasbourg">
+  <!-- Shield emblem -->
+  <g transform="translate(4, 4)">
+    <path d="M28,0 L56,8 L56,38 C56,54 42,66 28,72 C14,66 0,54 0,38 L0,8 Z" fill="#1D3461"/>
+    <path d="M28,8 L49,14 L49,38 C49,50 38,60 28,65 C18,60 7,50 7,38 L7,14 Z" fill="#FFFFFF" fill-opacity="0.15"/>
+    <!-- Stars pattern inside shield -->
+    <circle cx="28" cy="22" r="3.5" fill="#FFFFFF"/>
+    <circle cx="18" cy="30" r="2.5" fill="#FFFFFF"/>
+    <circle cx="38" cy="30" r="2.5" fill="#FFFFFF"/>
+    <circle cx="22" cy="40" r="2.5" fill="#FFFFFF"/>
+    <circle cx="34" cy="40" r="2.5" fill="#FFFFFF"/>
+    <circle cx="28" cy="50" r="2.5" fill="#FFFFFF"/>
+  </g>
+  <!-- Text block -->
+  <text x="72" y="28" font-family="Georgia, 'Times New Roman', serif" font-size="22" font-weight="700" fill="#1D3461" letter-spacing="1">UNISTRA</text>
+  <line x1="72" y1="34" x2="310" y2="34" stroke="#1D3461" stroke-width="1.2"/>
+  <text x="72" y="50" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="400" fill="#1D3461" letter-spacing="0.5">Université de Strasbourg</text>
+  <text x="72" y="65" font-family="Arial, Helvetica, sans-serif" font-size="9.5" font-weight="300" fill="#4a6491" letter-spacing="0.3">Université européenne · Excellence · Innovation</text>
+</svg>

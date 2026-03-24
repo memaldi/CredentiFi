@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useStudent } from "./StudentContext";
 import { MdAccountCircle } from 'react-icons/md';
 import BrandLogo from "./BrandLogo";
-
+import { runtimeConfig } from "../config/runtime";
 
 function NavBarStudent() {
   const navigate = useNavigate();
@@ -14,12 +14,13 @@ function NavBarStudent() {
     navigate("/studentLogin");
   };
 
-    const handleButtonClick = () => {
-      navigate("/microcredentials");
-    };
+  const handleButtonClick = () => {
+    navigate("/microcredentials");
+  };
+
   return (
     <>
-      <div style={{backgroundColor: "#313338", width: "100%", position: "fixed", zIndex: "1000", padding: "0", margin: "0"}}>
+      <div style={{backgroundColor: runtimeConfig.secondaryColor, width: "100%", position: "fixed", zIndex: "1000", padding: "0", margin: "0"}}>
         <BrandLogo inverse alt="Logo" style={{width: "10%", padding: "0.5%"}} />
         <div className="btn-group" id="menu" style={{marginRight: "2%", marginLeft:"80%"}}>
           <button
@@ -28,7 +29,7 @@ function NavBarStudent() {
             data-bs-toggle="dropdown"
             aria-expanded="false"
             id="botonMenu"
-            style={{backgroundColor: "#313338"}}
+            style={{backgroundColor: runtimeConfig.secondaryColor}}
           >
             <MdAccountCircle size={24} />
           </button>
@@ -39,7 +40,7 @@ function NavBarStudent() {
             <li><a className="dropdown-item" href="#" style={{fontSize: "90%"}}>Acerca de</a></li>
             <li><a className="dropdown-item" href="#" style={{fontSize: "90%"}}>Contacto</a></li>
             <li><hr className="dropdown-divider"/></li>
-            <li><a className="dropdown-item" href="" style={{fontSize: "90%"}} onClick={() => logOut()}>Cerrar sesion</a></li>   
+            <li><a className="dropdown-item" href="" style={{fontSize: "90%"}} onClick={() => logOut()}>Cerrar sesion</a></li>
           </ul>
         </div>
       </div>
