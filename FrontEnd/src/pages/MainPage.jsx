@@ -2,6 +2,7 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { apiUrl } from "../config/runtime";
 
 const MainPage = () => {
     const [cursos, setCursos] = useState([]);
@@ -11,7 +12,7 @@ const MainPage = () => {
 
     const cargarCursos = (paginaActual) => {
         setCargando(true);
-        fetch(`http://localhost:5000/sql/cursos?page=${paginaActual}&limit=10`)
+        fetch(apiUrl(`/sql/cursos?page=${paginaActual}&limit=10`))
             .then(res => res.json())
             .then(data => {
                 const nuevosCursos = data.cursos || []; 

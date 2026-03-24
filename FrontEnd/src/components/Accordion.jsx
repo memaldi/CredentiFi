@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import AccordionItem from './AccordionItem';
 import { useEffect } from 'react';
+import { apiUrl } from '../config/runtime';
 
 function Accordion({ curso }) {
 
@@ -9,16 +10,16 @@ function Accordion({ curso }) {
     useEffect(() => {
         const fetchSolicitudes = async () => {
             try {
-                const peticionIdCurso = await fetch(`http://localhost:5000/sql/curso/nombre/${encodeURIComponent(curso)}`);
+                const peticionIdCurso = await fetch(apiUrl(`/sql/curso/nombre/${encodeURIComponent(curso)}`));
                 const idCursoData = await peticionIdCurso.json();
                 const idCurso = idCursoData.id;
 
 
-                const response = await fetch(`http://localhost:5000/sql/solicitudes_por_curso?id_curso=${encodeURIComponent(idCurso)}`);
+                const response = await fetch(apiUrl(`/sql/solicitudes_por_curso?id_curso=${encodeURIComponent(idCurso)}`));
                 const solicitudes = await response.json();
 
                 const solicitudesConDatos = await Promise.all(solicitudes.map(async (s) => {
-                    const responsePersona = await fetch(`http://localhost:5000/sql/persona/${s.id_persona}`);
+                    const responsePersona = await fetch(apiUrl(`/sql/persona/${s.id_persona}`));
                     const persona = await responsePersona.json();
                     
 

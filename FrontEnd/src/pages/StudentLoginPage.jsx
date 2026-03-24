@@ -1,11 +1,12 @@
 import React from "react";
-import logoDeusto from "../assets/images/LogoDeusto.png";
 import { Link } from "react-router-dom";
 import ModalCredential from "../components/ModalCredential";
 import { useGoogleLogin } from '@react-oauth/google';
 import { useNavigate } from "react-router-dom";
 import { useStudent } from "../components/StudentContext";
 import { MdLock } from 'react-icons/md';
+import BrandLogo from "../components/BrandLogo";
+import { apiUrl, runtimeConfig } from "../config/runtime";
 
 
 const StudentLoginPage = () => {
@@ -13,7 +14,7 @@ const StudentLoginPage = () => {
   const navigate = useNavigate();
   const { setStudentInfo } = useStudent();
 
-  const hostedDomain = 'opendeusto.es';
+  const hostedDomain = runtimeConfig.allowedEmailDomain;
 
   const googleLogin = useGoogleLogin({
   onSuccess: async (tokenResponse) => {
@@ -38,7 +39,7 @@ const StudentLoginPage = () => {
       if (userData.email && userData.email.endsWith(`@${hostedDomain}`)) {
         const email = userData.email;
 
-        const backendResponse = await fetch(`http://localhost:5000/sql/estudiante/correo?correo=${email}`);
+        const backendResponse = await fetch(apiUrl(`/sql/estudiante/correo?correo=${email}`));
         const backendData = await backendResponse.json();
 
         if (backendResponse.ok) {
@@ -52,8 +53,8 @@ const StudentLoginPage = () => {
           alert('Error al iniciar sesión. Por favor, inténtalo de nuevo más tarde.');
         }
       } else {
-        console.error('El correo no pertenece a @opendeusto.es');
-        alert('Por favor, utiliza una cuenta de correo electrónico de @opendeusto.es para iniciar sesión.');
+        console.error(`El correo no pertenece a @${hostedDomain}`);
+        alert(`Por favor, utiliza una cuenta de correo electrónico de @${hostedDomain} para iniciar sesión.`);
       }
     } catch (error) {
       console.error('Error al obtener la información del usuario de Google:', error);
@@ -81,7 +82,7 @@ const StudentLoginPage = () => {
           marginTop: "6%",
         }}
       >
-        <img src={logoDeusto} alt="Deusto Logo" style={{ width: "15%" }} />
+        <BrandLogo alt={runtimeConfig.universityName} style={{ width: "15%" }} />
         <div
           className="firstBox"
           style={{
@@ -97,7 +98,7 @@ const StudentLoginPage = () => {
           <h5
             style={{ paddingTop: "8%", textAlign: "center", fontSize: "100%" }}
           >
-            Acceso con cuenta @opendeusto
+            Acceso con cuenta @{hostedDomain}
           </h5>
           <button
             data-testid="google-login-button"

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 import ModalCredential from "../components/ModalCredential";
 import ModalAceptado from "../components/ModalAceptado";
+import { apiUrl } from "../config/runtime";
 
 const PrerequisitesPage = () => {
   const [email, setEmail] = useState("");
@@ -73,7 +74,7 @@ const PrerequisitesPage = () => {
     setLoading(true);
     setError(null);
     try {
-      const sesionResponse = await fetch(`http://localhost:5000/verifierIssuer/verificar/infoSesionVerificacionGuardar/${idVerificacion}`, {
+      const sesionResponse = await fetch(apiUrl(`/verifierIssuer/verificar/infoSesionVerificacionGuardar/${idVerificacion}`), {
         method: "GET",
         headers: {
           "accept": "application/json",
@@ -127,7 +128,7 @@ const PrerequisitesPage = () => {
     setLoading(true);
     setError(null);
     try {
-      const insertarPersonaResponse = await fetch("http://localhost:5000/sql/persona", {
+      const insertarPersonaResponse = await fetch(apiUrl("/sql/persona"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -156,7 +157,7 @@ const PrerequisitesPage = () => {
         setError("No se obtuvo el ID de la persona.");
         return;
       }
-      const insertarCredencial = await fetch(`http://localhost:5000/sql/credencial`, {
+      const insertarCredencial = await fetch(apiUrl("/sql/credencial"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -173,7 +174,7 @@ const PrerequisitesPage = () => {
       const credencialData = await insertarCredencial.json();
       console.log('Respuesta del servidor (credencial):', credencialData);
 
-      const peticionIdCurso = await fetch(`http://localhost:5000/sql/curso/nombre/${encodeURIComponent(nombreCurso)}`);
+      const peticionIdCurso = await fetch(apiUrl(`/sql/curso/nombre/${encodeURIComponent(nombreCurso)}`));
       if (!peticionIdCurso.ok) {
         throw new Error(`Error al obtener ID del curso: ${peticionIdCurso.status}`);
       }
@@ -187,7 +188,7 @@ const PrerequisitesPage = () => {
         return;
       }
 
-      const solicitudResponse = await fetch('http://localhost:5000/sql/solicitud', {
+      const solicitudResponse = await fetch(apiUrl('/sql/solicitud'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

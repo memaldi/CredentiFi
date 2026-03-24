@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import logoDeusto from "../assets/images/LogoDeusto.png";
 import QRCode from "react-qr-code";
 import { useLocation } from 'react-router-dom';
+import BrandLogo from "../components/BrandLogo";
+import { apiUrl, runtimeConfig } from "../config/runtime";
 
 const QRPrerequisitesPage = () => {
-  const verificationUrl = `http://localhost:5000/verifierIssuer/verificar`;
+  const verificationUrl = apiUrl("/verifierIssuer/verificar");
   const [verificationData, setVerificationData] = useState(null);
   const [copyButtonText, setCopyButtonText] = useState(
     "Copiar respuesta al portapapeles"
@@ -79,7 +80,7 @@ const QRPrerequisitesPage = () => {
         vc_policies: ["signature", "expired", "not-before"]
       };
 
-      const response = await fetch("http://localhost:5000/verifierIssuer/verificar", {
+      const response = await fetch(apiUrl("/verifierIssuer/verificar"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -101,7 +102,7 @@ const QRPrerequisitesPage = () => {
 
   return (
     <div className="container">
-      <img src={logoDeusto} alt="Deusto Logo" className="logo-deusto" />
+      <BrandLogo alt={runtimeConfig.universityName} className="logo-deusto" />
       <div className="wallet-box">
         <h1>Comparte tu EducationalID{requisitosFormateados} </h1>
         {verificationData ? (

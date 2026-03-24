@@ -1,0 +1,358 @@
+{
+   "issuerKey": {
+      "type": "jwk",
+      "jwk": {
+         "kty": "EC",
+         "x": "Qk_Y4oc5koNuIRcuQgWF4089cNPkEkAGmn5PGbhZBDk",
+         "y": "HEGgwaSkBn058JOpu_Xc0PLieNkfTSXA36S8Azwrx90",
+         "crv": "P-256",
+         "d": "WeBq_eoI4jFFSy5XGLyWybzfwxq3wmdYxmi5V087Ze4"
+      }
+   },
+   "credentialConfigurationId": "AlgoritmosAvanzadosDeAprendizaje_jwt_vc_json",
+   "credentialData": {
+      "@context": [
+         "https://www.w3.org/2018/credentials/v1",
+         "https://www.w3.org/2018/credentials/examples/v1"
+      ],
+      "id": "http://example.gov/credentials/3732",
+      "type": [
+         "VerifiableCredential",
+         "AlgoritmosAvanzadosDeAprendizaje"
+      ],
+      "issuer": {
+         "id": "did:web:vc.transmute.world"
+      },
+      "issuanceDate": "2025-05-19T17:43:38+02:00",
+      "issued": "2025-05-19T17:43:38+02:00",
+      "validUntil": "2035-05-19T00:00:00+02:00",
+      "validFrom": "2025-05-19T00:00:00+02:00",
+      "credentialSubject": {
+         "id": "urn:epass:person:1",
+         "type": "Person",
+         "contactPoint": [
+            {
+               "id": "urn:epass:contactPoint:1",
+               "type": "ContactPoint",
+               "emailAddress": [
+                  {
+                     "id": "{{email}}",
+                     "type": "Mailbox"
+                  }
+               ]
+            }
+         ],
+         "dateOfBirth": "{{fechaNacimiento}}",
+         "givenName": {
+            "es": [
+               "{{nombre}}"
+            ]
+         },
+         "familyName": {
+            "es": [
+               "{{apellidos}}"
+            ]
+         },
+         "fullName": {
+            "es": [
+               "{{nombreCompleto}}"
+            ]
+         },
+         "nationalID": {
+            "id": "urn:epass:legalIdentifier:3",
+            "type": "LegalIdentifier",
+            "notation": "{{dniPasaporte}}",
+            "spatial": {
+               "id": "http://publications.europa.eu/resource/authority/country/ESP",
+               "type": "Concept",
+               "inScheme": {
+                  "id": "http://publications.europa.eu/resource/authority/country",
+                  "type": "ConceptScheme"
+               },
+               "prefLabel": {
+                  "en": [
+                     "Spain"
+                  ],
+                  "es": [
+                     "España"
+                  ]
+               },
+               "notation": "country"
+            }
+         },
+         "hasClaim": [
+            {
+               "id": "urn:epass:learningAchievement:1",
+               "type": "LearningAchievement",
+               "awardedBy": {
+                  "id": "urn:epass:awardingProcess:1",
+                  "type": "AwardingProcess",
+                  "awardingBody": [
+                     {
+                        "id": "urn:epass:org:1",
+                        "type": "Organisation",
+                        "altLabel": {
+                           "es": [
+                              "Universidad de Deusto"
+                           ]
+                        },
+                        "location": [
+                           {
+                              "id": "urn:epass:location:1",
+                              "type": "Location",
+                              "address": [
+                                 {
+                                    "id": "urn:epass:address:1",
+                                    "type": "Address",
+                                    "countryCode": {
+                                       "id": "http://publications.europa.eu/resource/authority/country/ESP",
+                                       "type": "Concept",
+                                       "inScheme": {
+                                          "id": "http://publications.europa.eu/resource/authority/country",
+                                          "type": "ConceptScheme"
+                                       },
+                                       "prefLabel": {
+                                          "en": [
+                                             "Spain"
+                                          ],
+                                          "es": [
+                                             "España"
+                                          ]
+                                       },
+                                       "notation": "country"
+                                    },
+                                    "fullAddress": {
+                                       "id": "urn:epass:note:2",
+                                       "type": "Note",
+                                       "noteLiteral": {
+                                          "es": [
+                                             "Avenida de las Universidades, 24, 48007 Bilbao, España"
+                                          ]
+                                       }
+                                    }
+                                 }
+                              ],
+                              "description": {
+                                 "es": [
+                                    "Dirección principal"
+                                 ]
+                              }
+                           }
+                        ],
+                        "homepage": [
+                           {
+                              "id": "urn:epass:webResource:1",
+                              "type": "WebResource",
+                              "contentURL": "https://www.deusto.es/es/inicio"
+                           }
+                        ],
+                        "legalName": {
+                           "es": [
+                              "Universidad de Deusto"
+                           ]
+                        },
+                        "registration": {
+                           "id": "urn:epass:legalIdentifier:2",
+                           "type": "LegalIdentifier",
+                           "notation": "R4800399H",
+                           "spatial": {
+                              "id": "http://publications.europa.eu/resource/authority/country/ESP",
+                              "type": "Concept",
+                              "inScheme": {
+                                 "id": "http://publications.europa.eu/resource/authority/country",
+                                 "type": "ConceptScheme"
+                              },
+                              "prefLabel": {
+                                 "en": [
+                                    "Spain"
+                                 ],
+                                 "es": [
+                                    "España"
+                                 ]
+                              },
+                              "notation": "country"
+                           }
+                        }
+                     }
+                  ],
+                  "awardingDate": "2025-05-19T00:00:00+02:00"
+               },
+               "description": {
+                  "es": [
+                     "Diseño, entrenamiento y evaluación de modelos avanzados de aprendizaje supervisado aplicando clasificación multiclase con redes neuronales, árboles de decisión, bosques aleatorios y árboles potenciados utilizando Python y TensorFlow."
+                  ]
+               },
+               "title": {
+                  "es": [
+                     "Diseño, entrenamiento y evaluación de modelos avanzados de aprendizaje supervisado, aplicando técnicas como clasificación multiclase con redes neuronales, árboles de decisión, bosques aleatorios y árboles potenciados."
+                  ]
+               },
+               "specifiedBy": {
+                  "id": "urn:epass:learningAchievementSpec:1",
+                  "type": "LearningAchievementSpecification",
+                  "title": {
+                     "es": [
+                        "Diseño, entrenamiento y evaluación de modelos avanzados de aprendizaje supervisado, aplicando técnicas como clasificación multiclase con redes neuronales, árboles de decisión, bosques aleatorios y árboles potenciados."
+                     ]
+                  },
+                  "dcType": [
+                     {
+                        "id": "http://data.europa.eu/snb/learning-opportunity/05053c1cbe",
+                        "type": "Concept",
+                        "inScheme": {
+                           "id": "http://data.europa.eu/snb/learning-opportunity/25831c2",
+                           "type": "ConceptScheme"
+                        },
+                        "prefLabel": {
+                           "en": [
+                              "Course"
+                           ],
+                           "es": [
+                              "Curso"
+                           ]
+                        }
+                     }
+                  ],
+                  "creditPoint": [
+                     {
+                        "id": "urn:epass:creditPoint:1",
+                        "type": "CreditPoint",
+                        "framework": {
+                           "id": "http://data.europa.eu/snb/education-credit/6fcec5c5af",
+                           "type": "Concept",
+                           "inScheme": {
+                              "id": "http://data.europa.eu/snb/education-credit/25831c2",
+                              "type": "ConceptScheme"
+                           },
+                           "prefLabel": {
+                              "en": [
+                                 "ECTS"
+                              ],
+                              "es": [
+                                 "ECTS"
+                              ]
+                           }
+                        },
+                        "point": "1"
+                     }
+                  ],
+                  "entryRequirement": {
+                     "id": "urn:epass:note:1",
+                     "type": "Note",
+                     "noteLiteral": {
+                        "es": [
+                           "Haber obtenido el curso de \"Aprendizaje automático supervisado: Regresión y clasificación\"."
+                        ]
+                     }
+                  },
+                  "language": [
+                     {
+                        "id": "http://publications.europa.eu/resource/authority/language/ENG",
+                        "type": "Concept",
+                        "inScheme": {
+                           "id": "http://publications.europa.eu/resource/authority/language",
+                           "type": "ConceptScheme"
+                        },
+                        "prefLabel": {
+                           "en": [
+                              "English"
+                           ],
+                           "es": [
+                              "inglés"
+                           ]
+                        },
+                        "notation": "language"
+                     }
+                  ],
+                  "learningSetting": {
+                     "id": "http://data.europa.eu/snb/learning-setting/6fd4685715",
+                     "type": "Concept",
+                     "inScheme": {
+                        "id": "http://data.europa.eu/snb/learning-setting/25831c2",
+                        "type": "ConceptScheme"
+                     },
+                     "prefLabel": {
+                        "en": [
+                           "formal learning"
+                        ],
+                        "es": [
+                           "Aprendizaje formal"
+                        ]
+                     }
+                  },
+                  "maximumDuration": "P1M",
+                  "mode": [
+                     {
+                        "id": "http://data.europa.eu/snb/learning-assessment/920fbb3cbe",
+                        "type": "Concept",
+                        "inScheme": {
+                           "id": "http://data.europa.eu/snb/learning-assessment/25831c2",
+                           "type": "ConceptScheme"
+                        },
+                        "prefLabel": {
+                           "en": [
+                              "Online"
+                           ],
+                           "es": [
+                              "En línea"
+                           ]
+                        }
+                     }
+                  ],
+                  "targetGroup": [
+                     {
+                        "id": "http://data.europa.eu/snb/target-group/1599531db0",
+                        "type": "Concept",
+                        "inScheme": {
+                           "id": "http://data.europa.eu/snb/target-group/25831c2",
+                           "type": "ConceptScheme"
+                        },
+                        "prefLabel": {
+                           "en": [
+                              "Persons in tertiary education (EQF 6)"
+                           ],
+                           "es": [
+                              "Personas que cursan enseñanza superior (EQF 6)"
+                           ]
+                        }
+                     }
+                  ],
+                  "thematicArea": [
+                     {
+                        "id": "http://data.europa.eu/snb/isced-f/0613",
+                        "type": "Concept",
+                        "inScheme": {
+                           "id": "http://data.europa.eu/snb/isced-f/25831c2",
+                           "type": "ConceptScheme"
+                        },
+                        "prefLabel": {
+                           "en": [
+                              "Software and applications development and analysis"
+                           ],
+                           "es": [
+                              "Desarrollo y análisis de software y aplicaciones"
+                           ]
+                        }
+                     }
+                  ],
+                  "volumeOfLearning": "P1DT10H"
+               }
+            }
+         ]
+      }
+   },
+   "mapping": {
+      "id": "<uuid>",
+      "issuer": {
+         "id": "<issuerDid>"
+      },
+      "credentialSubject": {
+         "id": "<subjectDid>"
+      },
+      "issuanceDate": "<timestamp>",
+      "expirationDate": "<timestamp-in:365d>"
+   },
+   "authenticationMethod": "PRE_AUTHORIZED",
+   "issuerDid": "did:ebsi:z21Bs13TqhZV7RY727hX22XF",
+   "standardVersion": "DRAFT13"
+}

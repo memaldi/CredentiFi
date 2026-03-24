@@ -1,0 +1,304 @@
+services:
+  mysql-deusto:
+    image: mysql:latest
+    container_name: mysql-deusto
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: MySQL1234
+      MYSQL_DATABASE: CredentiFiDeusto
+      MYSQL_USER: deusto
+      MYSQL_PASSWORD: deusto1234
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data_deusto:/var/lib/mysql
+      - ./config/tenants/deusto/mysql-init:/docker-entrypoint-initdb.d
+    networks:
+      - deusto_net
+
+  mongo-server-deusto:
+    image: mongo:latest
+    container_name: mongo-server-deusto
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data_deusto:/data/db
+    networks:
+      - deusto_net
+
+  sql-api-deusto:
+    build: ./BackEnd/SQL
+    env_file:
+      - ./config/tenants/deusto/sql.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql-deusto
+    networks:
+      - deusto_net
+
+  mongodb-api-deusto:
+    build: ./BackEnd/MongoDB
+    env_file:
+      - ./config/tenants/deusto/mongodb.env
+    ports:
+      - "4000:4000"
+    depends_on:
+      - mongo-server-deusto
+    networks:
+      - deusto_net
+
+  postgres-deusto:
+    image: postgres:18
+    container_name: postgres-deusto
+    restart: always
+    environment:
+      POSTGRES_DB: waltid_deusto
+      POSTGRES_USER: waltid_deusto
+      POSTGRES_PASSWORD: waltid_deusto
+    ports:
+      - "5432:5432"
+    volumes:
+      - waltid_pg_deusto:/var/lib/postgresql
+    networks:
+      - deusto_net
+
+  wallet-api-deusto:
+    image: docker.io/waltid/wallet-api:0.18.0
+    env_file:
+      - ./config/tenants/deusto/waltid.env
+    depends_on:
+      - postgres-deusto
+    volumes:
+      - ./waltid-identity/docker-compose/wallet-api/config:/waltid-wallet-api/config
+      - ./waltid-identity/docker-compose/wallet-api/walt.yaml:/waltid-wallet-api/walt.yaml
+      - waltid_wallet_deusto:/waltid-wallet-api/data
+    ports:
+      - "7001:7001"
+    networks:
+      - deusto_net
+
+  issuer-api-deusto:
+    image: docker.io/waltid/issuer-api:0.18.0
+    env_file:
+      - ./config/tenants/deusto/waltid.env
+    depends_on:
+      - postgres-deusto
+    volumes:
+      - ./config/tenants/deusto/waltid/issuer-api/config:/waltid-issuer-api/config
+    ports:
+      - "7002:7002"
+    networks:
+      - deusto_net
+
+  verifier-api-deusto:
+    image: docker.io/waltid/verifier-api:0.18.0
+    env_file:
+      - ./config/tenants/deusto/waltid.env
+    depends_on:
+      - postgres-deusto
+    volumes:
+      - ./config/tenants/deusto/waltid/verifier-api/config:/waltid-verifier-api/config
+    ports:
+      - "7003:7003"
+    networks:
+      - deusto_net
+
+  verifierissuer-api-deusto:
+    build: ./BackEnd/VerifierIssuerAPI
+    env_file:
+      - ./config/tenants/deusto/verifierissuer.env
+    volumes:
+      - ./config/tenants/deusto/presentationDefinition:/usr/src/app/presentationDefinition
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb-api-deusto
+      - issuer-api-deusto
+      - verifier-api-deusto
+    networks:
+      - deusto_net
+
+  api-gateway-deusto:
+    build: ./BackEnd/Api-Gateway
+    env_file:
+      - ./config/tenants/deusto/api-gateway.env
+    ports:
+      - "5000:5000"
+    depends_on:
+      - sql-api-deusto
+      - mongodb-api-deusto
+      - verifierissuer-api-deusto
+    networks:
+      - deusto_net
+
+  frontend-deusto:
+    build: ./FrontEnd
+    env_file:
+      - ./config/tenants/deusto/frontend.env
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api-gateway-deusto
+    networks:
+      - deusto_net
+
+  mysql-strasbourg:
+    image: mysql:latest
+    container_name: mysql-strasbourg
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: MySQL1234
+      MYSQL_DATABASE: CredentiFiStrasbourg
+      MYSQL_USER: strasbourg
+      MYSQL_PASSWORD: strasbourg1234
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql_data_strasbourg:/var/lib/mysql
+      - ./config/tenants/strasbourg/mysql-init:/docker-entrypoint-initdb.d
+    networks:
+      - strasbourg_net
+
+  mongo-server-strasbourg:
+    image: mongo:latest
+    container_name: mongo-server-strasbourg
+    restart: always
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo_data_strasbourg:/data/db
+    networks:
+      - strasbourg_net
+
+  sql-api-strasbourg:
+    build: ./BackEnd/SQL
+    env_file:
+      - ./config/tenants/strasbourg/sql.env
+    ports:
+      - "8001:8000"
+    depends_on:
+      - mysql-strasbourg
+    networks:
+      - strasbourg_net
+
+  mongodb-api-strasbourg:
+    build: ./BackEnd/MongoDB
+    env_file:
+      - ./config/tenants/strasbourg/mongodb.env
+    ports:
+      - "4001:4000"
+    depends_on:
+      - mongo-server-strasbourg
+    networks:
+      - strasbourg_net
+
+  postgres-strasbourg:
+    image: postgres:18
+    container_name: postgres-strasbourg
+    restart: always
+    environment:
+      POSTGRES_DB: waltid_strasbourg
+      POSTGRES_USER: waltid_strasbourg
+      POSTGRES_PASSWORD: waltid_strasbourg
+    ports:
+      - "5433:5432"
+    volumes:
+      - waltid_pg_strasbourg:/var/lib/postgresql
+    networks:
+      - strasbourg_net
+
+  wallet-api-strasbourg:
+    image: docker.io/waltid/wallet-api:0.18.0
+    env_file:
+      - ./config/tenants/strasbourg/waltid.env
+    depends_on:
+      - postgres-strasbourg
+    volumes:
+      - ./waltid-identity/docker-compose/wallet-api/config:/waltid-wallet-api/config
+      - ./waltid-identity/docker-compose/wallet-api/walt.yaml:/waltid-wallet-api/walt.yaml
+      - waltid_wallet_strasbourg:/waltid-wallet-api/data
+    ports:
+      - "7011:7011"
+    networks:
+      - strasbourg_net
+
+  issuer-api-strasbourg:
+    image: docker.io/waltid/issuer-api:0.18.0
+    env_file:
+      - ./config/tenants/strasbourg/waltid.env
+    depends_on:
+      - postgres-strasbourg
+    volumes:
+      - ./config/tenants/strasbourg/waltid/issuer-api/config:/waltid-issuer-api/config
+    ports:
+      - "7012:7012"
+    networks:
+      - strasbourg_net
+
+  verifier-api-strasbourg:
+    image: docker.io/waltid/verifier-api:0.18.0
+    env_file:
+      - ./config/tenants/strasbourg/waltid.env
+    depends_on:
+      - postgres-strasbourg
+    volumes:
+      - ./config/tenants/strasbourg/waltid/verifier-api/config:/waltid-verifier-api/config
+    ports:
+      - "7013:7013"
+    networks:
+      - strasbourg_net
+
+  verifierissuer-api-strasbourg:
+    build: ./BackEnd/VerifierIssuerAPI
+    env_file:
+      - ./config/tenants/strasbourg/verifierissuer.env
+    volumes:
+      - ./config/tenants/strasbourg/presentationDefinition:/usr/src/app/presentationDefinition
+    ports:
+      - "3001:3000"
+    depends_on:
+      - mongodb-api-strasbourg
+      - issuer-api-strasbourg
+      - verifier-api-strasbourg
+    networks:
+      - strasbourg_net
+
+  api-gateway-strasbourg:
+    build: ./BackEnd/Api-Gateway
+    env_file:
+      - ./config/tenants/strasbourg/api-gateway.env
+    ports:
+      - "5001:5000"
+    depends_on:
+      - sql-api-strasbourg
+      - mongodb-api-strasbourg
+      - verifierissuer-api-strasbourg
+    networks:
+      - strasbourg_net
+
+  frontend-strasbourg:
+    build: ./FrontEnd
+    env_file:
+      - ./config/tenants/strasbourg/frontend.env
+    ports:
+      - "5174:5173"
+    depends_on:
+      - api-gateway-strasbourg
+    networks:
+      - strasbourg_net
+
+volumes:
+  mysql_data_deusto:
+  mongo_data_deusto:
+  waltid_pg_deusto:
+  waltid_wallet_deusto:
+  mysql_data_strasbourg:
+  mongo_data_strasbourg:
+  waltid_pg_strasbourg:
+  waltid_wallet_strasbourg:
+
+networks:
+  deusto_net:
+  strasbourg_net:

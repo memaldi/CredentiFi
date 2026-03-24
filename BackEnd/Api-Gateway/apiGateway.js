@@ -12,7 +12,7 @@ const routeMap = {
     '/mongo': process.env.ROUTE_MONGO || 'http://mongodb-api:4000'
 };
 
-const ALLOWED_ORIGIN = 'http://localhost:5173';
+const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || 'http://localhost:5173';
 
 //Rate Limiting básico por IP
 const ipRequests = {};

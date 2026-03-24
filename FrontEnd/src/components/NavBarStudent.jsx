@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import logoDeusto from "../assets/images/LogoDeustoBlanco.png";
 import { useStudent } from "./StudentContext";
 import { MdAccountCircle } from 'react-icons/md';
+import BrandLogo from "./BrandLogo";
 
 
 function NavBarStudent() {
@@ -20,7 +20,7 @@ function NavBarStudent() {
   return (
     <>
       <div style={{backgroundColor: "#313338", width: "100%", position: "fixed", zIndex: "1000", padding: "0", margin: "0"}}>
-        <img src={logoDeusto} alt="logo Deusto" style={{width: "10%", padding: "0.5%"}} />
+        <BrandLogo inverse alt="Logo" style={{width: "10%", padding: "0.5%"}} />
         <div className="btn-group" id="menu" style={{marginRight: "2%", marginLeft:"80%"}}>
           <button
             className="btn btn-secondary btn-sm dropdown-toggle"

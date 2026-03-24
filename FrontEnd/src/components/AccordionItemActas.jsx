@@ -3,6 +3,7 @@ import AccordionTable from "./AccordionTable";
 
 import ModalSecretary from './ModalSecretary';
 import ModalActas from './ModalActas';
+import { apiUrl } from '../config/runtime';
 
 function AccordionItemActas({ nombre, primer_apellido, segundo_apellido, correo, NIA, dni, curso, curso_id, estado, credenciales, onAccept, onReject }) {
     const targetId = `#${NIA}`;
@@ -20,7 +21,7 @@ function AccordionItemActas({ nombre, primer_apellido, segundo_apellido, correo,
     const confirmAccept = async () => {
         try {
             const response = await fetch(
-                `http://localhost:5000/sql/estudiante/${NIA}/curso/${curso_id}/estado?nuevo_estado=aceptada`,
+                apiUrl(`/sql/estudiante/${NIA}/curso/${curso_id}/estado?nuevo_estado=aceptada`),
                 {
                     method: 'PUT',
                     headers: {

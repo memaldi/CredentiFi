@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AccordionItemActas from './AccordionItemActas';
+import { apiUrl } from '../config/runtime';
 
 function AccordionActas({ curso }) {
     const [items, setItems] = useState([]);
@@ -8,12 +9,12 @@ function AccordionActas({ curso }) {
     useEffect(() => {
         const fetchEstudiantes = async () => {
             try {
-                const peticionIdCurso = await fetch(`http://localhost:5000/sql/curso/nombre/${encodeURIComponent(curso)}`);
+                const peticionIdCurso = await fetch(apiUrl(`/sql/curso/nombre/${encodeURIComponent(curso)}`));
                 const idCursoData = await peticionIdCurso.json();
                 const cursoId = idCursoData.id;
                 setIdCurso(cursoId);
 
-                const response = await fetch(`http://localhost:5000/sql/estudiante/${encodeURIComponent(cursoId)}`);
+                const response = await fetch(apiUrl(`/sql/estudiante/${encodeURIComponent(cursoId)}`));
                 const data = await response.json();
 
                 setItems(data.estudiantes);

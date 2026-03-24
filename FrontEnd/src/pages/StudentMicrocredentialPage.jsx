@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBarStudent from "../components/NavBarStudent";
 import { useStudent } from "../components/StudentContext";
+import { apiUrl } from "../config/runtime";
 
 const StudentMicrocredentialPage = ({ }) => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const StudentMicrocredentialPage = ({ }) => {
 
         for (const cursoId of studentInfo.cursos) {
           try {
-            const courseResponse = await fetch(`http://localhost:5000/sql/estudiante/${cursoId}`);
+            const courseResponse = await fetch(apiUrl(`/sql/estudiante/${cursoId}`));
             if (!courseResponse.ok) {
               console.error(`Error fetching enrollment for course ${cursoId}:`, courseResponse.status);
               alert("Error al cargar la información del curso. Por favor, inténtalo de nuevo más tarde.");
@@ -35,7 +36,7 @@ const StudentMicrocredentialPage = ({ }) => {
               if (isAccepted) {
                 let courseName = `Curso ID: ${cursoId}`;
                 try {
-                  const cursoInfoResponse = await fetch(`http://localhost:5000/sql/curso/${cursoId}`);
+                  const cursoInfoResponse = await fetch(apiUrl(`/sql/curso/${cursoId}`));
                   if (cursoInfoResponse.ok) {
                     const cursoInfo = await cursoInfoResponse.json();
                     courseName = cursoInfo.nombre;

@@ -1,0 +1,12 @@
+{
+  "vc_policies": [
+    "signature",
+    "expired"
+  ],
+  "request_credentials": [
+    {
+      "format": "jwt_vc_json",
+      "type": "EducationalID"
+    }
+  ]
+}

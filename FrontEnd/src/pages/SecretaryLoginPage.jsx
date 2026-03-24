@@ -1,6 +1,7 @@
-import logoDeusto from "../assets/images/LogoDeusto.png";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import BrandLogo from "../components/BrandLogo";
+import { apiUrl, runtimeConfig } from "../config/runtime";
 
 const SecretaryLoginPage = () => {
     const [username, setUsername] = useState("");
@@ -9,7 +10,7 @@ const SecretaryLoginPage = () => {
 
     const handleLogin = async () => {
         try {
-            const response = await fetch("http://localhost:5000/sql/login", {
+            const response = await fetch(apiUrl("/sql/login"), {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -52,7 +53,7 @@ const SecretaryLoginPage = () => {
                     marginTop: "6%",
                 }}
             >
-                <img src={logoDeusto} alt="Deusto Logo" style={{ width: "15%" }} />
+                <BrandLogo alt={runtimeConfig.universityName} style={{ width: "15%" }} />
                 <div
                     style={{
                         marginTop: "2%",

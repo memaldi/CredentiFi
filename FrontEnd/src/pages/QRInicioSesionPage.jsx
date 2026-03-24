@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import logoDeusto from "../assets/images/LogoDeusto.png";
 import QRCode from "react-qr-code";
 import { useStudent } from "../components/StudentContext";
+import BrandLogo from "../components/BrandLogo";
+import { apiUrl, runtimeConfig } from "../config/runtime";
 
 const QRInicioSesionPage = () => {
-  const verificationUrl = `http://localhost:5000/verifierIssuer/verificar/login`;
+  const verificationUrl = apiUrl("/verifierIssuer/verificar/login");
   const [verificationData, setVerificationData] = useState(null);
   const [copyButtonText, setCopyButtonText] = useState("Copiar respuesta al portapapeles");
   const [isVerified, setIsVerified] = useState(false);
@@ -71,7 +72,7 @@ const QRInicioSesionPage = () => {
     console.log("Llamando a obtenerCorreo con ID:", currentId);
     if (!currentId) return;
     try {
-      const response = await fetch(`http://localhost:5000/verifierIssuer/verificar/infoSesionVerificacion/${currentId}`, {
+      const response = await fetch(apiUrl(`/verifierIssuer/verificar/infoSesionVerificacion/${currentId}`), {
         method: "GET",
         headers: { "accept": "application/json" },
       });
@@ -87,8 +88,8 @@ const QRInicioSesionPage = () => {
         const mail = educationalCredentialResult.policyResults[0].result.vc.credentialSubject.mail;
         console.log("Correo encontrado:", mail);
 
-        if (mail.endsWith('@opendeusto.es')) {
-          const backendResponse = await fetch(`http://localhost:5000/sql/estudiante/correo?correo=${mail}`);
+        if (mail.endsWith(`@${runtimeConfig.allowedEmailDomain}`)) {
+          const backendResponse = await fetch(apiUrl(`/sql/estudiante/correo?correo=${mail}`));
           const backendData = await backendResponse.json();
 
           if (backendResponse.ok) {
@@ -103,8 +104,8 @@ const QRInicioSesionPage = () => {
           }
 
         } else {
-          alert("El correo no pertenece a @opendeusto.es");
-          console.error('El correo no pertenece a @opendeusto.es:', mail);
+          alert(`El correo no pertenece a @${runtimeConfig.allowedEmailDomain}`);
+          console.error(`El correo no pertenece a @${runtimeConfig.allowedEmailDomain}:`, mail);
         }
       } else {
         alert("No se encontraron los datos del usuario o el correo en el EducationalID.");
@@ -135,7 +136,7 @@ const QRInicioSesionPage = () => {
 
   return (
     <div className="container">
-      <img src={logoDeusto} alt="Deusto Logo" className="logo-deusto" />
+      <BrandLogo alt={runtimeConfig.universityName} className="logo-deusto" />
       <div className="wallet-box">
         <h1>Comparte tu EducationalID</h1>
         {verificationData ? (

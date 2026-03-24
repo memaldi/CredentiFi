@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Accordion from "../components/Accordion";
 import { useEffect } from "react";
+import { apiUrl } from "../config/runtime";
 
 const SecretaryPage = () => {
   const [componenteSeleccionado, setComponenteSeleccionado] = useState("");
@@ -13,7 +14,7 @@ const SecretaryPage = () => {
   useEffect(() => {
     const fetchCursos = async () => {
       try {
-        const response = await fetch("http://localhost:5000/sql/cursos/nombres");
+        const response = await fetch(apiUrl("/sql/cursos/nombres"));
         const data = await response.json();
         setCursos(data.cursos);
       } catch (error) {

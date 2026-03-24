@@ -1,6 +1,6 @@
-import logoDeusto from '../assets/images/LogoDeustoBlanco.png';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import BrandLogo from './BrandLogo';
 
 function NavBarSecretary() {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ function NavBarSecretary() {
       <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
-            <img src={logoDeusto} alt="Logo Deusto" />
+            <BrandLogo inverse alt="Logo" />
           </a>
           <button
             className="navbar-toggler"

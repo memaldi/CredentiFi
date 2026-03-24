@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import logoDeusto from "../assets/images/LogoDeusto.png";
 import QRCode from "react-qr-code";
 import { useStudent } from "../components/StudentContext";
 import { useLocation } from 'react-router-dom';
-import { use } from "react";
+import BrandLogo from "../components/BrandLogo";
+import { apiUrl, runtimeConfig } from "../config/runtime";
 
 
 const QREmitir = () => {
-  const issuerUrl = `http://localhost:5000/verifierIssuer/emitir`;
+  const issuerUrl = apiUrl("/verifierIssuer/emitir");
   const [issuanceData, setIssueData] = useState(null);
   const [copyButtonText, setCopyButtonText] = useState(
     "Copiar respuesta al portapapeles"
@@ -70,7 +70,7 @@ const QREmitir = () => {
 
   return (
     <div className="container">
-      <img src={logoDeusto} alt="Deusto Logo" className="logo-deusto" />
+      <BrandLogo alt={runtimeConfig.universityName} className="logo-deusto" />
       <div className="wallet-box">
         <h1>Obten tu Microcredencial: </h1>
         {issuanceData ? (

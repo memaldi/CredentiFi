@@ -5,6 +5,11 @@ const axios = require("axios")
 const fs = require("fs").promises;
 const path = require("path");
 
+const presentationDefinitionDir =
+  process.env.PRESENTATION_DEFINITION_DIR ||
+  path.join(__dirname, "..", "presentationDefinition");
+const issuerApiUrl = (process.env.ISSUER_API_URL || "http://issuer-api:7002").replace(/\/$/, "");
+
 
 const courseToTemplateFile = {
   "Aprendizaje automático supervisado: Regresión y clasificación": "AprendizajeAutomaticoSupervisado.json",
@@ -14,7 +19,7 @@ const courseToTemplateFile = {
 
 router.post('/', async (req, res) => {
   const { courseName, studentInfo } = req.body;
-  const templatesDir = path.join(__dirname,  '..', 'presentationDefinition');
+  const templatesDir = presentationDefinitionDir;
 
   try {
     const templateFileName = courseToTemplateFile[courseName];
@@ -43,7 +48,7 @@ router.post('/', async (req, res) => {
       credentialPayload = replacePlaceholders(credentialPayload, studentInfo);
 
       const response = await axios.post(
-        'http://issuer-api:7002/openid4vc/jwt/issue',
+        `${issuerApiUrl}/openid4vc/jwt/issue`,
         credentialPayload
       );
       res.json(response.data); 

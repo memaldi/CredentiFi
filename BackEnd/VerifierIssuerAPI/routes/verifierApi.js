@@ -5,6 +5,14 @@ const axios = require("axios")
 const fs = require("fs");
 const path = require("path");
 
+const presentationDefinitionDir =
+  process.env.PRESENTATION_DEFINITION_DIR ||
+  path.join(__dirname, "..", "presentationDefinition");
+const verifierApiUrl = (process.env.VERIFIER_API_URL || "http://verifier-api:7003").replace(/\/$/, "");
+const issuerApiUrl = (process.env.ISSUER_API_URL || "http://issuer-api:7002").replace(/\/$/, "");
+const mongodbApiUrl = (process.env.MONGODB_API_URL || "http://mongodb-api:4000").replace(/\/$/, "");
+const frontendBaseUrl = (process.env.FRONTEND_BASE_URL || "http://localhost:5173").replace(/\/$/, "");
+
 router.post('/', async (req, res) => {
   const presentationDefinition = req.body;
   // Headers que necesitas enviar
@@ -12,13 +20,13 @@ router.post('/', async (req, res) => {
     'Accept': '*/*',
     'authorizeBaseUrl': 'openid4vp://authorize',
     'responseMode': 'direct_post',
-    'successRedirectUri': 'http://localhost:5173/prerequisites?verified=true&id=$id',
+    'successRedirectUri': `${frontendBaseUrl}/prerequisites?verified=true&id=$id`,
     'Content-Type': 'application/json'
   };
   //https://verifier.demo.walt.id/openid4vc/verify
   try {
     const response = await axios.post(
-      'http://verifier-api:7003/openid4vc/verify',
+      `${verifierApiUrl}/openid4vc/verify`,
       presentationDefinition, // El cuerpo de la petición
       { headers } // Pasando los headers
     );
@@ -29,20 +37,20 @@ router.post('/', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-  const presentationDefinition = JSON.parse(fs.readFileSync(path.join(__dirname, "../presentationDefinition/EducationalID.json"), "utf8"));
+  const presentationDefinition = JSON.parse(fs.readFileSync(path.join(presentationDefinitionDir, "EducationalID.json"), "utf8"));
 
   // Headers que necesitas enviar
   const headers = {
     'Accept': '*/*',
     'authorizeBaseUrl': 'openid4vp://authorize',
     'responseMode': 'direct_post',
-    'successRedirectUri': 'http://localhost:5173/studentLogin/qr?verified=true&id=$id',
+    'successRedirectUri': `${frontendBaseUrl}/studentLogin/qr?verified=true&id=$id`,
     'Content-Type': 'application/json'
   };
   //https://verifier.demo.walt.id/openid4vc/verify
   try {
     const response = await axios.post(
-      'http://verifier-api:7003/openid4vc/verify',
+      `${verifierApiUrl}/openid4vc/verify`,
       presentationDefinition, // El cuerpo de la petición
       { headers } // Pasando los headers
     );
@@ -56,7 +64,7 @@ router.get('/infoSesionVerificacion/:id', async (req, res) => {
   //https://verifier.demo.walt.id/openid4vc/session/${id}
   try {
     const { id } = req.params;
-    const response = await axios.get(`http://verifier-api:7003/openid4vc/session/${id}`, {
+    const response = await axios.get(`${verifierApiUrl}/openid4vc/session/${id}`, {
       headers: {
         'accept': 'application/json',
       },
@@ -75,7 +83,7 @@ router.get('/infoSesionVerificacionGuardar/:id', async (req, res) => {
   //https://verifier.demo.walt.id/openid4vc/session/${id}
   try {
     const { id } = req.params;
-    const response = await axios.get(`http://verifier-api:7003/openid4vc/session/${id}`, {
+    const response = await axios.get(`${verifierApiUrl}/openid4vc/session/${id}`, {
       headers: {
         'accept': 'application/json',
       },
@@ -84,7 +92,7 @@ router.get('/infoSesionVerificacionGuardar/:id', async (req, res) => {
     const resultadoVerificacion = response.data;
 
 
-    const respuestaGuardar = await axios.post('http://mongodb-api:4000/credenciales', resultadoVerificacion, {
+    const respuestaGuardar = await axios.post(`${mongodbApiUrl}/credenciales`, resultadoVerificacion, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -100,7 +108,7 @@ router.get('/infoSesionVerificacionGuardar/:id', async (req, res) => {
 router.post('/emitirCredencial', async (req, res) => {
   try {
     const { credential } = req.body;
-    const response = await axios.post(`http://issuer-api:7002/openid4vc/jwt/issue`, credential, {
+    const response = await axios.post(`${issuerApiUrl}/openid4vc/jwt/issue`, credential, {
       headers: {
         'accept': 'application/json',
         'Content-Type': 'application/json'

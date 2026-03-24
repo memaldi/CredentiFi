@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AccordionTable from "./AccordionTable";
 import CredentialTable from "./CredentialTable";
 import ModalSecretary from './ModalSecretary';
+import { apiUrl, runtimeConfig } from '../config/runtime';
 
 function AccordionItem({ nombre, primer_apellido, segundo_apellido, correo, fechaNacimiento, id, dni, curso, curso_id, estado, credenciales, onAccept, onReject }) {
     const [credencialesData, setCredencialesData] = useState([]);
@@ -14,7 +15,7 @@ function AccordionItem({ nombre, primer_apellido, segundo_apellido, correo, fech
         nombre: nombre,
         primer_apellido: primer_apellido,
         segundo_apellido: segundo_apellido,
-        correo: `${primer_apellido.toLowerCase()}.${nombre.toLowerCase()}@opendeusto.es`,
+        correo: `${primer_apellido.toLowerCase()}.${nombre.toLowerCase()}@${runtimeConfig.allowedEmailDomain}`,
         dni: dni,
         did: estudiantedid,
         fecha_nacimiento: fechaNacimiento,
@@ -29,7 +30,7 @@ function AccordionItem({ nombre, primer_apellido, segundo_apellido, correo, fech
                 const fetchedData = await Promise.all(
                     credenciales.map(async (credencial) => {
 
-                        const response = await fetch(`http://localhost:5000/mongo/credenciales/${encodeURIComponent(credencial)}`);
+                        const response = await fetch(apiUrl(`/mongo/credenciales/${encodeURIComponent(credencial)}`));
                         const data = await response.json();
                         const nombresCredenciales = data.tokenResponse.presentation_submission.descriptor_map.map(descriptor => descriptor.id);
                         return {
@@ -81,7 +82,7 @@ function AccordionItem({ nombre, primer_apellido, segundo_apellido, correo, fech
         }
 
         try {
-            const response = await fetch(`http://localhost:5000/sql/estudiante/${nia}/credenciales`, {
+            const response = await fetch(apiUrl(`/sql/estudiante/${nia}/credenciales`), {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -108,7 +109,7 @@ function AccordionItem({ nombre, primer_apellido, segundo_apellido, correo, fech
 
     const crearEstudianteEnBackend = async () => {
         try {
-            const response = await fetch('http://localhost:5000/sql/estudiante', {
+            const response = await fetch(apiUrl('/sql/estudiante'), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -166,7 +167,7 @@ function AccordionItem({ nombre, primer_apellido, segundo_apellido, correo, fech
 
     const confirmAccept = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/sql/solicitud/${id}`, {
+            const response = await fetch(apiUrl(`/sql/solicitud/${id}`), {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -190,7 +191,7 @@ function AccordionItem({ nombre, primer_apellido, segundo_apellido, correo, fech
 
     const confirmReject = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/sql/solicitud/${id}`, {
+            const response = await fetch(apiUrl(`/sql/solicitud/${id}`), {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
