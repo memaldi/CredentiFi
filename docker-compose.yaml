@@ -1,12 +1,12 @@
 services:
   wallet-api:
-    image: docker.io/waltid/wallet-api:${VERSION_TAG:-latest}
+    image: docker.io/waltid/wallet-api:${VERSION_TAG:-0.18.0}
     profiles:
       - identity
       - all
     pull_policy: always
     build:
-      context: ./waltid-identity-0.11.0
+      context: ./waltid-identity
       dockerfile: waltid-services/waltid-wallet-api/Dockerfile
     depends_on:
       postgres:
@@ -14,55 +14,55 @@ services:
       caddy:
         condition: service_started
     env_file:
-      - ./waltid-identity-0.11.0/docker-compose/.env
+      - ./waltid-identity/docker-compose/.env
     extra_hosts:
       - "host.docker.internal:host-gateway"
       - "wase:host-gateway"
     volumes:
-      - ./waltid-identity-0.11.0/docker-compose/wallet-api/config:/waltid-wallet-api/config
-      - ./waltid-identity-0.11.0/docker-compose/wallet-api/walt.yaml:/waltid-wallet-api/walt.yaml
-      - ./waltid-identity-0.11.0/docker-compose/wallet-api/data:/waltid-wallet-api/data
+      - ./waltid-identity/docker-compose/wallet-api/config:/waltid-wallet-api/config
+      - ./waltid-identity/docker-compose/wallet-api/walt.yaml:/waltid-wallet-api/walt.yaml
+      - ./waltid-identity/docker-compose/wallet-api/data:/waltid-wallet-api/data
 
   issuer-api:
     platform: linux/x86_64
-    image: docker.io/waltid/issuer-api:${VERSION_TAG:-latest}
+    image: docker.io/waltid/issuer-api:${VERSION_TAG:-0.18.0}
     profiles:
       - identity
       - all
     pull_policy: always
     build:
-      context: ./waltid-identity-0.11.0
+      context: ./waltid-identity
       dockerfile: waltid-services/waltid-issuer-api/Dockerfile
     depends_on:
       - caddy
     env_file:
-      - ./waltid-identity-0.11.0/docker-compose/.env
+      - ./waltid-identity/docker-compose/.env
     volumes:
-      - ./waltid-identity-0.11.0/docker-compose/issuer-api/config:/waltid-issuer-api/config
+      - ./waltid-identity/docker-compose/issuer-api/config:/waltid-issuer-api/config
     networks:
       - default
 
   verifier-api:
     platform: linux/x86_64
-    #image: docker.io/waltid/verifier-api:${VERSION_TAG:-latest}
+    #image: docker.io/waltid/verifier-api:${VERSION_TAG:-0.18.0}
     profiles:
       - identity
       - all
     pull_policy: always
     build:
-      context: ./waltid-identity-0.11.0
+      context: ./waltid-identity
       dockerfile: waltid-services/waltid-verifier-api/Dockerfile
     depends_on:
       - caddy
     env_file:
-      - ./waltid-identity-0.11.0/docker-compose/.env
+      - ./waltid-identity/docker-compose/.env
     volumes:
-      - ./waltid-identity-0.11.0/docker-compose/verifier-api/config:/waltid-verifier-api/config
+      - ./waltid-identity/docker-compose/verifier-api/config:/waltid-verifier-api/config
     networks:
       - default
 
   #waltid-demo-wallet:
-   # image: docker.io/waltid/waltid-demo-wallet:${VERSION_TAG:-latest}
+    # image: docker.io/waltid/waltid-demo-wallet:${VERSION_TAG:-0.18.0}
    # profiles:
     #  - identity
     #  - all
@@ -79,13 +79,13 @@ services:
     #  PORT: $DEMO_WALLET_FRONTEND_PORT
 
   waltid-dev-wallet:
-    image: docker.io/waltid/waltid-dev-wallet:${VERSION_TAG:-latest}
+    image: docker.io/waltid/waltid-dev-wallet:${VERSION_TAG:-0.18.0}
     profiles:
       - identity
       - all
     pull_policy: always
     build:
-      context: ./waltid-identity-0.11.0
+      context: ./waltid-identity
       dockerfile: waltid-applications/waltid-web-wallet/apps/waltid-dev-wallet/Dockerfile
     depends_on:
       - wallet-api
@@ -97,13 +97,13 @@ services:
 
   web-portal:
     platform: linux/x86_64
-    image: docker.io/waltid/portal:${VERSION_TAG:-latest}
+    image: docker.io/waltid/portal:${VERSION_TAG:-0.18.0}
     profiles:
       - identity
       - all
     pull_policy: always
     build:
-      context: ./waltid-identity-0.11.0
+      context: ./waltid-identity
       dockerfile: waltid-applications/waltid-web-portal/Dockerfile
     depends_on:
       - caddy
@@ -116,7 +116,7 @@ services:
 
   vc-repo:
     platform: linux/x86_64
-    image: docker.io/waltid/vc-repository:latest
+    image: docker.io/waltid/vc-repository:${VERSION_TAG:-0.18.0}
     profiles:
       - identity
       - all

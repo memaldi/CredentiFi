@@ -62,17 +62,21 @@ La arquitectura se basa en Docker Compose, integrando los siguientes componentes
 
 - [Docker](https://docs.docker.com/get-docker/)
 - [Docker Compose v2](https://docs.docker.com/compose/)
-- [Walt.id v11](https://github.com/walt-id/waltid-identity/releases/tag/v0.11.0)
+- [Walt.id v0.18.0](https://github.com/walt-id/waltid-identity/releases/tag/v0.18.0)
 - (Opcional) Node.js y npm, Python 3.10+ para desarrollo local
 
 ---
 
 ## Configuración
 
-1. **Clona el repositorio**:
+1. **Clona el repositorio** (incluyendo el submódulo de waltid-identity):
    ```sh
-   git clone https://github.com/InigoValdivielso/PFG
+   git clone --recurse-submodules https://github.com/InigoValdivielso/PFG
    cd PFG
+   ```
+   Si ya tienes el repositorio clonado sin el submódulo:
+   ```sh
+   git submodule update --init
    ```
 ---
 
@@ -111,6 +115,22 @@ Lanza la interfaz interactiva de Vitest:
    ```
 2. **Acceso a la aplicación web**
 Accede a http://localhost:5173
+
+## Gestión del submódulo waltid-identity
+
+Este proyecto integra [waltid-identity](https://github.com/walt-id/waltid-identity) como submódulo Git, fijado a la versión estable `v0.18.0`. El código fuente de WaltID no se incluye en este repositorio; solo se almacena un puntero al commit.
+
+**Actualizar a una nueva versión de waltid-identity:**
+```sh
+cd waltid-identity
+git fetch
+git checkout vX.Y.Z
+cd ..
+git add waltid-identity
+git commit -m "Update waltid-identity to vX.Y.Z"
+```
+
+---
 
 ## Notas y consejos
 Si necesitas reiniciar una base de datos o restaurar un backup, accede al contenedor correspondiente y sigue las instrucciones del directorio /backup o scripts de inicialización.
