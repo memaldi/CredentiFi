@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" role="img" aria-label="Université de Strasbourg">
+  <!-- Unistra emblem: three overlapping lozenges at 0°, 60°, 120° forming a 6-pointed rosette -->
+  <g transform="translate(40,40)">
+    <polygon points="0,-30 11,0 0,30 -11,0" fill="#C8002B"/>
+    <polygon points="0,-30 11,0 0,30 -11,0" fill="#C8002B" transform="rotate(60)"/>
+    <polygon points="0,-30 11,0 0,30 -11,0" fill="#C8002B" transform="rotate(120)"/>
+    <!-- Inner hexagonal highlight -->
+    <polygon points="0,-14 12,-7 12,7 0,14 -12,7 -12,-7" fill="#C8002B" opacity="0.25"/>
+  </g>
+  <!-- University name -->
+  <text x="86" y="34" font-family="'Source Sans Pro', Arial, sans-serif" font-size="15" font-weight="400" fill="#1A1A1A" letter-spacing="0.5">Université de</text>
+  <text x="86" y="57" font-family="'Source Sans Pro', Arial, sans-serif" font-size="20" font-weight="700" fill="#1A1A1A" letter-spacing="0.5">Strasbourg</text>
+</svg>

@@ -3,8 +3,10 @@ import "../styles/letras.css";
 import "../styles/estilos.min.css";
 import "../styles/owl.carousel.min.css";
 import "../styles/owl.theme.default.min.css";
+import { runtimeConfig } from "../config/runtime";
+import FooterStrasbourg from "./FooterStrasbourg";
 
-const Footer = () => {
+const FooterDeusto = () => {
   return (
     <footer>
       <div className="container">
@@ -618,4 +620,11 @@ const Footer = () => {
     </footer>
   );
 };
-export default Footer;
+  const Footer = () => {
+    if (runtimeConfig.tenant === "strasbourg") {
+      return <FooterStrasbourg />;
+    }
+    return <FooterDeusto />;
+  };
+
+  export default Footer;

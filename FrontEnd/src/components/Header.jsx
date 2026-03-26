@@ -3,8 +3,10 @@ import "../styles/letras.css";
 import "../styles/estilos.min.css";
 import "../styles/owl.carousel.min.css";
 import "../styles/owl.theme.default.min.css";
+import { runtimeConfig } from "../config/runtime";
+import HeaderStrasbourg from "./HeaderStrasbourg";
 
-const Header = () => {
+const HeaderDeusto = () => {
   return (
     <header>
       <nav className="menuEscritorio">
@@ -1043,4 +1045,11 @@ const Header = () => {
     </header>
   );
 };
-export default Header;
+  const Header = () => {
+    if (runtimeConfig.tenant === "strasbourg") {
+      return <HeaderStrasbourg />;
+    }
+    return <HeaderDeusto />;
+  };
+
+  export default Header;
