@@ -13,6 +13,7 @@ Plataforma de gestión de microcredenciales digitales, verificación de identida
 - [Configuración](#configuración)
 - [Test](#test)
 - [Cómo desplegar](#cómo-desplegar)
+- [Despliegue multi-tenant (Deusto + Strasbourg)](#despliegue-multi-tenant-deusto--strasbourg)
 - [Notas y consejos](#notas-y-consejos)
 
 ---
@@ -115,6 +116,44 @@ Lanza la interfaz interactiva de Vitest:
    ```
 2. **Acceso a la aplicación web**
 Accede a http://localhost:5173
+
+## Despliegue multi-tenant (Deusto + Strasbourg)
+
+Para levantar ambos tenants en paralelo, utiliza el archivo `docker-compose.tenants.yaml`.
+
+1. **Levantar ambos tenants**
+    ```bash
+    docker compose -f docker-compose.tenants.yaml -p credentifi-tenants up --build -d
+    ```
+
+2. **Verificar estado de contenedores**
+    ```bash
+    docker compose -f docker-compose.tenants.yaml -p credentifi-tenants ps
+    ```
+
+3. **Frontends disponibles**
+    - Deusto: http://localhost:5173
+    - Strasbourg: http://localhost:5174
+
+4. **APIs Gateway**
+    - Deusto: http://localhost:5000
+    - Strasbourg: http://localhost:5001
+
+5. **Ver logs de un servicio concreto**
+    ```bash
+    docker compose -f docker-compose.tenants.yaml -p credentifi-tenants logs -f api-gateway-deusto
+    docker compose -f docker-compose.tenants.yaml -p credentifi-tenants logs -f api-gateway-strasbourg
+    ```
+
+6. **Parar y eliminar contenedores de ambos tenants**
+    ```bash
+    docker compose -f docker-compose.tenants.yaml -p credentifi-tenants down
+    ```
+
+7. **Parar y eliminar también volúmenes (reinicio limpio de BBDD)**
+    ```bash
+    docker compose -f docker-compose.tenants.yaml -p credentifi-tenants down -v
+    ```
 
 ## Gestión del submódulo waltid-identity
 
