@@ -34,7 +34,7 @@ const SecretaryPage = () => {
           textAlign: "center",
           paddingBottom: "2%",
           fontWeight: "800",
-          color: "#0153CE",
+          color: "var(--tenant-primary, #0153CE)",
         }}
       >
         Actas

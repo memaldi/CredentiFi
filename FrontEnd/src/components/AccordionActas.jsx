@@ -54,7 +54,7 @@ function AccordionActas({ curso }) {
 
     return (
         <>
-            <h3 className="titulo" style={{ textAlign: "left", paddingBottom: "1%", paddingLeft: "1%", fontWeight: "800", color: "#0153CE" }}>
+            <h3 className="titulo" style={{ textAlign: "left", paddingBottom: "1%", paddingLeft: "1%", fontWeight: "800", color: "var(--tenant-primary, #0153CE)" }}>
                 Estudiantes Pendientes
             </h3>
             <div className="accordion" id="pendingAccordion">

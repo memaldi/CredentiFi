@@ -133,7 +133,7 @@ const QRPrerequisitesPage = () => {
           height: 100%;
           margin: 0;
           padding: 0;
-          background-color: #e6e7e8;
+          background-color: var(--unistra-bg, #e6e7e8);
           overflow: hidden; /* Evitar el scroll */
         }
         .container {
@@ -188,7 +188,7 @@ const QRPrerequisitesPage = () => {
         .btnCopiar {
           background: none;
           border: none;
-          color: #007bff; /* Azul de Bootstrap */
+          color: var(--tenant-primary, #007bff);
           text-decoration: none;
           font-size: 1rem;
           cursor: pointer;
@@ -199,7 +199,7 @@ const QRPrerequisitesPage = () => {
 
         .btnCopiar:hover {
           text-decoration: underline;
-          color: #0056b3; /* Azul más oscuro en hover */
+          color: var(--tenant-secondary, #0056b3);
         }
 
         .btnCopiar:focus,
