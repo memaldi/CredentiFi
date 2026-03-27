@@ -2,7 +2,8 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { apiUrl } from "../config/runtime";
+import { apiUrl, runtimeConfig } from "../config/runtime";
+import "../styles/strasbourg.css";
 
 const MainPage = () => {
     const [cursos, setCursos] = useState([]);
@@ -47,19 +48,71 @@ const MainPage = () => {
         navigate("/curso", {state: { nombre, descripcion, duracion, requisitos }}); 
     };
 
-    
+        if (runtimeConfig.tenant === "strasbourg") {
+            return (
+                <>
+                    <div className="unistra-hero">
+                        <h1>Quelle formation souhaitez-vous suivre&nbsp;?</h1>
+                        <p>Découvrez nos microcredentials et formations disponibles à l'Université de Strasbourg</p>
+                    </div>
 
-    return (
+                    <div className="unistra-courses">
+                        <h2 className="unistra-section-title">Nos formations</h2>
+
+                        {cursos.map((curso, idx) => (
+                            <div
+                                key={idx}
+                                className="unistra-course-card"
+                                onClick={() => handleButtonClick(curso.nombre, curso.descripcion, curso.duracion, curso.requisitos)}
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(event) => {
+                                    if (event.key === "Enter") {
+                                        handleButtonClick(curso.nombre, curso.descripcion, curso.duracion, curso.requisitos);
+                                    }
+                                }}
+                            >
+                                <h3>{curso.nombre}</h3>
+                                <div className="unistra-course-meta">
+                                    <span><span className="meta-icon" aria-hidden="true">Formation</span></span>
+                                    <span><span className="meta-icon" aria-hidden="true">Ouvert</span></span>
+                                    <span><span className="meta-icon" aria-hidden="true">Durée</span> {curso.duracion}</span>
+                                    <span><span className="meta-icon" aria-hidden="true">Campus</span> Strasbourg</span>
+                                </div>
+                            </div>
+                        ))}
+
+                        {hayMas ? (
+                            <button
+                                className="unistra-load-more"
+                                data-testid="boton-cargar-mas"
+                                onClick={() => setPagina((prev) => prev + 1)}
+                                disabled={cargando}
+                            >
+                                {cargando ? "Chargement..." : "Afficher plus"}
+                            </button>
+                        ) : (
+                            <p style={{ textAlign: "center", color: "#5C5C5C", marginTop: "24px" }}>
+                                Aucun autre résultat
+                            </p>
+                        )}
+                    </div>
+                </>
+            );
+        }
+
+        return (
         <>
             
             <div className="cabecera">
+                {/* ── Deusto hero block (original) ── */}
                 <div
                     className="cabeceraEstatica"
                     style={{
                         backgroundImage:
                             "linear-gradient(0deg, rgba(3, 25, 57, .3) 0%, rgba(37,37,37,0) 100%), linear-gradient(206.57deg, rgba(2,16,35,0) 0%, rgba(3, 25, 57, .5) 100%), url(/sites/Satellite?blobcol=urldata&blobheader=image%2Fjpeg&blobheadername1=Expires&blobheadername2=content-type&blobheadername3=MDT-Type&blobheadervalue1=Thu%2C+10+Dec+2020+16%3A00%3A00+GMT&blobheadervalue2=image%2Fjpeg&blobheadervalue3=abinary%3Bcharset%3DUTF-8&blobkey=id&blobtable=MungoBlobs&blobwhere=1600622578836&ssbinary=true)"
                     }}
-                >
+                    >
                     <div className="container">
                         <nav className="caminoMigas">
                             <ul>

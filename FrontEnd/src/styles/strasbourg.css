@@ -1,0 +1,205 @@
+/* =========================================================
+   Strasbourg tenant – global overrides
+   Applied via <body class="tenant-strasbourg">
+   ========================================================= */
+
+:root {
+  --unistra-red: #C8002B;
+  --unistra-red-dark: #a0001f;
+  --unistra-dark: #1A1A1A;
+  --unistra-gray: #5C5C5C;
+  --unistra-light: #F5F5F5;
+  --unistra-font: 'Source Sans Pro', Arial, sans-serif;
+}
+
+/* Google Font import */
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap');
+
+/* ── Body ── */
+body.tenant-strasbourg {
+  font-family: var(--unistra-font);
+  color: var(--unistra-dark);
+  background-color: #ffffff;
+}
+
+/* ── Bootstrap primary color override ── */
+body.tenant-strasbourg .btn-primary,
+body.tenant-strasbourg .navbar.bg-primary {
+  background-color: var(--unistra-red) !important;
+  border-color: var(--unistra-red) !important;
+}
+
+body.tenant-strasbourg .btn-primary:hover {
+  background-color: var(--unistra-red-dark) !important;
+  border-color: var(--unistra-red-dark) !important;
+}
+
+/* ── Login page accent border ── */
+body.tenant-strasbourg .firstBox,
+body.tenant-strasbourg .secondBox {
+  border-top-color: var(--unistra-red) !important;
+}
+
+/* ── Strasbourg hero section ── */
+.unistra-hero {
+  background: linear-gradient(135deg, #8b0022 0%, var(--unistra-red) 60%, #e84060 100%);
+  padding: 64px 24px;
+  color: white;
+  text-align: center;
+}
+
+.unistra-hero h1 {
+  font-family: var(--unistra-font);
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+.unistra-hero p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin-bottom: 0;
+}
+
+/* ── Course search bar ── */
+.unistra-search-bar {
+  display: flex;
+  max-width: 600px;
+  margin: 28px auto 0;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.unistra-search-bar input {
+  flex: 1;
+  padding: 14px 18px;
+  border: none;
+  font-size: 15px;
+  font-family: var(--unistra-font);
+  outline: none;
+}
+
+.unistra-search-bar button {
+  background-color: var(--unistra-dark);
+  color: white;
+  border: none;
+  padding: 0 20px;
+  cursor: pointer;
+  font-size: 15px;
+  font-family: var(--unistra-font);
+  font-weight: 600;
+  transition: background-color 0.15s;
+}
+
+.unistra-search-bar button:hover {
+  background-color: #333;
+}
+
+/* ── Course listing ── */
+.unistra-courses {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 24px;
+}
+
+.unistra-section-title {
+  font-family: var(--unistra-font);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--unistra-dark);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid var(--unistra-red);
+}
+
+.unistra-course-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e0e0e0;
+  border-left: 4px solid var(--unistra-red);
+  border-radius: 4px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  background-color: white;
+  cursor: pointer;
+  transition: box-shadow 0.15s, transform 0.1s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.unistra-course-card:hover {
+  box-shadow: 0 4px 16px rgba(200, 0, 43, 0.12);
+  transform: translateY(-2px);
+  color: inherit;
+  text-decoration: none;
+}
+
+.unistra-course-card h3 {
+  font-family: var(--unistra-font);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--unistra-red);
+  margin: 0 0 10px;
+}
+
+.unistra-course-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.unistra-course-meta span {
+  font-size: 13px;
+  color: var(--unistra-gray);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.unistra-course-meta .meta-icon {
+  color: var(--unistra-red);
+  font-size: 15px;
+}
+
+/* ── Load more button ── */
+.unistra-load-more {
+  display: block;
+  margin: 24px auto;
+  padding: 12px 32px;
+  background-color: var(--unistra-red);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+  font-family: var(--unistra-font);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.unistra-load-more:hover:not(:disabled) {
+  background-color: var(--unistra-red-dark);
+}
+
+.unistra-load-more:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* ── NavBar override for student portal ── */
+body.tenant-strasbourg #botonMenu {
+  background-color: var(--unistra-red) !important;
+}
+
+/* ── Hamburger: show only on small screens ── */
+@media (max-width: 900px) {
+  .unistra-hamburger {
+    display: block !important;
+  }
+
+  .unistra-hamburger + nav {
+    display: none !important;
+  }
+}

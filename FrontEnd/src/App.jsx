@@ -19,6 +19,7 @@ import ProtectedRouteStudents from './components/ProtectedRouteStudents';
 import { StudentProvider } from './components/StudentContext';
 import SecretaryPage from './pages/SecretaryPage';
 import SecretaryActas from './pages/SecretaryActas';
+import { runtimeConfig } from './config/runtime';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -50,6 +51,11 @@ const router = createBrowserRouter(
 );
 
 const App = () => {
+  React.useEffect(() => {
+    document.body.classList.remove('tenant-deusto', 'tenant-strasbourg');
+    document.body.classList.add(`tenant-${runtimeConfig.tenant}`);
+  }, []);
+
   return (
     <>
       <StudentProvider>
