@@ -43,7 +43,7 @@ const CursoPage = () => {
             </div>
             <div className="unistra-info-card">
               <h3>Lieu</h3>
-              <p>Université de Strasbourg</p>
+              <p>Université de Lumière</p>
             </div>
             <div className="unistra-info-card">
               <h3>Langue</h3>

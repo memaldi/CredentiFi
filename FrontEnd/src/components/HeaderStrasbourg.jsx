@@ -5,63 +5,63 @@ import { runtimeConfig } from "../config/runtime";
 const NAV_ITEMS = [
   {
     label: "Formation",
-    href: "https://www.unistra.fr/fr/formation",
+    href: "https://www.unilumiere.fr/fr/formation",
     children: [
-      { label: "S'orienter", href: "https://www.unistra.fr/fr/formation/sorienter" },
-      { label: "Licences", href: "https://formations.unistra.fr/fr/formations/licence-LIG.html" },
-      { label: "Masters", href: "https://formations.unistra.fr/fr/formations/master-MAS.html" },
-      { label: "Doctorat", href: "https://doctorat.unistra.fr/fr/recherche/doctorat" },
-      { label: "Formation continue", href: "https://www.unistra.fr/fr/formation/continuer-se-former" },
-      { label: "Toutes les formations", href: "https://formations.unistra.fr/" },
+      { label: "S'orienter", href: "https://www.unilumiere.fr/fr/formation/sorienter" },
+      { label: "Licences", href: "https://formations.unilumiere.fr/fr/formations/licence-LIG.html" },
+      { label: "Masters", href: "https://formations.unilumiere.fr/fr/formations/master-MAS.html" },
+      { label: "Doctorat", href: "https://doctorat.unilumiere.fr/fr/recherche/doctorat" },
+      { label: "Formation continue", href: "https://www.unilumiere.fr/fr/formation/continuer-se-former" },
+      { label: "Toutes les formations", href: "https://formations.unilumiere.fr/" },
     ],
   },
   {
     label: "Recherche",
-    href: "https://www.unistra.fr/fr/recherche",
+    href: "https://www.unilumiere.fr/fr/recherche",
     children: [
-      { label: "Laboratoires et équipes", href: "https://www.unistra.fr/fr/recherche/les-unites-de-recherche" },
-      { label: "Doctorat & HDR", href: "https://doctorat.unistra.fr/" },
-      { label: "Transfert & valorisation", href: "https://www.unistra.fr/fr/recherche/transfert-de-technologies" },
-      { label: "Actualités recherche", href: "https://www.unistra.fr/fr/actualites/recherche" },
+      { label: "Laboratoires et équipes", href: "https://www.unilumiere.fr/fr/recherche/les-unites-de-recherche" },
+      { label: "Doctorat & HDR", href: "https://doctorat.unilumiere.fr/" },
+      { label: "Transfert & valorisation", href: "https://www.unilumiere.fr/fr/recherche/transfert-de-technologies" },
+      { label: "Actualités recherche", href: "https://www.unilumiere.fr/fr/actualites/recherche" },
     ],
   },
   {
     label: "International",
-    href: "https://www.unistra.fr/fr/international",
+    href: "https://www.unilumiere.fr/fr/international",
     children: [
-      { label: "Partir en échange", href: "https://www.unistra.fr/fr/international/partir-letranger" },
-      { label: "Venir à Strasbourg", href: "https://www.unistra.fr/fr/international/venir-en-france" },
-      { label: "Alliance européenne EPICUR", href: "https://www.unistra.fr/fr/international/epicur" },
+      { label: "Partir en échange", href: "https://www.unilumiere.fr/fr/international/partir-letranger" },
+      { label: "Venir à Lumière", href: "https://www.unilumiere.fr/fr/international/venir-en-france" },
+      { label: "Alliance européenne EPICUR", href: "https://www.unilumiere.fr/fr/international/epicur" },
     ],
   },
   {
     label: "Vie universitaire",
-    href: "https://www.unistra.fr/fr/vie-universitaire",
+    href: "https://www.unilumiere.fr/fr/vie-universitaire",
     children: [
-      { label: "Vie étudiante", href: "https://www.unistra.fr/fr/vie-universitaire/vie-etudiante" },
-      { label: "Bibliothèques", href: "https://www.unistra.fr/fr/vie-universitaire/bibliotheques" },
-      { label: "Sport & culture", href: "https://www.unistra.fr/fr/vie-universitaire/sport-culture" },
-      { label: "Santé & handicap", href: "https://www.unistra.fr/fr/vie-universitaire/sante-handicap" },
+      { label: "Vie étudiante", href: "https://www.unilumiere.fr/fr/vie-universitaire/vie-etudiante" },
+      { label: "Bibliothèques", href: "https://www.unilumiere.fr/fr/vie-universitaire/bibliotheques" },
+      { label: "Sport & culture", href: "https://www.unilumiere.fr/fr/vie-universitaire/sport-culture" },
+      { label: "Santé & handicap", href: "https://www.unilumiere.fr/fr/vie-universitaire/sante-handicap" },
     ],
   },
   {
     label: "Université",
-    href: "https://www.unistra.fr/fr/universite",
+    href: "https://www.unilumiere.fr/fr/universite",
     children: [
-      { label: "Gouvernance", href: "https://www.unistra.fr/fr/universite/gouvernance" },
-      { label: "Facultés, écoles, instituts", href: "https://www.unistra.fr/fr/entites" },
-      { label: "Chiffres clés", href: "https://www.unistra.fr/fr/universite/decouvrir/chiffres-cles" },
-      { label: "Recrutement", href: "https://www.unistra.fr/les-offres-demploi" },
+      { label: "Gouvernance", href: "https://www.unilumiere.fr/fr/universite/gouvernance" },
+      { label: "Facultés, écoles, instituts", href: "https://www.unilumiere.fr/fr/entites" },
+      { label: "Chiffres clés", href: "https://www.unilumiere.fr/fr/universite/decouvrir/chiffres-cles" },
+      { label: "Recrutement", href: "https://www.unilumiere.fr/les-offres-demploi" },
     ],
   },
 ];
 
 const AUDIENCE_LINKS = [
-  { label: "Lycéen·ne", href: "https://lyceen.unistra.fr/" },
-  { label: "Étudiant·e", href: "https://bienvenue.unistra.fr/" },
-  { label: "Doctorant·e", href: "https://doctorat.unistra.fr/" },
-  { label: "Entreprise", href: "https://entreprises.unistra.fr/" },
-  { label: "Alumni", href: "https://www.unistra.fr/fr/universite/partenaires/reseau-alumni" },
+  { label: "Lycéen·ne", href: "https://lyceen.unilumiere.fr/" },
+  { label: "Étudiant·e", href: "https://bienvenue.unilumiere.fr/" },
+  { label: "Doctorant·e", href: "https://doctorat.unilumiere.fr/" },
+  { label: "Entreprise", href: "https://entreprises.unilumiere.fr/" },
+  { label: "Alumni", href: "https://www.unilumiere.fr/fr/universite/partenaires/reseau-alumni" },
 ];
 
 const HeaderStrasbourg = () => {
@@ -102,7 +102,7 @@ const HeaderStrasbourg = () => {
           </nav>
           <div style={{ display: "flex", gap: "14px", alignItems: "center" }}>
             <a
-              href="https://www.unistra.fr/fr/contact"
+              href="https://www.unilumiere.fr/fr/contact"
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: "#fff", textDecoration: "none", fontSize: "12px", opacity: 0.9 }}
@@ -110,7 +110,7 @@ const HeaderStrasbourg = () => {
               Contact
             </a>
             <a
-              href="https://www.unistra.fr/fr/agenda"
+              href="https://www.unilumiere.fr/fr/agenda"
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: "#fff", textDecoration: "none", fontSize: "12px", opacity: 0.9 }}
@@ -118,7 +118,7 @@ const HeaderStrasbourg = () => {
               Agenda
             </a>
             <a
-              href="https://www.unistra.fr/fr/faq"
+              href="https://www.unilumiere.fr/fr/faq"
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: "#fff", textDecoration: "none", fontSize: "12px", opacity: 0.9 }}
@@ -141,7 +141,7 @@ const HeaderStrasbourg = () => {
             alignItems: "center",
           }}
         >
-          <a href="https://www.unistra.fr/" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.unilumiere.fr/" target="_blank" rel="noopener noreferrer">
             <BrandLogo
               alt={runtimeConfig.universityName}
               style={{ height: "58px", width: "auto" }}
@@ -151,7 +151,7 @@ const HeaderStrasbourg = () => {
           {/* Search + mobile toggle */}
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <a
-              href="https://www.unistra.fr/fr/rechercher"
+              href="https://www.unilumiere.fr/fr/rechercher"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Rechercher"

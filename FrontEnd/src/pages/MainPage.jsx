@@ -52,7 +52,7 @@ const MainPage = () => {
                 <>
                     <div className="unistra-hero">
                         <h1>Quelle formation souhaitez-vous suivre&nbsp;?</h1>
-                        <p>Découvrez nos microcredentials et formations disponibles à l'Université de Strasbourg</p>
+                        <p>Découvrez nos microcredentials et formations disponibles à l'Université de Lumière</p>
                     </div>
 
                     <div className="unistra-courses">
@@ -76,7 +76,7 @@ const MainPage = () => {
                                     <span><span className="meta-icon" aria-hidden="true">Formation</span></span>
                                     <span><span className="meta-icon" aria-hidden="true">Ouvert</span></span>
                                     <span><span className="meta-icon" aria-hidden="true">Durée</span> {curso.duracion}</span>
-                                    <span><span className="meta-icon" aria-hidden="true">Campus</span> Strasbourg</span>
+                                    <span><span className="meta-icon" aria-hidden="true">Campus</span> Paris</span>
                                 </div>
                             </div>
                         ))}
