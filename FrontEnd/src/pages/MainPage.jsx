@@ -3,7 +3,6 @@ import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { apiUrl, runtimeConfig } from "../config/runtime";
-import "../styles/strasbourg.css";
 
 const MainPage = () => {
     const [cursos, setCursos] = useState([]);

@@ -20,6 +20,7 @@ import { StudentProvider } from './components/StudentContext';
 import SecretaryPage from './pages/SecretaryPage';
 import SecretaryActas from './pages/SecretaryActas';
 import { runtimeConfig } from './config/runtime';
+import './styles/strasbourg.css';
 
 const router = createBrowserRouter(
   createRoutesFromElements(

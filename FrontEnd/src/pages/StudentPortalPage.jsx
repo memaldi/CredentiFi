@@ -1,9 +1,21 @@
-import { Link } from "react-router-dom";
-import { useLocation } from 'react-router-dom';
 import NavBarStudent from "../components/NavBarStudent";
+import { runtimeConfig } from "../config/runtime";
 
 const StudentPortalPage = () => {
-  const location = useLocation();
+  const isStrasbourg = runtimeConfig.tenant === "strasbourg";
+  const primary = runtimeConfig.primaryColor;
+
+  const tenantButtons = isStrasbourg
+    ? {
+        buttonBlue: { ...styles.buttonBlue, backgroundColor: primary },
+        buttonOrange: { ...styles.buttonOrange, backgroundColor: "#2b4f8a" },
+        buttonRed: { ...styles.buttonRed, backgroundColor: "#3b66a5" },
+        buttonDark: { ...styles.buttonDark, backgroundColor: "#4d7abc" },
+        buttonGreen: { ...styles.buttonGreen, backgroundColor: "#658fcb" },
+        buttonViolet: { ...styles.buttonViolet, backgroundColor: "#7ea5d8" },
+      }
+    : styles;
+
   return (
     <>
       <link
@@ -29,7 +41,7 @@ const StudentPortalPage = () => {
             marginRight: "3%",
             borderStyle: "solid",
             borderTopWidth: "2px",
-            borderTopColor: "#1B459A",
+            borderTopColor: isStrasbourg ? primary : "#1B459A",
             borderLeftWidth: "1px",
             borderRightWidth: "1px",
             borderBottomWidth: "1px",
@@ -37,22 +49,22 @@ const StudentPortalPage = () => {
         >
           <p style={{ paddingLeft: "2%", paddingTop: "1%" }}>Aplicaciones</p>
           <div style={styles.buttonContainer}>
-            <button style={styles.buttonBlue}>
+            <button style={tenantButtons.buttonBlue}>
               Grado /master /doctorado
             </button>
-            <button style={styles.buttonOrange}>
+            <button style={tenantButtons.buttonOrange}>
               Formación continua /idiomas
             </button>
-            <button style={styles.buttonRed}>
+            <button style={tenantButtons.buttonRed}>
               Evaluación docencia
             </button>
-            <button style={styles.buttonDark}>
+            <button style={tenantButtons.buttonDark}>
               Solicitud beca deusto
             </button>
-            <button style={styles.buttonGreen}>
+            <button style={tenantButtons.buttonGreen}>
               Publicación horaria
             </button>
-            <button style={styles.buttonViolet}>
+            <button style={tenantButtons.buttonViolet}>
               Solicitud de títulos
             </button>
           </div>
