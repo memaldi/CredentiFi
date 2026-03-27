@@ -2,6 +2,7 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
+import { runtimeConfig } from "../config/runtime";
 
 const CursoPage = () => {
  
@@ -13,6 +14,54 @@ const CursoPage = () => {
     console.log("Requisitos:", requisitos);
     navigate("/prerequisites", {state: { nombre, descripcion, duracion, requisitos }});
   };
+
+  if (runtimeConfig.tenant === "strasbourg") {
+    return (
+      <>
+        <div className="unistra-curso-header">
+          <div className="unistra-breadcrumb">
+            <a href="/">Accueil</a>
+            <span>›</span>
+            <a href="/">Formations</a>
+            <span>›</span>
+            {nombre}
+          </div>
+          <h1>{nombre}</h1>
+          <span className="unistra-badge">Édition 2025 — Inscriptions ouvertes</span>
+        </div>
+
+        <div className="unistra-curso-body">
+          <div className="unistra-curso-description">
+            <h2>À propos de cette formation</h2>
+            <p>{descripcion}</p>
+          </div>
+
+          <div className="unistra-curso-sidebar">
+            <div className="unistra-info-card">
+              <h3>Durée</h3>
+              <p>{duracion} heures</p>
+            </div>
+            <div className="unistra-info-card">
+              <h3>Lieu</h3>
+              <p>Université de Strasbourg</p>
+            </div>
+            <div className="unistra-info-card">
+              <h3>Langue</h3>
+              <p>Français</p>
+            </div>
+            <div className="unistra-info-card">
+              <h3>Tarif</h3>
+              <p>Gratuit pour les participants</p>
+            </div>
+            <button className="unistra-enroll-btn" onClick={handleButtonClick}>
+              Faire une demande d&apos;inscription
+            </button>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <div className="cabecera">
