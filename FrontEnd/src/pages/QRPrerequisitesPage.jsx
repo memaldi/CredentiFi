@@ -3,12 +3,13 @@ import QRCode from "react-qr-code";
 import { useLocation } from 'react-router-dom';
 import BrandLogo from "../components/BrandLogo";
 import { apiUrl, runtimeConfig } from "../config/runtime";
+import { t } from "../config/i18n";
 
 const QRPrerequisitesPage = () => {
   const verificationUrl = apiUrl("/verifierIssuer/verificar");
   const [verificationData, setVerificationData] = useState(null);
   const [copyButtonText, setCopyButtonText] = useState(
-    "Copiar respuesta al portapapeles"
+    t("Copiar respuesta al portapapeles", "Copier dans le presse-papiers")
   );
   const location = useLocation();
 
@@ -17,9 +18,9 @@ const QRPrerequisitesPage = () => {
     navigator.clipboard
       .writeText(verificationData)
       .then(() => {
-        setCopyButtonText("Copiado"); // Cambia el texto a "Copiado"
+        setCopyButtonText(t("Copiado", "Copié"));
         setTimeout(
-          () => setCopyButtonText("Copiar respuesta al portapapeles"),
+          () => setCopyButtonText(t("Copiar respuesta al portapapeles", "Copier dans le presse-papiers")),
           4000
         ); // Vuelve al original después de 2 segundos
       })
@@ -104,7 +105,7 @@ const QRPrerequisitesPage = () => {
     <div className="container">
       <BrandLogo alt={runtimeConfig.universityName} className="logo-deusto" />
       <div className="wallet-box">
-        <h1>Comparte tu EducationalID{requisitosFormateados} </h1>
+        <h1>{t("Comparte tu EducationalID", "Partagez votre EducationalID")}{requisitosFormateados} </h1>
         {verificationData ? (
           <QRCode value={verificationData} size={200} />
         ) : (
@@ -113,11 +114,11 @@ const QRPrerequisitesPage = () => {
           </div>
         )}
         <p className="verification-text">
-          Escanea el código con walt.id para verificar.
+          {t("Escanea el código con walt.id para verificar.", "Scannez le code avec walt.id pour vérifier.")}
         </p>
         <div className="separator">
           <hr />
-          <span>o</span>
+          <span>{t("o", "ou")}</span>
           <hr />
         </div>
         <button onClick={copyToClipboard} className="btnCopiar">

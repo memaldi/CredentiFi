@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import NavBarStudent from "../components/NavBarStudent";
 import { useStudent } from "../components/StudentContext";
 import { apiUrl } from "../config/runtime";
+import { t } from "../config/i18n";
 
 const StudentMicrocredentialPage = ({ }) => {
   const navigate = useNavigate();
@@ -110,7 +111,7 @@ const StudentMicrocredentialPage = ({ }) => {
             color: "#000000",
           }}
         >
-          Información Personal
+          {t("Información Personal", "Informations personnelles")}
         </h1>
 
         <table className="table table-bordered">
@@ -118,29 +119,19 @@ const StudentMicrocredentialPage = ({ }) => {
             <tr>
               <td style={{ background: "#EBEBEB", fontWeight: "bold" }}>NIA</td>
               <td style={{ background: "#EBEBEB", paddingRight: "180px" }}>{studentInfo?.NIA}</td>
-              <td style={{ background: "#EBEBEB", fontWeight: "bold" }}>
-                DNI, Pasaporte
-              </td>
+              <td style={{ background: "#EBEBEB", fontWeight: "bold" }}>{t("DNI, Pasaporte", "Pièce d'identité")}</td>
               <td style={{ background: "#EBEBEB" }}>{studentInfo?.dni}</td>
             </tr>
             <tr>
-              <td style={{ background: "#EBEBEB", fontWeight: "bold" }}>
-                Nombre
-              </td>
+              <td style={{ background: "#EBEBEB", fontWeight: "bold" }}>{t("Nombre", "Prénom")}</td>
               <td style={{ background: "#EBEBEB" }}>{studentInfo?.nombre}</td>
-              <td style={{ background: "#EBEBEB", fontWeight: "bold" }}>
-                Primer Apellido
-              </td>
+              <td style={{ background: "#EBEBEB", fontWeight: "bold" }}>{t("Primer Apellido", "Nom")}</td>
               <td style={{ background: "#EBEBEB" }}>{studentInfo?.primer_apellido}</td>
             </tr>
             <tr>
-              <td style={{ background: "#EBEBEB", fontWeight: "bold" }}>
-                Segundo Apellido
-              </td>
+              <td style={{ background: "#EBEBEB", fontWeight: "bold" }}>{t("Segundo Apellido", "Deuxième nom")}</td>
               <td style={{ background: "#EBEBEB" }}>{studentInfo?.segundo_apellido}</td>
-              <td style={{ background: "#EBEBEB", fontWeight: "bold" }}>
-                Email
-              </td>
+              <td style={{ background: "#EBEBEB", fontWeight: "bold" }}>{t("Email", "E-mail")}</td>
               <td style={{ background: "#EBEBEB" }}>{studentInfo?.correo}</td>
             </tr>
           </tbody>
@@ -157,7 +148,7 @@ const StudentMicrocredentialPage = ({ }) => {
               color: "#000000",
             }}
           >
-            Listado de Microcredenciales
+            {t("Listado de Microcredenciales", "Liste des Microcredentials")}
           </h3>
           <br />
           <div className="checkboxes">            
@@ -184,7 +175,7 @@ const StudentMicrocredentialPage = ({ }) => {
             disabled={!isAnyChecked}
             style={{ marginTop: "2%", marginLeft: "45%" }}
           >
-            Solicitar
+            {t("Solicitar", "Demander")}
           </button>
         </div>
 

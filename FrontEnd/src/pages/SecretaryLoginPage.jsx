@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BrandLogo from "../components/BrandLogo";
 import { apiUrl, runtimeConfig } from "../config/runtime";
+import { t } from "../config/i18n";
 
 const PRIMARY = runtimeConfig.primaryColor;
 
@@ -31,11 +32,11 @@ const SecretaryLoginPage = () => {
                 navigate("/secretary");
                 
             } else {
-                alert("Credenciales incorrectas");
+                alert(t("Credenciales incorrectas", "Identifiants incorrects"));
             }
         } catch (error) {
             console.error("Error de conexión:", error);
-            alert("Error de conexión. Por favor, inténtalo de nuevo más tarde.");
+            alert(t("Error de conexión. Por favor, inténtalo de nuevo más tarde.", "Erreur de connexion. Veuillez réessayer."));
         }
     };
 
@@ -76,7 +77,7 @@ const SecretaryLoginPage = () => {
                                 color: "white",
                             }}
                         >
-                            Acceso Secretaría
+                        {t("Acceso Secretaría", "Accès Secrétariat")}
                         </h6>
                     </div>
                     <div
@@ -94,7 +95,7 @@ const SecretaryLoginPage = () => {
                                 maxLength={50}
                                 name="userId"
                                 value={username}
-                                placeholder="Usuario"
+                                placeholder={t("Usuario", "Utilisateur")}
                                 onChange={(e) => setUsername(e.target.value)}
                             />
                         </div>
@@ -116,7 +117,7 @@ const SecretaryLoginPage = () => {
                                 maxLength={50}
                                 name="password"
                                 value={password}
-                                placeholder="Contraseña"
+                                placeholder={t("Contraseña", "Mot de passe")}
                                 onChange={(e) => setPassword(e.target.value)}
                                 style={{ borderRadius: "0 5px 5px 0" }}
                             />
@@ -126,7 +127,7 @@ const SecretaryLoginPage = () => {
                         href=""
                         style={{ marginLeft: "5%", fontSize: "80%", color: PRIMARY }}
                     >
-                        No tengo una cuenta, solicitar registro
+                        {t("No tengo una cuenta, solicitar registro", "Je n'ai pas de compte, m'inscrire")}
                     </a>
                     <br />
                     <a
@@ -134,7 +135,7 @@ const SecretaryLoginPage = () => {
                         style={{ marginLeft: "5%", fontSize: "80%", color: PRIMARY }}
                     >
                         {" "}
-                        No sé o he olvidado mi contraseña
+                        {t("No sé o he olvidado mi contraseña", "J'ai oublié mon mot de passe")}
                     </a>
                     <br />
                     <button
@@ -143,7 +144,7 @@ const SecretaryLoginPage = () => {
                         style={{ marginLeft: "35%", marginBottom: "5%", marginTop: "3%" }}
                         onClick={handleLogin}
                     >
-                        Iniciar sesión
+                        {t("Iniciar sesión", "Se connecter")}
                     </button>
                 </div>
             </div>

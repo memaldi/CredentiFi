@@ -1,5 +1,6 @@
 import NavBarStudent from "../components/NavBarStudent";
 import { runtimeConfig } from "../config/runtime";
+import { t } from "../config/i18n";
 
 const StudentPortalPage = () => {
   const isStrasbourg = runtimeConfig.tenant === "strasbourg";
@@ -33,7 +34,7 @@ const StudentPortalPage = () => {
             fontSize: "200%",
           }}
         >
-          Inicio
+          {t("Inicio", "Accueil")}
         </p>
         <div
           style={{
@@ -47,25 +48,25 @@ const StudentPortalPage = () => {
             borderBottomWidth: "1px",
           }}
         >
-          <p style={{ paddingLeft: "2%", paddingTop: "1%" }}>Aplicaciones</p>
+          <p style={{ paddingLeft: "2%", paddingTop: "1%" }}>{t("Aplicaciones", "Applications")}</p>
           <div style={styles.buttonContainer}>
             <button style={tenantButtons.buttonBlue}>
-              Grado /master /doctorado
+              {t("Grado /master /doctorado", "Licence / Master / Doctorat")}
             </button>
             <button style={tenantButtons.buttonOrange}>
-              Formación continua /idiomas
+              {t("Formación continua /idiomas", "Formation continue / Langues")}
             </button>
             <button style={tenantButtons.buttonRed}>
-              Evaluación docencia
+              {t("Evaluación docencia", "Évaluation des enseignements")}
             </button>
             <button style={tenantButtons.buttonDark}>
-              Solicitud beca deusto
+              {t("Solicitud beca deusto", "Demande de bourse")}
             </button>
             <button style={tenantButtons.buttonGreen}>
-              Publicación horaria
+              {t("Publicación horaria", "Publication des horaires")}
             </button>
             <button style={tenantButtons.buttonViolet}>
-              Solicitud de títulos
+              {t("Solicitud de títulos", "Demande de diplôme")}
             </button>
           </div>
         </div>

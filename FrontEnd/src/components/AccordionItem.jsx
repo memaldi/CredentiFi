@@ -3,6 +3,7 @@ import AccordionTable from "./AccordionTable";
 import CredentialTable from "./CredentialTable";
 import ModalSecretary from './ModalSecretary';
 import { apiUrl, runtimeConfig } from '../config/runtime';
+import { t } from '../config/i18n';
 
 function AccordionItem({ nombre, primer_apellido, segundo_apellido, correo, fechaNacimiento, id, dni, curso, curso_id, estado, credenciales, onAccept, onReject }) {
     const [credencialesData, setCredencialesData] = useState([]);
@@ -225,19 +226,19 @@ function AccordionItem({ nombre, primer_apellido, segundo_apellido, correo, fech
                 <div className="accordion-body">
                     <AccordionTable name={nombre} surname={primer_apellido} email={correo} program={curso} />
                     <br></br>
-                    <h4>Credenciales proporcionadas:</h4>
+                    <h4>{t("Credenciales proporcionadas:", "Identifiants fournis :")}</h4>
                     <br></br>
 
                     {credencialesData && credencialesData.length > 0 && Array.isArray(credencialesData[0]) ? (
                         <CredentialTable names={credencialesData[0]} />
                     ) : (
-                        <p>No hay credenciales proporcionadas.</p>
+                        <p>{t("No hay credenciales proporcionadas.", "Aucun identifiant fourni.")}</p>
                     )}
 
                     {estado === 'pendiente' && (
                         <div style={{ marginLeft: "40%" }}>
-                            <button className="btn btn-primary" type="button" style={{ marginRight: "5%" }} onClick={handleAccept}>Aceptar</button>
-                            <button className="btn btn-danger" type="button" onClick={handleReject}>Rechazar</button>
+                            <button className="btn btn-primary" type="button" style={{ marginRight: "5%" }} onClick={handleAccept}>{t("Aceptar", "Accepter")}</button>
+                            <button className="btn btn-danger" type="button" onClick={handleReject}>{t("Rechazar", "Refuser")}</button>
                         </div>
                     )}
                 </div>
@@ -245,8 +246,8 @@ function AccordionItem({ nombre, primer_apellido, segundo_apellido, correo, fech
             {/* Modal para Accept */}
             {showAcceptModal && (
                 <ModalSecretary
-                    title="Cuidado"
-                    description="¿Estas seguro de que quieres aceptar esta solicitud?"
+                    title={t("Cuidado", "Attention")}
+                    description={t("¿Estas seguro de que quieres aceptar esta solicitud?", "Êtes-vous sûr de vouloir accepter cette demande ?")}
                     id="Accept"
                     show={showAcceptModal}
                     handleClose={handleCloseAcceptModal}
@@ -256,8 +257,8 @@ function AccordionItem({ nombre, primer_apellido, segundo_apellido, correo, fech
             {/* Modal para Reject */}
             {showRejectModal && (
                 <ModalSecretary
-                    title="Cuidado"
-                    description="¿Estas seguro de que quieres rechazar esta solicitud?"
+                    title={t("Cuidado", "Attention")}
+                    description={t("¿Estas seguro de que quieres rechazar esta solicitud?", "Êtes-vous sûr de vouloir refuser cette demande ?")}
                     id="Reject"
                     show={showRejectModal}
                     handleClose={handleCloseRejectModal}

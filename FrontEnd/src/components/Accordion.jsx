@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import AccordionItem from './AccordionItem';
 import { useEffect } from 'react';
 import { apiUrl } from '../config/runtime';
+import { t } from '../config/i18n';
 
 function Accordion({ curso }) {
 
@@ -90,7 +91,7 @@ function Accordion({ curso }) {
                     color: "var(--tenant-primary, #0153CE)",
                 }}
             >
-                Solicitantes
+                {t("Solicitantes", "Demandeurs")}
             </h3>
             <div className="accordion" id="accordionExample" role="region" aria-labelledby="headingSolicitantes">
                 {pendingItems.length > 0 ? (
@@ -113,7 +114,7 @@ function Accordion({ curso }) {
                         />
                     ))
                 ) : (
-                    <p>No hay solicitudes</p>
+                    <p>{t("No hay solicitudes", "Aucune demande")}</p>
                 )}
             </div>
             <h3
@@ -128,7 +129,7 @@ function Accordion({ curso }) {
                     color: "#6cd574",
                 }}
             >
-                Solicitudes aceptadas
+                {t("Solicitudes aceptadas", "Demandes acceptées")}
             </h3>
             <div className="accordion" id="acceptedAccordion" role="region"  aria-labelledby="headingAceptadas">
                 {acceptedItems.length > 0 ? (
@@ -151,7 +152,7 @@ function Accordion({ curso }) {
                         />
                     ))
                 ) : (
-                    <p>No hay solicitudes aceptadas</p>
+                    <p>{t("No hay solicitudes aceptadas", "Aucune demande acceptée")}</p>
                 )}
             </div>
             <h3
@@ -166,7 +167,7 @@ function Accordion({ curso }) {
                     color: "#da3737",
                 }}
             >
-                Solicitudes rechazadas
+                {t("Solicitudes rechazadas", "Demandes refusées")}
             </h3>
             <div className="accordion" id="rejectedAccordion" role="region" aria-labelledby="headingRechazadas">
                 {rejectedItems.length > 0 ? (
@@ -189,7 +190,7 @@ function Accordion({ curso }) {
                         />
                     ))
                 ) : (
-                    <p> No hay solicitudes rechazadas</p>
+                    <p>{t(" No hay solicitudes rechazadas", "Aucune demande refusée")}</p>
                 )}
             </div>
 

@@ -7,6 +7,7 @@ import { useStudent } from "../components/StudentContext";
 import { MdLock } from 'react-icons/md';
 import BrandLogo from "../components/BrandLogo";
 import { apiUrl, runtimeConfig } from "../config/runtime";
+import { t } from "../config/i18n";
 
 const PRIMARY = runtimeConfig.primaryColor;
 const SECONDARY = runtimeConfig.secondaryColor;
@@ -53,11 +54,11 @@ const StudentLoginPage = () => {
           navigate('/studentPortal');
         } else {
           console.error('Error del backend:', backendData);
-          alert('Error al iniciar sesión. Por favor, inténtalo de nuevo más tarde.');
+          alert(t('Error al iniciar sesión. Por favor, inténtalo de nuevo más tarde.', 'Erreur lors de la connexion. Veuillez réessayer plus tard.'));
         }
       } else {
         console.error(`El correo no pertenece a @${hostedDomain}`);
-        alert(`Por favor, utiliza una cuenta de correo electrónico de @${hostedDomain} para iniciar sesión.`);
+        alert(t(`Por favor, utiliza una cuenta de correo electrónico de @${hostedDomain} para iniciar sesión.`, `Veuillez utiliser un compte e-mail @${hostedDomain} pour vous connecter.`));
       }
     } catch (error) {
       console.error('Error al obtener la información del usuario de Google:', error);
@@ -101,7 +102,7 @@ const StudentLoginPage = () => {
           <h5
             style={{ paddingTop: "8%", textAlign: "center", fontSize: "100%" }}
           >
-            Acceso con cuenta @{hostedDomain}
+            {t(`Acceso con cuenta @${hostedDomain}`, `Accès avec compte @${hostedDomain}`)}
           </h5>
           <button
             data-testid="google-login-button"
@@ -115,7 +116,7 @@ const StudentLoginPage = () => {
               fontSize: "90%",
             }}
           >
-            Iniciar sesión
+            {t("Iniciar sesión", "Se connecter")}
           </button>
         </div>
         <div
@@ -140,10 +141,10 @@ const StudentLoginPage = () => {
               justifyContent: "center",
             }}
           >
-            Acceso con EducationalID
+            {t("Acceso con EducationalID", "Accès avec EducationalID")}
             <div style={{ marginLeft: "5px" }}>
               <ModalCredential
-                title="Accede con tu EducationalID"
+                title={t("Accede con tu EducationalID", "Accédez avec votre EducationalID")}
                 description=""
                 id="microcredenciles"
               />
@@ -162,7 +163,7 @@ const StudentLoginPage = () => {
                 fontSize: "90%",
               }}
             >
-              Acceder
+              {t("Acceder", "Accéder")}
             </button>
           </Link>
           <br />
@@ -170,7 +171,7 @@ const StudentLoginPage = () => {
             href=""
             style={{ marginLeft: "15%", fontSize: "80%", color: PRIMARY }}
           >
-            No tengo una credencial verificable, solicitarla
+            {t("No tengo una credencial verificable, solicitarla", "Je n'ai pas d'identifiant vérifiable, en faire la demande")}
           </a>
         </div>
         <div
@@ -193,7 +194,7 @@ const StudentLoginPage = () => {
                 color: "white",
               }}
             >
-              Acceso con NIU
+              {t("Acceso con NIU", "Accès avec NIU")}
             </h6>
           </div>
           <div
@@ -211,7 +212,7 @@ const StudentLoginPage = () => {
                 maxLength={50}
                 name="userId"
                 defaultValue=""
-                placeholder="User"
+                placeholder={t("User", "Utilisateur")}
               />
             </div>
             <div
@@ -232,7 +233,7 @@ const StudentLoginPage = () => {
                 maxLength={50}
                 name="password"
                 defaultValue=""
-                placeholder="Contraseña"
+                placeholder={t("Contraseña", "Mot de passe")}
                 style={{ borderRadius: "0 5px 5px 0" }}
               />
             </div>
@@ -241,7 +242,7 @@ const StudentLoginPage = () => {
             href=""
             style={{ marginLeft: "5%", fontSize: "80%", color: PRIMARY }}
           >
-            No tengo una cuenta, solicitar registro
+            {t("No tengo una cuenta, solicitar registro", "Je n'ai pas de compte, m'inscrire")}
           </a>
           <br />
           <a
@@ -249,7 +250,7 @@ const StudentLoginPage = () => {
             style={{ marginLeft: "5%", fontSize: "80%", color: PRIMARY }}
           >
             {" "}
-            No sé o he olvidado mi contraseña
+            {t("No sé o he olvidado mi contraseña", "J'ai oublié mon mot de passe")}
           </a>
           <br />
           <button
@@ -258,7 +259,7 @@ const StudentLoginPage = () => {
             id="enterButton"
             style={{ marginLeft: "35%", marginBottom: "5%", marginTop: "3%" }}
           >
-            Iniciar sesión
+            {t("Iniciar sesión", "Se connecter")}
           </button>
         </div>
       </div>

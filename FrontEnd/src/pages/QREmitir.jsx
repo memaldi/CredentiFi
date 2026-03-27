@@ -4,13 +4,14 @@ import { useStudent } from "../components/StudentContext";
 import { useLocation } from 'react-router-dom';
 import BrandLogo from "../components/BrandLogo";
 import { apiUrl, runtimeConfig } from "../config/runtime";
+import { t } from "../config/i18n";
 
 
 const QREmitir = () => {
   const issuerUrl = apiUrl("/verifierIssuer/emitir");
   const [issuanceData, setIssueData] = useState(null);
   const [copyButtonText, setCopyButtonText] = useState(
-    "Copiar respuesta al portapapeles"
+    t("Copiar respuesta al portapapeles", "Copier dans le presse-papiers")
   );
   const { studentInfo } = useStudent();
   const location = useLocation();
@@ -56,9 +57,9 @@ const QREmitir = () => {
     navigator.clipboard
       .writeText(issuanceData)
       .then(() => {
-        setCopyButtonText("Copiado");
+        setCopyButtonText(t("Copiado", "Copié"));
         setTimeout(
-          () => setCopyButtonText("Copiar respuesta al portapapeles"),
+          () => setCopyButtonText(t("Copiar respuesta al portapapeles", "Copier dans le presse-papiers")),
           4000
         );
       })
@@ -72,7 +73,7 @@ const QREmitir = () => {
     <div className="container">
       <BrandLogo alt={runtimeConfig.universityName} className="logo-deusto" />
       <div className="wallet-box">
-        <h1>Obten tu Microcredencial: </h1>
+        <h1>{t("Obten tu Microcredencial:", "Obtenez votre Microcredential :")}</h1>
         {issuanceData ? (
           <QRCode value={issuanceData} size={200} />
         ) : (
@@ -81,11 +82,11 @@ const QREmitir = () => {
           </div>
         )}
         <p className="verification-text">
-          Escanea el código con walt.id.
+          {t("Escanea el código con walt.id.", "Scannez le code avec walt.id.")}
         </p>
         <div className="separator">
           <hr />
-          <span>o</span>
+          <span>{t("o", "ou")}</span>
           <hr />
         </div>
         <button onClick={copyToClipboard} className="btnCopiar">

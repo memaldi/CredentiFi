@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import ModalCredential from "../components/ModalCredential";
 import ModalAceptado from "../components/ModalAceptado";
 import { apiUrl } from "../config/runtime";
+import { t } from "../config/i18n";
 
 const PrerequisitesPage = () => {
   const [email, setEmail] = useState("");
@@ -298,7 +299,7 @@ const PrerequisitesPage = () => {
           color: "var(--tenant-primary, #0153CE)",
         }}
       >
-        Formulario de Solicitud
+        {t("Formulario de Solicitud", "Formulaire de candidature")}
       </h1>
       <div className="accordion" id="accordionExample">
         <div className="accordion-item">
@@ -312,7 +313,7 @@ const PrerequisitesPage = () => {
               aria-controls="collapseOne"
               disabled={isComplete}
             >
-              Formulario Clásico
+              {t("Formulario Clásico", "Formulaire classique")}
             </button>
           </h2>
           <div
@@ -327,7 +328,7 @@ const PrerequisitesPage = () => {
                   <form className="row g-3 needs-validation was-validated">
                     <div className="row g-2">
                       <div className="col-md-3">
-                        <label className="form-label" htmlFor="nombre">Nombre</label>
+                        <label className="form-label" htmlFor="nombre">{t("Nombre", "Prénom")}</label>
                         <input
                           id="nombre"
                           type="text"
@@ -339,7 +340,7 @@ const PrerequisitesPage = () => {
                       </div>
                       <div className="col-md-4">
                         <div className="separar">
-                          <label className="form-label" htmlFor="primerApellido">Primer apellido</label>
+                          <label className="form-label" htmlFor="primerApellido">{t("Primer apellido", "Nom de famille")}</label>
                           <input
                             id="primerApellido"
                             type="text"
@@ -352,7 +353,7 @@ const PrerequisitesPage = () => {
                       </div>
                       <div className="col-md-4">
                         <div className="separar">
-                          <label className="form-label" htmlFor="segundoApellido">Segundo apellido</label>
+                          <label className="form-label" htmlFor="segundoApellido">{t("Segundo apellido", "Deuxième nom")}</label>
                           <input
                             id="segundoApellido"
                             type="text"
@@ -383,13 +384,13 @@ const PrerequisitesPage = () => {
                           required
                         />
                         <div className="invalid-feedback">
-                          Por favor introduce tu email.
+                          {t("Por favor introduce tu email.", "Veuillez saisir votre adresse e-mail.")}
                         </div>
                       </div>
                       <div className="col-md-3">
                         <div className="separar">
                           <label className="form-label">
-                            Fecha de Nacimiento
+                            {t("Fecha de Nacimiento", "Date de naissance")}
                           </label>
                           <input
                             type="date"
@@ -412,7 +413,7 @@ const PrerequisitesPage = () => {
                                 (age === 18 && monthDiff < 0) ||
                                 (age === 18 && monthDiff === 0 && dayDiff < 0)
                               ) {
-                                alert("Debes tener al menos 18 años.");
+                                alert(t("Debes tener al menos 18 años.", "Vous devez avoir au moins 18 ans."));
                               } else {
                                 setBirthDate(e.target.value);
                               }
@@ -423,7 +424,7 @@ const PrerequisitesPage = () => {
                       </div>
                       <div className="col-md-4">
                         <div className="separar">
-                          <label className="form-label">DNI/NIE</label>
+                          <label className="form-label">{t("DNI/NIE", "Pièce d'identité")}</label>
                           <input
                             type="text"
                             className="form-control"
@@ -437,7 +438,7 @@ const PrerequisitesPage = () => {
                     <div className="row g-2">
                       <div className="col-md-6">
                         <label className="form-label">
-                          Subir Fotocopia de Requisitos: EducationalID{requisitosFormateados}
+                          {t("Subir Fotocopia de Requisitos:", "Joindre une copie des prérequis :")} EducationalID{requisitosFormateados}
                         </label>
                         <input
                           type="file"
@@ -467,7 +468,7 @@ const PrerequisitesPage = () => {
       ></div>
       <div className="separator">
         <hr />
-        <span>o</span>
+        <span>{t("o", "ou")}</span>
         <hr />
       </div>
       <div
@@ -496,7 +497,7 @@ const PrerequisitesPage = () => {
               borderBottomRightRadius: "10px",
             }}
           >
-            Comparte tus Microcredenciales
+            {t("Comparte tus Microcredenciales", "Partagez vos Microcredentials")}
           </button>
           <div className="ms-3">
             <ModalCredential
@@ -506,7 +507,7 @@ const PrerequisitesPage = () => {
             />
           </div>
           <div className="ms-2">
-            <p className="mb-0">IMPORTANTE</p>
+            <p className="mb-0">{t("IMPORTANTE", "IMPORTANT")}</p>
           </div>
         </div>
       </div>
@@ -527,7 +528,7 @@ const PrerequisitesPage = () => {
             required
           />
           <label className="form-check-label" htmlFor="invalidCheck">
-            Acepto los términos y condiciones
+            {t("Acepto los términos y condiciones", "J'accepte les conditions générales")}
           </label>
 
         </div>
@@ -540,13 +541,13 @@ const PrerequisitesPage = () => {
           disabled={!isFormValid || loading}
           onClick={handleClickEnviar}
         >
-          Enviar Solicitud
+          {t("Enviar Solicitud", "Envoyer la candidature")}
         </button>
         {mostrarModalExito && (
           <ModalAceptado
             isOpen={mostrarModalExito}
             onClose={() => setMostrarModalExito(false)}
-            mensaje="Solicitud registrada correctamente, muchas gracias"
+            mensaje={t("Solicitud registrada correctamente, muchas gracias", "Candidature enregistrée avec succès, merci !")}
           />
         )}
       </div>

@@ -4,11 +4,12 @@ import QRCode from "react-qr-code";
 import { useStudent } from "../components/StudentContext";
 import BrandLogo from "../components/BrandLogo";
 import { apiUrl, runtimeConfig } from "../config/runtime";
+import { t } from "../config/i18n";
 
 const QRInicioSesionPage = () => {
   const verificationUrl = apiUrl("/verifierIssuer/verificar/login");
   const [verificationData, setVerificationData] = useState(null);
-  const [copyButtonText, setCopyButtonText] = useState("Copiar respuesta al portapapeles");
+  const [copyButtonText, setCopyButtonText] = useState(t("Copiar respuesta al portapapeles", "Copier dans le presse-papiers"));
   const [isVerified, setIsVerified] = useState(false);
   const [correoConfirmado, setCorreoConfirmado] = useState(null);
   const navigate = useNavigate();
@@ -126,8 +127,8 @@ const QRInicioSesionPage = () => {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(verificationData)
       .then(() => {
-        setCopyButtonText("Copiado");
-        setTimeout(() => setCopyButtonText("Copiar respuesta al portapapeles"), 4000);
+        setCopyButtonText(t("Copiado", "Copié"));
+        setTimeout(() => setCopyButtonText(t("Copiar respuesta al portapapeles", "Copier dans le presse-papiers")), 4000);
       })
       .catch((error) => {
         console.error("Error al copiar al portapapeles", error);
@@ -138,7 +139,7 @@ const QRInicioSesionPage = () => {
     <div className="container">
       <BrandLogo alt={runtimeConfig.universityName} className="logo-deusto" />
       <div className="wallet-box">
-        <h1>Comparte tu EducationalID</h1>
+        <h1>{t("Comparte tu EducationalID", "Partagez votre EducationalID")}</h1>
         {verificationData ? (
           <QRCode value={verificationData} size={200} />
         ) : (
@@ -147,11 +148,11 @@ const QRInicioSesionPage = () => {
           </div>
         )}
         <p className="verification-text">
-          Escanea el código con walt.id para verificar.
+          {t("Escanea el código con walt.id para verificar.", "Scannez le code avec walt.id pour vérifier.")}
         </p>
         <div className="separator">
           <hr />
-          <span>o</span>
+          <span>{t("o", "ou")}</span>
           <hr />
         </div>
         <button onClick={copyToClipboard} className="btnCopiar">

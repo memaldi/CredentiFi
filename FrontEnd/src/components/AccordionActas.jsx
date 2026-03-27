@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AccordionItemActas from './AccordionItemActas';
 import { apiUrl } from '../config/runtime';
+import { t } from '../config/i18n';
 
 function AccordionActas({ curso }) {
     const [items, setItems] = useState([]);
@@ -55,7 +56,7 @@ function AccordionActas({ curso }) {
     return (
         <>
             <h3 className="titulo" style={{ textAlign: "left", paddingBottom: "1%", paddingLeft: "1%", fontWeight: "800", color: "var(--tenant-primary, #0153CE)" }}>
-                Estudiantes Pendientes
+                {t("Estudiantes Pendientes", "Étudiants en attente")}
             </h3>
             <div className="accordion" id="pendingAccordion">
                 {pendingItems.length > 0 ? (
@@ -63,12 +64,12 @@ function AccordionActas({ curso }) {
                         <AccordionItemActas key={item.NIA} {...item} curso_id={idCurso} curso={curso} onAccept={handleAccept} onReject={handleReject} estado={item.estado_curso} />
                     ))
                 ) : (
-                    <p>No hay estudiantes pendientes</p>
+                    <p>{t("No hay estudiantes pendientes", "Aucun étudiant en attente")}</p>
                 )}
             </div>
 
             <h3 className="titulo" style={{ textAlign: "left", paddingBottom: "1%", paddingLeft: "1%", paddingTop: "2%", fontWeight: "800", color: "#6cd574" }}>
-                Aprobados
+                {t("Aprobados", "Approuvés")}
             </h3>
             <div className="accordion" id="acceptedAccordion">
                 {acceptedItems.length > 0 ? (
@@ -76,7 +77,7 @@ function AccordionActas({ curso }) {
                         <AccordionItemActas key={item.NIA}  {...item} curso_id={idCurso} curso={curso} onAccept={handleAccept} onReject={handleReject} estado={item.estado_curso} />
                     ))
                 ) : (
-                    <p>No hay estudiantes aceptados</p>
+                    <p>{t("No hay estudiantes aceptados", "Aucun étudiant accepté")}</p>
                 )}
             </div>
 

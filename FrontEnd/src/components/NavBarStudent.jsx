@@ -3,6 +3,7 @@ import { useStudent } from "./StudentContext";
 import { MdAccountCircle } from 'react-icons/md';
 import BrandLogo from "./BrandLogo";
 import { runtimeConfig } from "../config/runtime";
+import { t } from "../config/i18n";
 
 function NavBarStudent() {
   const navigate = useNavigate();
@@ -34,13 +35,13 @@ function NavBarStudent() {
             <MdAccountCircle size={24} />
           </button>
           <ul className="dropdown-menu dropdown-menu-lg-end" id="submenu" style={{boxShadow: "0px 0px 10px 0px #000000"}}>
-            <li><p className="dropdown-item" style={{fontSize: "90%"}}>Hola {studentInfo?.nombre}!</p></li>
+            <li><p className="dropdown-item" style={{fontSize: "90%"}}>{t("Hola","Bonjour")} {studentInfo?.nombre}!</p></li>
             <li><hr className="dropdown-divider"/></li>
-            <li><a className="dropdown-item" href="" onClick={() => handleButtonClick()} style={{fontSize: "90%"}}>Mi perfil</a></li>
-            <li><a className="dropdown-item" href="#" style={{fontSize: "90%"}}>Acerca de</a></li>
-            <li><a className="dropdown-item" href="#" style={{fontSize: "90%"}}>Contacto</a></li>
+            <li><a className="dropdown-item" href="" onClick={() => handleButtonClick()} style={{fontSize: "90%"}}>{t("Mi perfil", "Mon profil")}</a></li>
+            <li><a className="dropdown-item" href="#" style={{fontSize: "90%"}}>{t("Acerca de", "À propos")}</a></li>
+            <li><a className="dropdown-item" href="#" style={{fontSize: "90%"}}>{t("Contacto", "Contact")}</a></li>
             <li><hr className="dropdown-divider"/></li>
-            <li><a className="dropdown-item" href="" style={{fontSize: "90%"}} onClick={() => logOut()}>Cerrar sesion</a></li>
+            <li><a className="dropdown-item" href="" style={{fontSize: "90%"}} onClick={() => logOut()}>{t("Cerrar sesion", "Déconnexion")}</a></li>
           </ul>
         </div>
       </div>

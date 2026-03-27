@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Accordion from "../components/Accordion";
 import { useEffect } from "react";
 import { apiUrl } from "../config/runtime";
+import { t } from "../config/i18n";
 
 const SecretaryPage = () => {
   const [componenteSeleccionado, setComponenteSeleccionado] = useState("");
@@ -37,7 +38,7 @@ const SecretaryPage = () => {
           color: "var(--tenant-primary, #0153CE)",
         }}
       >
-        Solicitudes de Ingreso
+        {t("Solicitudes de Ingreso", "Demandes d'admission")}
       </h1>
 
       <select
@@ -46,7 +47,7 @@ const SecretaryPage = () => {
         onChange={handleSelectChange}
         value={componenteSeleccionado}
       >
-        <option value="">Selecciona un curso</option>
+        <option value="">{t("Selecciona un curso", "Sélectionner une formation")}</option>
         {cursos.map((nombreCurso, index) => (
           <option key={index} value={nombreCurso}>
             {nombreCurso}
