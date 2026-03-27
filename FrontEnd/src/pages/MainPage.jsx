@@ -4,6 +4,37 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { apiUrl, runtimeConfig } from "../config/runtime";
 
+const LUMIERE_COURSES = [
+  {
+    nombre: "Droit numérique et protection des données",
+    descripcion:
+      "Cette microcredential explore les enjeux juridiques liés à la transformation numérique : RGPD, cybersécurité, responsabilité des plateformes en ligne et protection des données personnelles. À l'issue de la formation, les participants sauront analyser et appliquer le cadre réglementaire européen en matière de données.",
+    duracion: "40",
+    requisitos: ["Bac+3 en droit ou domaine connexe", "Notions de base en informatique"],
+  },
+  {
+    nombre: "Droit international des affaires",
+    descripcion:
+      "Formation centrée sur les instruments du commerce international, l'arbitrage commercial, les contrats transfrontaliers et la résolution des litiges en contexte multilatéral. Les participants acquerront les compétences pour conseiller des organisations opérant à l'échelle mondiale.",
+    duracion: "35",
+    requisitos: ["Bac+3 en droit ou gestion", "Niveau B2 en anglais recommandé"],
+  },
+  {
+    nombre: "Science politique et gouvernance publique",
+    descripcion:
+      "Ce programme analyse les systèmes politiques contemporains, les politiques publiques et les mécanismes de gouvernance à l'échelle locale, nationale et européenne. Il prépare les participants à des rôles de conseil et d'analyse au sein d'institutions publiques ou d'ONG.",
+    duracion: "30",
+    requisitos: ["Bac+3 en sciences sociales, droit ou économie"],
+  },
+  {
+    nombre: "Management stratégique des organisations",
+    descripcion:
+      "Microcredential orientée vers la prise de décision stratégique, la conduite du changement et le pilotage de la performance organisationnelle. Conçue pour les professionnels souhaitant renforcer leurs compétences managériales dans des environnements complexes et incertains.",
+    duracion: "45",
+    requisitos: ["Bac+3 en gestion, droit ou sciences politiques", "Expérience professionnelle de 2 ans appréciée"],
+  },
+];
+
 const MainPage = () => {
     const [cursos, setCursos] = useState([]);
     const [pagina, setPagina] = useState(1);
@@ -56,9 +87,9 @@ const MainPage = () => {
                     </div>
 
                     <div className="unistra-courses">
-                        <h2 className="unistra-section-title">Nos formations</h2>
+                        <h2 className="unistra-section-title">Nos formations — Faculté de droit, science politique et gestion</h2>
 
-                        {cursos.map((curso, idx) => (
+                        {LUMIERE_COURSES.map((curso, idx) => (
                             <div
                                 key={idx}
                                 className="unistra-course-card"
@@ -73,28 +104,13 @@ const MainPage = () => {
                             >
                                 <h3>{curso.nombre}</h3>
                                 <div className="unistra-course-meta">
-                                    <span><span className="meta-icon" aria-hidden="true">Formation</span></span>
-                                    <span><span className="meta-icon" aria-hidden="true">Ouvert</span></span>
-                                    <span><span className="meta-icon" aria-hidden="true">Durée</span> {curso.duracion}</span>
+                                    <span><span className="meta-icon" aria-hidden="true">Microcredential</span></span>
+                                    <span><span className="meta-icon" aria-hidden="true">Inscriptions ouvertes</span></span>
+                                    <span><span className="meta-icon" aria-hidden="true">Durée</span> {curso.duracion}h</span>
                                     <span><span className="meta-icon" aria-hidden="true">Campus</span> Paris</span>
                                 </div>
                             </div>
                         ))}
-
-                        {hayMas ? (
-                            <button
-                                className="unistra-load-more"
-                                data-testid="boton-cargar-mas"
-                                onClick={() => setPagina((prev) => prev + 1)}
-                                disabled={cargando}
-                            >
-                                {cargando ? "Chargement..." : "Afficher plus"}
-                            </button>
-                        ) : (
-                            <p style={{ textAlign: "center", color: "#5C5C5C", marginTop: "24px" }}>
-                                Aucun autre résultat
-                            </p>
-                        )}
                     </div>
                 </>
             );

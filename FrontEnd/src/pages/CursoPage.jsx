@@ -42,8 +42,12 @@ const CursoPage = () => {
               <p>{duracion} heures</p>
             </div>
             <div className="unistra-info-card">
+              <h3>Faculté</h3>
+              <p>Droit, science politique et gestion</p>
+            </div>
+            <div className="unistra-info-card">
               <h3>Lieu</h3>
-              <p>Université de Lumière</p>
+              <p>Université de Lumière — Paris</p>
             </div>
             <div className="unistra-info-card">
               <h3>Langue</h3>
