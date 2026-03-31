@@ -55,7 +55,7 @@ CREATE TABLE `curso` (
   `descripcion` text,
   `duracion` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -64,7 +64,7 @@ CREATE TABLE `curso` (
 
 LOCK TABLES `curso` WRITE;
 /*!40000 ALTER TABLE `curso` DISABLE KEYS */;
-INSERT INTO `curso` VALUES (1,'Aprendizaje automático supervisado: Regresión y clasificación','Construya modelos de aprendizaje automático en Python utilizando las populares bibliotecas de aprendizaje automático NumPy y scikit-learn. Construir y entrenar modelos supervisados de aprendizaje automático para tareas de predicción y clasificación binaria, incluyendo regresión lineal y regresión logística','33 horas'),(2,'Algoritmos avanzados de aprendizaje','Construir y entrenar una red neuronal con TensorFlow para realizar una clasificación multiclase. Aplique las mejores prácticas de desarrollo del aprendizaje automático para que sus modelos se generalicen a los datos y tareas del mundo real. Construir y utilizar árboles de decisión y métodos de conjunto de árboles, incluidos los bosques aleatorios y los árboles potenciados','34 horas'),(3,'Aprendizaje no supervisado, recomendadores, aprendizaje por refuerzo','Utilizar técnicas de aprendizaje no supervisado para el aprendizaje no supervisado: incluidas la agrupación y la detección de anomalías. Construir sistemas de recomendación con un enfoque de filtrado colaborativo y un método de aprendizaje profundo basado en el contenido. Construir un modelo de aprendizaje profundo por refuerzo.','27 horas');
+INSERT INTO `curso` VALUES (1,'Digital Transformation of SMEs and Incubator Programme','This programme combines digital transformation strategy for SMEs with startup incubation support. Participants cover Industry 4.0, e-commerce, cybersecurity, digital marketing, business model design, mentorship, and funding readiness to launch or scale innovation-driven initiatives.','40 horas');
 /*!40000 ALTER TABLE `curso` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -178,7 +178,7 @@ CREATE TABLE `requisitos_curso` (
 
 LOCK TABLES `requisitos_curso` WRITE;
 /*!40000 ALTER TABLE `requisitos_curso` DISABLE KEYS */;
-INSERT INTO `requisitos_curso` VALUES (2,1),(3,1),(3,2);
+-- No prerequisite chains defined for current course offerings
 /*!40000 ALTER TABLE `requisitos_curso` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -234,7 +234,7 @@ CREATE TABLE `solicitud` (
 
 LOCK TABLES `solicitud` WRITE;
 /*!40000 ALTER TABLE `solicitud` DISABLE KEYS */;
-INSERT INTO `solicitud` VALUES (2,2,1,'aceptada'),(3,3,1,'aceptada'),(7,1,1,'aceptada');
+INSERT INTO `solicitud` VALUES (2,1,1,'aceptada'),(3,1,1,'aceptada'),(7,1,1,'aceptada');
 /*!40000 ALTER TABLE `solicitud` ENABLE KEYS */;
 UNLOCK TABLES;
 
