@@ -1,81 +1,81 @@
 # CredentiFi Platform
 
-Plataforma de gestión de microcredenciales digitales, verificación de identidad y administración de usuarios, basada en microservicios y desplegada con Docker Compose.
+Platform for digital microcredential management, identity verification, and user administration, based on microservices and deployed with Docker Compose.
 
 ---
 
-## Índice
+## Table of Contents
 
-- [Descripción](#descripción)
-- [Arquitectura](#arquitectura)
-- [Servicios](#servicios)
-- [Requisitos previos](#requisitos-previos)
-- [Configuración](#configuración)
+- [Description](#description)
+- [Architecture](#architecture)
+- [Services](#services)
+- [Prerequisites](#prerequisites)
+- [Configuration](#configuration)
 - [Test](#test)
-- [Cómo desplegar](#cómo-desplegar)
-- [Despliegue multi-tenant (Deusto + Strasbourg)](#despliegue-multi-tenant-deusto--strasbourg)
-- [Notas y consejos](#notas-y-consejos)
+- [How to Deploy](#how-to-deploy)
+- [Multi-tenant Deployment (Deusto + Lumiere)](#multi-tenant-deployment-deusto--lumiere)
+- [Notes and Tips](#notes-and-tips)
 
 ---
 
-## Descripción
+## Description
 
-CredentiFi es una solución basada en microservicios que permite la gestión y verificación de microcredenciales digitales, integrando tanto bases de datos SQL como NoSQL, y sistemas de identidad descentralizada (DID). La plataforma está diseñada para ser modular y escalable, facilitando la integración de nuevas funcionalidades y servicios.
-
----
-
-## Arquitectura
-
-La arquitectura se basa en Docker Compose, integrando los siguientes componentes principales:
-
-- **Frontend**: Aplicación web en React para la gestión y visualización de microcredenciales.
-- **API Gateway**: Microservicio Node.js que actúa como punto de entrada único para todas las APIs.
-- **Servicios backend**:
-    - **sql-api**: Microservicio FastAPI para la gestión de datos relacionales (MySQL).
-    - **mongodb-api**: Microservicio Node.js para operaciones con MongoDB.
-    - **verifierissuer-api**: Microservicio Node.js para la verificación y emisión de microcredenciales.
-    - **ebsifake**: Servicio simulado para EBSI (opcional).
-- **WaltID**: Servicios de identidad y verificación (wallet-api, issuer-api, verifier-api, etc.).
-- **Bases de datos**: MySQL y MongoDB, accesibles como contenedores.
-- **Caddy**: Reverse proxy para facilitar el acceso y la configuración de puertos.
-
+CredentiFi is a microservices-based solution for managing and verifying digital microcredentials, integrating both SQL and NoSQL databases as well as decentralized identity (DID) systems. The platform is designed to be modular and scalable, making it easier to integrate new features and services.
 
 ---
 
-## Servicios
+## Architecture
 
-| Servicio           | Puerto | Descripción                                                |
+The architecture is based on Docker Compose and integrates the following main components:
+
+- **Frontend**: React web application for managing and viewing microcredentials.
+- **API Gateway**: Node.js microservice that acts as a single entry point for all APIs.
+- **Backend services**:
+    - **sql-api**: FastAPI microservice for relational data management (MySQL).
+    - **mongodb-api**: Node.js microservice for MongoDB operations.
+    - **verifierissuer-api**: Node.js microservice for microcredential verification and issuance.
+    - **ebsifake**: Mock EBSI service (optional).
+- **WaltID**: Identity and verification services (wallet-api, issuer-api, verifier-api, etc.).
+- **Databases**: MySQL and MongoDB, accessible as containers.
+- **Caddy**: Reverse proxy to simplify access and port configuration.
+
+
+---
+
+## Services
+
+| Service            | Port   | Description                                                |
 |--------------------|--------|------------------------------------------------------------|
-| frontend           | 5173   | Aplicación web principal                                   |
-| api-gateway        | 5000   | Gateway para enrutar peticiones a los distintos servicios  |
-| sql-api            | 8000   | API para operaciones con MySQL (usuarios, cursos, etc.)    |
-| mongodb-api        | 4000   | API para operaciones con MongoDB                           |
-| verifierissuer-api | 3000   | API para verificación/emisión de microcredenciales         |
-| ebsifake           | 2000   | Servicio fake EBSI (opcional)                              |
-| mongo-server       | 27017  | Servidor MongoDB                                           |
-| mysql              | 3306   | Servidor MySQL                                             |
-| caddy              | varios | Reverse proxy y gestión de certificados                    |
+| frontend           | 5173   | Main web application                                       |
+| api-gateway        | 5000   | Gateway used to route requests to the different services   |
+| sql-api            | 8000   | API for MySQL operations (users, courses, etc.)            |
+| mongodb-api        | 4000   | API for MongoDB operations                                 |
+| verifierissuer-api | 3000   | API for microcredential verification/issuance              |
+| ebsifake           | 2000   | Fake EBSI service (optional)                               |
+| mongo-server       | 27017  | MongoDB server                                             |
+| mysql              | 3306   | MySQL server                                               |
+| caddy              | various| Reverse proxy and certificate management                   |
 
 
 ---
 
-## Requisitos previos
+## Prerequisites
 
 - [Docker](https://docs.docker.com/get-docker/)
 - [Docker Compose v2](https://docs.docker.com/compose/)
 - [Walt.id v0.18.0](https://github.com/walt-id/waltid-identity/releases/tag/v0.18.0)
-- (Opcional) Node.js y npm, Python 3.10+ para desarrollo local
+- (Optional) Node.js and npm, Python 3.10+ for local development
 
 ---
 
-## Configuración
+## Configuration
 
-1. **Clona el repositorio** (incluyendo el submódulo de waltid-identity):
+1. **Clone the repository** (including the waltid-identity submodule):
    ```sh
    git clone --recurse-submodules https://github.com/InigoValdivielso/PFG
    cd PFG
    ```
-   Si ya tienes el repositorio clonado sin el submódulo:
+   If you already cloned the repository without the submodule:
    ```sh
    git submodule update --init
    ```
@@ -83,83 +83,83 @@ La arquitectura se basa en Docker Compose, integrando los siguientes componentes
 
 ## Test
 
-A continuación se explica cómo ejecutar los tests de los distintos servicios del proyecto:
+The following sections explain how to run tests for the different project services:
 
-### Pytest (para el backend en Python)
+### Pytest (for the Python backend)
 
-Ejecuta los tests y genera un informe en HTML:
+Run the tests and generate an HTML report:
 ```sh
     python -m pytest tests/routes --html=pytest_report.html --self-contained-html -v
 ```
 
-### Jest/supertest (para el backend en Node.js/Express.js)
+### Jest/supertest (for the Node.js/Express.js backend)
 
-Sirve para todos los microservicios creados en Node.js/Express.js:
+Applies to all microservices built with Node.js/Express.js:
 
 ```sh
     npm test
 ```
 
-### Vitest (para el frontend en Vite/React)
+### Vitest (for the Vite/React frontend)
 
-Lanza la interfaz interactiva de Vitest:
+Launch the interactive Vite UI:
 
 ```sh
     npx vitest --ui
 ```
 ---
-## Cómo desplegar
+## How to Deploy
 
-1. **Build y despiegue de todos los servicios**
+1. **Build and deploy all services**
    ```bash
     docker compose -p pfg up --build
    ```
-2. **Acceso a la aplicación web**
-Accede a http://localhost:5173
+2. **Access the web application**
+Open http://localhost:5173
 
-## Despliegue multi-tenant (Deusto + Strasbourg)
+## Multi-tenant Deployment (Deusto + Lumiere)
 
-Para levantar ambos tenants en paralelo, utiliza el archivo `docker-compose.tenants.yaml`.
+To run both tenants in parallel, use the `docker-compose.tenants.yaml` file.
 
-1. **Levantar ambos tenants**
+1. **Start both tenants**
     ```bash
     docker compose -f docker-compose.tenants.yaml -p credentifi-tenants up --build -d
     ```
 
-2. **Verificar estado de contenedores**
+2. **Check container status**
     ```bash
     docker compose -f docker-compose.tenants.yaml -p credentifi-tenants ps
     ```
 
-3. **Frontends disponibles**
+3. **Available frontends**
     - Deusto: http://localhost:5173
-    - Strasbourg: http://localhost:5174
+    - Lumiere: http://localhost:5174
 
-4. **APIs Gateway**
+4. **API Gateways**
     - Deusto: http://localhost:5000
-    - Strasbourg: http://localhost:5001
+    - Lumiere: http://localhost:5001
 
-5. **Ver logs de un servicio concreto**
+5. **View logs for a specific service**
     ```bash
     docker compose -f docker-compose.tenants.yaml -p credentifi-tenants logs -f api-gateway-deusto
-    docker compose -f docker-compose.tenants.yaml -p credentifi-tenants logs -f api-gateway-strasbourg
+    docker compose -f docker-compose.tenants.yaml -p credentifi-tenants logs -f api-gateway-lumiere
     ```
 
-6. **Parar y eliminar contenedores de ambos tenants**
+6. **Stop and remove containers for both tenants**
     ```bash
     docker compose -f docker-compose.tenants.yaml -p credentifi-tenants down
     ```
 
-7. **Parar y eliminar también volúmenes (reinicio limpio de BBDD)**
+7. **Stop and also remove volumes (clean database reset)**
     ```bash
     docker compose -f docker-compose.tenants.yaml -p credentifi-tenants down -v
     ```
 
-## Gestión del submódulo waltid-identity
+## Managing the waltid-identity Submodule
 
-Este proyecto integra [waltid-identity](https://github.com/walt-id/waltid-identity) como submódulo Git, fijado a la versión estable `v0.18.0`. El código fuente de WaltID no se incluye en este repositorio; solo se almacena un puntero al commit.
+This project integrates [waltid-identity](https://github.com/walt-id/waltid-identity) as a Git submodule, pinned to the stable version `v0.18.0`. The WaltID source code is not included in this repository; only a pointer to the commit is stored.
 
-**Actualizar a una nueva versión de waltid-identity:**
+**Update to a new version of waltid-identity:**
 ```sh
 cd waltid-identity
 git fetch
@@ -171,14 +171,14 @@ git commit -m "Update waltid-identity to vX.Y.Z"
 
 ---
 
-## Notas y consejos
-Si necesitas reiniciar una base de datos o restaurar un backup, accede al contenedor correspondiente y sigue las instrucciones del directorio /backup o scripts de inicialización.
+## Notes and Tips
+If you need to restart a database or restore a backup, access the corresponding container and follow the instructions in the /backup directory or the initialization scripts.
 
-Puedes personalizar los puertos y rutas modificando los .env y el archivo docker-compose.yaml.
+You can customize ports and routes by modifying the .env files and the docker-compose.yaml file.
 
-Revisa los logs de cada servicio con:
+Check the logs for each service with:
    ```sh
-    docker compose logs <servicio>
+    docker compose logs <service>
    ```
-Para desarrollo local de un servicio, puedes levantar solo ese microservicio y la base de datos correspondiente.
+For local development of a service, you can run only that microservice and its corresponding database.
 
