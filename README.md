@@ -117,6 +117,12 @@ Launch the interactive Vite UI:
 2. **Access the web application**
 Open http://localhost:5173
 
+3. **Access the WaltID wallet services**
+- Dev Wallet UI: http://localhost:7104
+- Wallet API: http://localhost:7001
+- Issuer API: http://localhost:7002
+- Verifier API: http://localhost:7003
+
 ## Multi-tenant Deployment (Deusto + Lumiere)
 
 To run both tenants in parallel, use the `docker-compose.tenants.yaml` file.
@@ -139,20 +145,56 @@ To run both tenants in parallel, use the `docker-compose.tenants.yaml` file.
     - Deusto: http://localhost:5000
     - Lumiere: http://localhost:5001
 
-5. **View logs for a specific service**
+5. **WaltID wallet APIs**
+    - Deusto Wallet API: http://localhost:7001
+    - Lumiere Wallet API: http://localhost:7011
+    - Deusto Issuer API: http://localhost:7002
+    - Lumiere Issuer API: http://localhost:7012
+    - Deusto Verifier API: http://localhost:7003
+    - Lumiere Verifier API: http://localhost:7013
+
+6. **Wallet UI note**
+The multi-tenant compose file currently exposes the WaltID backend APIs only. It does not include the WaltID web wallet frontend service, so there is no wallet UI URL available in this mode by default.
+
+7. **View logs for a specific service**
     ```bash
     docker compose -f docker-compose.tenants.yaml -p credentifi-tenants logs -f api-gateway-deusto
     docker compose -f docker-compose.tenants.yaml -p credentifi-tenants logs -f api-gateway-lumiere
     ```
 
-6. **Stop and remove containers for both tenants**
+8. **Stop and remove containers for both tenants**
     ```bash
     docker compose -f docker-compose.tenants.yaml -p credentifi-tenants down
     ```
 
-7. **Stop and also remove volumes (clean database reset)**
+9. **Stop and also remove volumes (clean database reset)**
     ```bash
     docker compose -f docker-compose.tenants.yaml -p credentifi-tenants down -v
+    ```
+
+## Run Single-Stack and Multi-tenant Together
+
+If you want to run both `pfg` and `credentifi-tenants` at the same time, use the override file `docker-compose.concurrent.yaml` for `pfg`.
+
+1. **Start pfg in concurrent mode**
+    ```bash
+    docker compose -f docker-compose.yaml -f docker-compose.concurrent.yaml -p pfg up --build -d
+    ```
+
+2. **Concurrent-mode URLs for pfg**
+    - Frontend: http://localhost:5273
+    - API Gateway: http://localhost:5100
+    - MongoDB API: http://localhost:4100
+    - SQL API: http://localhost:8100
+    - Verifier/Issuer API: http://localhost:3100
+    - Wallet API: http://localhost:7201
+    - Issuer API: http://localhost:7202
+    - Verifier API: http://localhost:7203
+    - Dev Wallet UI: http://localhost:7214
+
+3. **Stop pfg in concurrent mode**
+    ```bash
+    docker compose -f docker-compose.yaml -f docker-compose.concurrent.yaml -p pfg down
     ```
 
 ## Managing the waltid-identity Submodule

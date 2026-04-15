@@ -201,7 +201,7 @@ services:
         condition: service_healthy
     entrypoint: ["/bin/sh", "-c", "/vault/scripts/init.sh"]
     volumes:
-      - ./vault/init.sh:/vault/scripts/init.sh
+      - ./waltid-identity/docker-compose/vault/init.sh:/vault/scripts/init.sh:ro
   mongo-server:
     image: mongo:latest
     container_name: mongo-server

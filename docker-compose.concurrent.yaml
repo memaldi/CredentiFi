@@ -1,0 +1,71 @@
+services:
+  frontend:
+    ports:
+      - "5273:5173"
+
+  api-gateway:
+    ports:
+      - "5100:5000"
+
+  verifierissuer-api:
+    ports:
+      - "3100:3000"
+
+  mongodb-api:
+    ports:
+      - "4100:4000"
+
+  sql-api:
+    ports:
+      - "8100:8000"
+
+  mysql:
+    ports:
+      - "3310:3306"
+
+  mongo-server:
+    ports:
+      - "27019:27017"
+
+  postgres:
+    ports:
+      - "5544:5432"
+
+  vault:
+    ports:
+      - "8211:8200"
+
+  caddy:
+    ports:
+      - target: 7001
+        published: 7201
+        protocol: tcp
+        mode: host
+      - target: 7002
+        published: 7202
+        protocol: tcp
+        mode: host
+      - target: 7003
+        published: 7203
+        protocol: tcp
+        mode: host
+      - target: 7101
+        published: 7211
+        protocol: tcp
+        mode: host
+      - target: 7104
+        published: 7214
+        protocol: tcp
+        mode: host
+      - target: 7102
+        published: 7212
+        protocol: tcp
+        mode: host
+      - target: 7103
+        published: 7213
+        protocol: tcp
+        mode: host
+      - target: 8081
+        published: 8082
+        protocol: tcp
+        mode: host
