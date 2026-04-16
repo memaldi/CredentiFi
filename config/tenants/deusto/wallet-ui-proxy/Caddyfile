@@ -1,0 +1,14 @@
+{
+	admin off
+	auto_https off
+}
+
+:7104 {
+	handle /wallet-api/* {
+		reverse_proxy wallet-api-shared:7001
+	}
+
+	handle {
+		reverse_proxy waltid-dev-wallet-shared:7104
+	}
+}

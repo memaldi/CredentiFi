@@ -64,7 +64,7 @@ services:
     networks:
       - deusto_net
 
-  wallet-api-deusto:
+  wallet-api-shared:
     image: docker.io/waltid/wallet-api:0.18.0
     env_file:
       - ./config/tenants/deusto/waltid.env
@@ -73,9 +73,34 @@ services:
     volumes:
       - ./waltid-identity/docker-compose/wallet-api/config:/waltid-wallet-api/config
       - ./waltid-identity/docker-compose/wallet-api/walt.yaml:/waltid-wallet-api/walt.yaml
-      - waltid_wallet_deusto:/waltid-wallet-api/data
+      - waltid_wallet_shared:/waltid-wallet-api/data
     ports:
       - "7001:7001"
+    networks:
+      - deusto_net
+
+  waltid-dev-wallet-shared:
+    image: docker.io/waltid/waltid-dev-wallet:0.18.0
+    depends_on:
+      - wallet-api-shared
+    environment:
+      NUXT_PUBLIC_ISSUER_CALLBACK_URL: "http://localhost:7104"
+      NUXT_PUBLIC_DEMO_WALLET_URL: "http://localhost:7101"
+      PORT: 7104
+    expose:
+      - "7104"
+    networks:
+      - deusto_net
+
+  wallet-ui-proxy-shared:
+    image: docker.io/caddy:2
+    depends_on:
+      - waltid-dev-wallet-shared
+      - wallet-api-shared
+    ports:
+      - "7104:7104"
+    volumes:
+      - ./config/tenants/deusto/wallet-ui-proxy/Caddyfile:/etc/caddy/Caddyfile:ro
     networks:
       - deusto_net
 
@@ -209,21 +234,6 @@ services:
     networks:
       - strasbourg_net
 
-  wallet-api-strasbourg:
-    image: docker.io/waltid/wallet-api:0.18.0
-    env_file:
-      - ./config/tenants/strasbourg/waltid.env
-    depends_on:
-      - postgres-strasbourg
-    volumes:
-      - ./waltid-identity/docker-compose/wallet-api/config:/waltid-wallet-api/config
-      - ./waltid-identity/docker-compose/wallet-api/walt.yaml:/waltid-wallet-api/walt.yaml
-      - waltid_wallet_strasbourg:/waltid-wallet-api/data
-    ports:
-      - "7011:7011"
-    networks:
-      - strasbourg_net
-
   issuer-api-strasbourg:
     image: docker.io/waltid/issuer-api:0.18.0
     env_file:
@@ -293,11 +303,10 @@ volumes:
   mysql_data_deusto:
   mongo_data_deusto:
   waltid_pg_deusto:
-  waltid_wallet_deusto:
+  waltid_wallet_shared:
   mysql_data_strasbourg:
   mongo_data_strasbourg:
   waltid_pg_strasbourg:
-  waltid_wallet_strasbourg:
 
 networks:
   deusto_net:

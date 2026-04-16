@@ -145,16 +145,16 @@ To run both tenants in parallel, use the `docker-compose.tenants.yaml` file.
     - Deusto: http://localhost:5000
     - Lumiere: http://localhost:5001
 
-5. **WaltID wallet APIs**
-    - Deusto Wallet API: http://localhost:7001
-    - Lumiere Wallet API: http://localhost:7011
+5. **WaltID (shared wallet for both tenants)**
+    - Shared Wallet UI (users from both Deusto and Lumiere): http://localhost:7104
+    - Shared Wallet API (single instance): http://localhost:7001
     - Deusto Issuer API: http://localhost:7002
     - Lumiere Issuer API: http://localhost:7012
     - Deusto Verifier API: http://localhost:7003
     - Lumiere Verifier API: http://localhost:7013
 
-6. **Wallet UI note**
-The multi-tenant compose file currently exposes the WaltID backend APIs only. It does not include the WaltID web wallet frontend service, so there is no wallet UI URL available in this mode by default.
+6. **Shared wallet requirement**
+Use a single WaltID wallet instance for both tenants so users from both universities authenticate and manage credentials in the same wallet UI/API. Both tenant frontends should point to this shared wallet endpoint.
 
 7. **View logs for a specific service**
     ```bash
