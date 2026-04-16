@@ -156,18 +156,26 @@ To run both tenants in parallel, use the `docker-compose.tenants.yaml` file.
 6. **Shared wallet requirement**
 Use a single WaltID wallet instance for both tenants so users from both universities authenticate and manage credentials in the same wallet UI/API. Both tenant frontends should point to this shared wallet endpoint.
 
-7. **View logs for a specific service**
+7. **Student sign-in (multi-tenant)**
+    - Deusto: go to `http://localhost:5173/studentLogin` and use Google sign-in (`@opendeusto.es`).
+    - Lumiere (UNILUM): go to `http://localhost:5174/studentLogin` and use **basic login** (no Google):
+      - User: student NIA (or student email)
+            - Password: student password (alphanumeric)
+            - Default seeded UNILUM user at init: `eva@unilum.fr` / `eva`
+    - A direct **Connexion** link is available in the Lumiere top header.
+
+8. **View logs for a specific service**
     ```bash
     docker compose -f docker-compose.tenants.yaml -p credentifi-tenants logs -f api-gateway-deusto
     docker compose -f docker-compose.tenants.yaml -p credentifi-tenants logs -f api-gateway-lumiere
     ```
 
-8. **Stop and remove containers for both tenants**
+9. **Stop and remove containers for both tenants**
     ```bash
     docker compose -f docker-compose.tenants.yaml -p credentifi-tenants down
     ```
 
-9. **Stop and also remove volumes (clean database reset)**
+10. **Stop and also remove volumes (clean database reset)**
     ```bash
     docker compose -f docker-compose.tenants.yaml -p credentifi-tenants down -v
     ```

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import ModalCredential from "../components/ModalCredential";
 import { useGoogleLogin } from '@react-oauth/google';
@@ -13,61 +13,132 @@ const PRIMARY = runtimeConfig.primaryColor;
 const SECONDARY = runtimeConfig.secondaryColor;
 
 
+const GoogleAccountLogin = ({ hostedDomain, setStudentInfo, navigate }) => {
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        console.log('Token Response:', tokenResponse);
+
+        const accessToken = tokenResponse.access_token;
+        if (!accessToken) {
+          console.error('Access token no encontrado.');
+          return;
+        }
+
+        const response = await fetch('https://www.googleapis.com/oauth2/v1/userinfo', {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        const userData = await response.json();
+        console.log('User Data from Google:', userData);
+
+        if (userData.email && userData.email.endsWith(`@${hostedDomain}`)) {
+          const email = userData.email;
+
+          const backendResponse = await fetch(apiUrl(`/sql/estudiante/correo?correo=${email}`));
+          const backendData = await backendResponse.json();
+
+          if (backendResponse.ok) {
+            const studentInfo = backendData;
+            setStudentInfo(studentInfo);
+            localStorage.setItem('studentInfo', JSON.stringify(studentInfo));
+            sessionStorage.setItem('token', accessToken);
+            navigate('/studentPortal');
+          } else {
+            console.error('Error del backend:', backendData);
+            alert(t('Error al iniciar sesión. Por favor, inténtalo de nuevo más tarde.', 'Erreur lors de la connexion. Veuillez réessayer plus tard.'));
+          }
+        } else {
+          console.error(`El correo no pertenece a @${hostedDomain}`);
+          alert(t(`Por favor, utiliza una cuenta de correo electrónico de @${hostedDomain} para iniciar sesión.`, `Veuillez utiliser un compte e-mail @${hostedDomain} pour vous connecter.`));
+        }
+      } catch (error) {
+        console.error('Error al obtener la información del usuario de Google:', error);
+        alert('Error al iniciar sesión. Por favor, inténtalo de nuevo más tarde.');
+      }
+    },
+    onError: (response) => console.log('Login Failed:', response),
+    hosted_domain: hostedDomain,
+  });
+
+  return (
+    <div
+      className="firstBox"
+      style={{
+        marginTop: "2%",
+        backgroundColor: "#E6E7E8",
+        width: "30%",
+        borderTopStyle: "solid",
+        borderWidth: "2px",
+        borderTopColor: PRIMARY,
+        boxShadow: "0px 0px 10px 0px #000000",
+      }}
+    >
+      <h5
+        style={{ paddingTop: "8%", textAlign: "center", fontSize: "100%" }}
+      >
+        {t(`Acceso con cuenta @${hostedDomain}`, `Accès avec compte @${hostedDomain}`)}
+      </h5>
+      <button
+        data-testid="google-login-button"
+        className="btn btn-primary"
+        id="loginButton"
+        onClick={googleLogin}
+        style={{
+          marginLeft: "37%",
+          marginTop: "5%",
+          marginBottom: "5%",
+          fontSize: "90%",
+        }}
+      >
+        {t("Iniciar sesión", "Se connecter")}
+      </button>
+    </div>
+  );
+};
+
+
 const StudentLoginPage = () => {
 
   const navigate = useNavigate();
   const { setStudentInfo } = useStudent();
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
 
   const hostedDomain = runtimeConfig.allowedEmailDomain;
+  const usesBasicAuth = runtimeConfig.authMode === "basic";
 
-  const googleLogin = useGoogleLogin({
-  onSuccess: async (tokenResponse) => {
+  const handleBasicLogin = async () => {
     try {
-      console.log('Token Response:', tokenResponse);
+      const response = await fetch(apiUrl('/sql/estudiante/login'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_id: userId,
+          password,
+        }),
+      });
 
-      const accessToken = tokenResponse.access_token;
-      if (!accessToken) {
-        console.error('Access token no encontrado.');
+      const data = await response.json();
+
+      if (!response.ok || data.status !== 'success') {
+        alert(t('Credenciales incorrectas', 'Identifiants incorrects'));
         return;
       }
 
-      const response = await fetch('https://www.googleapis.com/oauth2/v1/userinfo', {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      const userData = await response.json();
-      console.log('User Data from Google:', userData);
-
-      if (userData.email && userData.email.endsWith(`@${hostedDomain}`)) {
-        const email = userData.email;
-
-        const backendResponse = await fetch(apiUrl(`/sql/estudiante/correo?correo=${email}`));
-        const backendData = await backendResponse.json();
-
-        if (backendResponse.ok) {
-          const studentInfo = backendData;
-          setStudentInfo(studentInfo);
-          localStorage.setItem('studentInfo', JSON.stringify(studentInfo));
-          sessionStorage.setItem('token', accessToken);
-          navigate('/studentPortal');
-        } else {
-          console.error('Error del backend:', backendData);
-          alert(t('Error al iniciar sesión. Por favor, inténtalo de nuevo más tarde.', 'Erreur lors de la connexion. Veuillez réessayer plus tard.'));
-        }
-      } else {
-        console.error(`El correo no pertenece a @${hostedDomain}`);
-        alert(t(`Por favor, utiliza una cuenta de correo electrónico de @${hostedDomain} para iniciar sesión.`, `Veuillez utiliser un compte e-mail @${hostedDomain} pour vous connecter.`));
-      }
+      setStudentInfo(data.student);
+      localStorage.setItem('studentInfo', JSON.stringify(data.student));
+      sessionStorage.setItem('token', data.token);
+      navigate('/studentPortal');
     } catch (error) {
-      console.error('Error al obtener la información del usuario de Google:', error);
-      alert('Error al iniciar sesión. Por favor, inténtalo de nuevo más tarde.');
+      console.error('Error de conexión:', error);
+      alert(t('Error de conexión. Por favor, inténtalo de nuevo más tarde.', 'Erreur de connexion. Veuillez réessayer plus tard.'));
     }
-  },
-  onError: (response) => console.log('Login Failed:', response),
-  hosted_domain: hostedDomain,
-});
+  };
 
 
   return (
@@ -87,38 +158,13 @@ const StudentLoginPage = () => {
         }}
       >
         <BrandLogo alt={runtimeConfig.universityName} style={{ width: "15%" }} />
-        <div
-          className="firstBox"
-          style={{
-            marginTop: "2%",
-            backgroundColor: "#E6E7E8",
-            width: "30%",
-            borderTopStyle: "solid",
-            borderWidth: "2px",
-            borderTopColor: PRIMARY,
-            boxShadow: "0px 0px 10px 0px #000000",
-          }}
-        >
-          <h5
-            style={{ paddingTop: "8%", textAlign: "center", fontSize: "100%" }}
-          >
-            {t(`Acceso con cuenta @${hostedDomain}`, `Accès avec compte @${hostedDomain}`)}
-          </h5>
-          <button
-            data-testid="google-login-button"
-            className="btn btn-primary"
-            id="loginButton"
-            onClick={googleLogin}
-            style={{
-              marginLeft: "37%",
-              marginTop: "5%",
-              marginBottom: "5%",
-              fontSize: "90%",
-            }}
-          >
-            {t("Iniciar sesión", "Se connecter")}
-          </button>
-        </div>
+        {!usesBasicAuth && (
+          <GoogleAccountLogin
+            hostedDomain={hostedDomain}
+            setStudentInfo={setStudentInfo}
+            navigate={navigate}
+          />
+        )}
         <div
           className="secondBox"
           style={{
@@ -211,8 +257,9 @@ const StudentLoginPage = () => {
                 id="userId"
                 maxLength={50}
                 name="userId"
-                defaultValue=""
+                value={userId}
                 placeholder={t("User", "Utilisateur")}
+                onChange={(e) => setUserId(e.target.value)}
               />
             </div>
             <div
@@ -232,9 +279,10 @@ const StudentLoginPage = () => {
                 id="password"
                 maxLength={50}
                 name="password"
-                defaultValue=""
+                value={password}
                 placeholder={t("Contraseña", "Mot de passe")}
                 style={{ borderRadius: "0 5px 5px 0" }}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </div>
@@ -258,6 +306,7 @@ const StudentLoginPage = () => {
             className="btn btn-primary"
             id="enterButton"
             style={{ marginLeft: "35%", marginBottom: "5%", marginTop: "3%" }}
+            onClick={handleBasicLogin}
           >
             {t("Iniciar sesión", "Se connecter")}
           </button>

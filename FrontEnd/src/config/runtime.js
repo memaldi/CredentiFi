@@ -22,6 +22,7 @@ const apiBaseUrl = stripTrailingSlash(
 
 const runtimeConfig = {
   tenant: import.meta.env.VITE_TENANT || "deusto",
+  authMode: import.meta.env.VITE_AUTH_MODE || "google",
   universityName:
     import.meta.env.VITE_UNIVERSITY_NAME || "Universidad de Deusto",
   allowedEmailDomain:

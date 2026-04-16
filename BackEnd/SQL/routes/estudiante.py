@@ -1,17 +1,91 @@
 from typing import List
 from fastapi import APIRouter, HTTPException, Depends, Query
 from requests import Session
-from sqlalchemy import select, update
+from sqlalchemy import select, update, text
 from config.db import get_db
 from models.estudiante import estudiante
 from models.estudiante_curso import estudiante_curso
 from models.credencial import credencial
 from models.solicitud import solicitud
 from models.solicitud_doc import solicitud_doc
-from schemas.estudiante import EstudianteCrear, Estudiante
+from schemas.estudiante import EstudianteCrear, Estudiante, EstudianteLoginRequest
+from functions_jwt import write_token
+from fastapi.responses import JSONResponse
 
 
 estudiante_routes = APIRouter()
+
+
+@estudiante_routes.post("/estudiante/login", tags=["Gestión de estudiantes"])
+def login_estudiante(data: EstudianteLoginRequest, db: Session = Depends(get_db)):
+    try:
+        user_id = data.user_id.strip()
+        if not user_id:
+            return JSONResponse(content={"status": "error", "message": "Usuario vacío"}, status_code=400)
+
+        # Basic auth for students: NIA (numeric) or full email + DNI/password.
+        if user_id.isdigit():
+            estudiante_row = db.execute(
+                select(estudiante).where(estudiante.c.NIA == int(user_id))
+            ).fetchone()
+        else:
+            estudiante_row = db.execute(
+                select(estudiante).where(estudiante.c.correo == user_id)
+            ).fetchone()
+
+        if not estudiante_row:
+            return JSONResponse(content={"status": "error", "message": "Usuario o contraseña incorrectos"}, status_code=404)
+
+        stored = dict(estudiante_row._mapping)
+        stored_password = None
+        try:
+            password_row = db.execute(
+                text("SELECT password FROM estudiante WHERE NIA = :nia"),
+                {"nia": stored["NIA"]},
+            ).fetchone()
+            if password_row:
+                stored_password = password_row[0]
+        except Exception:
+            # Password column may not exist in legacy schemas.
+            stored_password = None
+
+        expected_password = stored_password if stored_password else stored.get("dni")
+
+        if expected_password != data.password:
+            return JSONResponse(content={"status": "error", "message": "Usuario o contraseña incorrectos"}, status_code=404)
+
+        nia = stored["NIA"]
+        cursos = db.execute(
+            select(estudiante_curso.c.curso_id).where(estudiante_curso.c.estudiante_id == nia)
+        ).scalars().all()
+        credenciales = db.execute(
+            select(credencial.c.id).where(credencial.c.estudiante_id == nia)
+        ).scalars().all()
+
+        student_payload = {
+            k: (v.isoformat() if hasattr(v, "isoformat") else v)
+            for k, v in stored.items()
+        }
+        student_payload["cursos"] = cursos
+        student_payload["credenciales"] = credenciales
+        student_payload.pop("password", None)
+
+        token = write_token({
+            "NIA": nia,
+            "email": stored.get("correo"),
+            "role": "student",
+        })
+
+        return JSONResponse(
+            content={
+                "status": "success",
+                "token": token,
+                "student": student_payload,
+            },
+            status_code=200,
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @estudiante_routes.get("/estudiante", tags=["Gestión de estudiantes"])
 def get_estudiantes(db: Session = Depends(get_db)):
@@ -33,6 +107,7 @@ def get_estudiantes(db: Session = Depends(get_db)):
             ).scalars().all()
 
             estudiante_data = dict(row._mapping)
+            estudiante_data.pop("password", None)
             estudiante_data["cursos"] = cursos
             estudiante_data["credenciales"] = credenciales
 
@@ -66,6 +141,7 @@ def get_estudiante_by_email(correo: str = Query(...), db: Session = Depends(get_
         ).scalars().all()
 
         estudiante_data = dict(estudiante_row._mapping)
+        estudiante_data.pop("password", None)
         estudiante_data["cursos"] = cursos
         estudiante_data["credenciales"] = credenciales
 

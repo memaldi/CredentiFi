@@ -28,3 +28,8 @@ class Estudiante(BaseModel):
     credenciales: Optional[List[str]] = []
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class EstudianteLoginRequest(BaseModel):
+    user_id: str
+    password: str

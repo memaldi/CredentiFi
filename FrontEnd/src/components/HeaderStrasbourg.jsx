@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import BrandLogo from "./BrandLogo";
 import { runtimeConfig } from "../config/runtime";
 
@@ -101,6 +102,19 @@ const HeaderStrasbourg = () => {
             ))}
           </nav>
           <div style={{ display: "flex", gap: "14px", alignItems: "center" }}>
+            <Link
+              to="/studentLogin"
+              style={{
+                color: "#fff",
+                textDecoration: "none",
+                fontSize: "12px",
+                fontWeight: 700,
+                letterSpacing: "0.02em",
+                opacity: 0.95,
+              }}
+            >
+              Connexion
+            </Link>
             <a
               href="https://www.unilumiere.fr/fr/contact"
               target="_blank"

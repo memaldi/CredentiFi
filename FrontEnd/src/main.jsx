@@ -18,10 +18,16 @@ tenantStyle.textContent = [
 document.head.appendChild(tenantStyle);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const appElement = runtimeConfig.authMode === 'google'
+  ? (
+      <GoogleOAuthProvider clientId={runtimeConfig.googleClientId}>
+        <App />
+      </GoogleOAuthProvider>
+    )
+  : <App />;
+
 root.render(
   //<React.StrictMode>
-    <GoogleOAuthProvider clientId={runtimeConfig.googleClientId}>
-      <App />
-    </GoogleOAuthProvider>
+    appElement
   //</React.StrictMode>
 );
