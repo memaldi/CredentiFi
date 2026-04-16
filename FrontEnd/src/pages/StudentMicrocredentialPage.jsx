@@ -5,6 +5,8 @@ import { useStudent } from "../components/StudentContext";
 import { apiUrl } from "../config/runtime";
 import { t } from "../config/i18n";
 
+const EDUCATIONAL_ID_CREDENTIAL_NAME = "Educational ID";
+
 const StudentMicrocredentialPage = ({ }) => {
   const navigate = useNavigate();
   const { studentInfo } = useStudent();
@@ -15,11 +17,18 @@ const StudentMicrocredentialPage = ({ }) => {
 
   useEffect(() => {
     const fetchAndProcessEnrollments = async () => {
-      if (studentInfo?.cursos && studentInfo?.dni) {
+      if (studentInfo?.dni) {
         const acceptedCoursesInfo = [];
-        const initialChecked = {};
+        const initialChecked = {
+          [EDUCATIONAL_ID_CREDENTIAL_NAME]: false,
+        };
 
-        for (const cursoId of studentInfo.cursos) {
+        acceptedCoursesInfo.push({
+          id: EDUCATIONAL_ID_CREDENTIAL_NAME,
+          name: EDUCATIONAL_ID_CREDENTIAL_NAME,
+        });
+
+        for (const cursoId of studentInfo.cursos || []) {
           try {
             const courseResponse = await fetch(apiUrl(`/sql/estudiante/${cursoId}`));
             if (!courseResponse.ok) {

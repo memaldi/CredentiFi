@@ -12,6 +12,7 @@ const issuerApiUrl = (process.env.ISSUER_API_URL || "http://issuer-api:7002").re
 
 
 const courseToTemplateFile = {
+  "Educational ID": "EducationalIDCredential.json",
   "Aprendizaje automático supervisado: Regresión y clasificación": "AprendizajeAutomaticoSupervisado.json",
   "Algoritmos avanzados de aprendizaje": "AlgoritmosAvanzadosDeAprendizaje.json",
   "Aprendizaje no supervisado, recomendadores, aprendizaje por refuerzo": "AprendizajeNoSupervisado.json"
