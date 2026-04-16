@@ -85,7 +85,7 @@ CREATE TABLE `estudiante` (
   `fecha_nacimiento` date DEFAULT NULL,
   `did` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`NIA`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,6 +95,7 @@ CREATE TABLE `estudiante` (
 LOCK TABLES `estudiante` WRITE;
 /*!40000 ALTER TABLE `estudiante` DISABLE KEYS */;
 INSERT INTO `estudiante` VALUES (2,'Iñigo','Valdivielso','Perez','valdivielso.iñigo@opendeusto.es','20244879S','2003-02-28','did:jwk:eyJrdHkiOiJPS1AiLCJjcnYiOiJFZDI1NTE5Iiwia2lkIjoiRUY5UHdPQkhDTWwtODlDVjhqNFVQVFRWbFpiNmd3dVJ5TV83U0VwOXk0QSIsIngiOiJxSV9mM0diZE9NOWt1eXNyUWdfaWNOMVhUWW1LaGdhSXh5a3l4LXJJVUhzIn0');
+INSERT INTO `estudiante` VALUES (3,'Mikel','Deusto','Demo','mikel@deusto.es','mikel','1995-01-01',NULL);
 /*!40000 ALTER TABLE `estudiante` ENABLE KEYS */;
 UNLOCK TABLES;
 
