@@ -78,6 +78,7 @@ services:
       - "7001:7001"
     networks:
       - deusto_net
+      - strasbourg_net
 
   waltid-dev-wallet-shared:
     image: docker.io/waltid/waltid-dev-wallet:0.18.0
