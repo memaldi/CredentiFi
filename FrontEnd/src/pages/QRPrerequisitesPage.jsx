@@ -78,7 +78,7 @@ const QRPrerequisitesPage = () => {
 
       const requestBody = {
         request_credentials,
-        vc_policies: ["signature", "expired", "not-before"]
+        vc_policies: ["expired", "not-before"]
       };
 
       const response = await fetch(apiUrl("/verifierIssuer/verificar"), {

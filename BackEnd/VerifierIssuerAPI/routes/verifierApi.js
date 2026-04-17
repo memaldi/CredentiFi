@@ -12,9 +12,52 @@ const verifierApiUrl = (process.env.VERIFIER_API_URL || "http://verifier-api:700
 const issuerApiUrl = (process.env.ISSUER_API_URL || "http://issuer-api:7002").replace(/\/$/, "");
 const mongodbApiUrl = (process.env.MONGODB_API_URL || "http://mongodb-api:4000").replace(/\/$/, "");
 const frontendBaseUrl = (process.env.FRONTEND_BASE_URL || "http://localhost:5173").replace(/\/$/, "");
+const trustedIssuerDid = process.env.TRUSTED_ISSUER_DID || "";
+
+function normalizeEducationalIdPolicies(presentationDefinition) {
+  const normalized = JSON.parse(JSON.stringify(presentationDefinition || {}));
+  const requestedCredentials = Array.isArray(normalized.request_credentials)
+    ? normalized.request_credentials
+    : [];
+
+  const requestsEducationalId = requestedCredentials.some(
+    (credential) => credential && credential.type === "EducationalID"
+  );
+
+  if (!requestsEducationalId || !trustedIssuerDid) {
+    return normalized;
+  }
+
+  const inputPolicies = Array.isArray(normalized.vc_policies) ? normalized.vc_policies : [];
+  const withoutSignature = inputPolicies.filter(
+    (policy) => !(policy === "signature" || (policy && typeof policy === "object" && policy.policy === "signature"))
+  );
+
+  let hasAllowedIssuer = false;
+  const mappedPolicies = withoutSignature.map((policy) => {
+    if (policy && typeof policy === "object" && policy.policy === "allowed-issuer") {
+      hasAllowedIssuer = true;
+      return {
+        ...policy,
+        args: trustedIssuerDid,
+      };
+    }
+    return policy;
+  });
+
+  if (!hasAllowedIssuer) {
+    mappedPolicies.unshift({
+      policy: "allowed-issuer",
+      args: trustedIssuerDid,
+    });
+  }
+
+  normalized.vc_policies = mappedPolicies;
+  return normalized;
+}
 
 router.post('/', async (req, res) => {
-  const presentationDefinition = req.body;
+  const presentationDefinition = normalizeEducationalIdPolicies(req.body);
   // Headers que necesitas enviar
   const headers = {
     'Accept': '*/*',
@@ -37,7 +80,9 @@ router.post('/', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-  const presentationDefinition = JSON.parse(fs.readFileSync(path.join(presentationDefinitionDir, "EducationalID.json"), "utf8"));
+  const presentationDefinition = normalizeEducationalIdPolicies(
+    JSON.parse(fs.readFileSync(path.join(presentationDefinitionDir, "EducationalID.json"), "utf8"))
+  );
 
   // Headers que necesitas enviar
   const headers = {
