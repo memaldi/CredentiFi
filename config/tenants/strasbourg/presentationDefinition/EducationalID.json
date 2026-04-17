@@ -1,6 +1,9 @@
 {
   "vc_policies": [
-    "signature",
+    {
+      "policy": "allowed-issuer",
+      "args": "did:ebsi:z2B8dYp4g8f4XW6Q9kVw3N7mR5tJc1Hs"
+    },
     "expired"
   ],
   "request_credentials": [
