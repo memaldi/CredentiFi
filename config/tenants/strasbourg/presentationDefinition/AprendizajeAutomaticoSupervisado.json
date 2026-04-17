@@ -3,10 +3,10 @@
       "type": "jwk",
       "jwk": {
          "kty": "EC",
-         "x": "Qk_Y4oc5koNuIRcuQgWF4089cNPkEkAGmn5PGbhZBDk",
-         "y": "HEGgwaSkBn058JOpu_Xc0PLieNkfTSXA36S8Azwrx90",
+         "x": "V_YjS_wCXRaekKKD_ObaxXxD8DtVTWKRLzgCDUlkbh4",
+         "y": "Dg2akRLtTu7_y8rmlGeEOGBlFv9ztNJdPpogQTSgG40",
          "crv": "P-256",
-         "d": "WeBq_eoI4jFFSy5XGLyWybzfwxq3wmdYxmi5V087Ze4"
+         "d": "S2zEMK756adVA2MXt-LseyUVwiaHnZ5bwsFCwAkKaLU"
       }
    },
    "credentialConfigurationId": "AprendizajeAutomaticoSupervisado_jwt_vc_json",
@@ -345,6 +345,6 @@
       "expirationDate": "<timestamp-in:365d>"
    },
    "authenticationMethod": "PRE_AUTHORIZED",
-   "issuerDid": "REPLACE_WITH_STRASBOURG_ISSUER_DID",
+   "issuerDid": "did:ebsi:z2B8dYp4g8f4XW6Q9kVw3N7mR5tJc1Hs",
    "standardVersion": "DRAFT13"
 }
