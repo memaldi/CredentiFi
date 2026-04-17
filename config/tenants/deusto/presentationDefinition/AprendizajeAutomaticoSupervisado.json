@@ -22,7 +22,8 @@
          "AprendizajeAutomaticoSupervisado"
       ],
       "issuer": {
-         "id": "did:web:vc.transmute.world"
+         "id": "<issuerDid>",
+         "name": "Universidad de Deusto"
       },
       "issuanceDate": "2025-05-18T14:30:23+02:00",
       "issued": "2025-05-18T14:30:23+02:00",

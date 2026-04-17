@@ -21,7 +21,8 @@
          "AprendizajeNoSupervisado"
       ],
       "issuer": {
-         "id": "did:web:vc.transmute.world"
+         "id": "<issuerDid>",
+         "name": "Université de Lumiére"
       },
       "issuanceDate": "2025-05-19T17:43:38+02:00",
       "issued": "2025-05-19T17:43:38+02:00",
