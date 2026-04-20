@@ -52,6 +52,19 @@ body.tenant-strasbourg .btn-outline-primary:hover {
   background-color: var(--unistra-primary) !important;
 }
 
+/* Keep top navbar text readable over the tenant primary background. */
+body.tenant-strasbourg .navbar.bg-primary .navbar-brand,
+body.tenant-strasbourg .navbar.bg-primary .nav-link,
+body.tenant-strasbourg .navbar.bg-primary .navbar-text {
+  color: #ffffff !important;
+}
+
+body.tenant-strasbourg .navbar.bg-primary .nav-link:hover,
+body.tenant-strasbourg .navbar.bg-primary .nav-link:focus,
+body.tenant-strasbourg .navbar.bg-primary .nav-link.active {
+  color: #e7eefb !important;
+}
+
 body.tenant-strasbourg .firstBox,
 body.tenant-strasbourg .secondBox,
 body.tenant-strasbourg .wallet-box,
