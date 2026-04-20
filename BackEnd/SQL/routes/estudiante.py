@@ -157,10 +157,39 @@ def create_estudiante(estudiante_data: EstudianteCrear, db: Session = Depends(ge
         datos = estudiante_data.model_dump()
         cursos_ids = datos.get("cursos", [])
         credenciales_ids = datos.get("credenciales", [])
-        
-        existing_estudiante = db.query(estudiante).filter(estudiante.c.did == estudiante_data.did).first()
+
+        existing_estudiante = None
+
+        # 1) Prefer DID match when available (most stable identity for VC logins).
+        if estudiante_data.did:
+            existing_estudiante = db.execute(
+                select(estudiante).where(estudiante.c.did == estudiante_data.did)
+            ).fetchone()
+
+        # 2) Fallback to institutional identifiers to avoid duplicate rows
+        # when legacy records were created before DID was stored.
+        if not existing_estudiante:
+            existing_estudiante = db.execute(
+                select(estudiante).where(estudiante.c.dni == estudiante_data.dni)
+            ).fetchone()
+
+        if not existing_estudiante:
+            existing_estudiante = db.execute(
+                select(estudiante).where(estudiante.c.correo == estudiante_data.correo)
+            ).fetchone()
+
         if existing_estudiante:
-            existing_nia = existing_estudiante.NIA
+            existing_nia = existing_estudiante._mapping["NIA"]
+
+            # Backfill DID for legacy rows that were created without it.
+            current_did = existing_estudiante._mapping.get("did")
+            if not current_did and estudiante_data.did:
+                db.execute(
+                    estudiante.update()
+                    .where(estudiante.c.NIA == existing_nia)
+                    .values(did=estudiante_data.did)
+                )
+
             for curso_id in cursos_ids:
                 # Verificar si ya existe la relación estudiante-curso
                 existing_relation = db.query(estudiante_curso).filter(
