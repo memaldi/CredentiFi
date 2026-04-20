@@ -158,7 +158,6 @@ function AccordionItem({ nombre, primer_apellido, segundo_apellido, correo, fech
             } else {
                 const errorData = await response.json();
                 console.error('Error al crear estudiante:', errorData);
-                alert('Error al crear estudiante. Por favor, inténtalo de nuevo más tarde.');
                 if (errorData.detail?.includes("ya existe")) {
                     console.log('El estudiante ya existe, llamando a añadirCredenciales con el NIA.');
                     const niaMatch = errorData.detail.match(/NIA '(\w+)' ya existe/);

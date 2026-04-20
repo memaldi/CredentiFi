@@ -155,11 +155,12 @@ def get_estudiante_by_email(correo: str = Query(...), db: Session = Depends(get_
 def create_estudiante(estudiante_data: EstudianteCrear, db: Session = Depends(get_db)):
     try:
         datos = estudiante_data.model_dump()
+        cursos_ids = datos.get("cursos", [])
+        credenciales_ids = datos.get("credenciales", [])
         
         existing_estudiante = db.query(estudiante).filter(estudiante.c.did == estudiante_data.did).first()
         if existing_estudiante:
             existing_nia = existing_estudiante.NIA
-            cursos_ids = datos.get("cursos", [])
             for curso_id in cursos_ids:
                 # Verificar si ya existe la relación estudiante-curso
                 existing_relation = db.query(estudiante_curso).filter(
@@ -173,11 +174,19 @@ def create_estudiante(estudiante_data: EstudianteCrear, db: Session = Depends(ge
                             estudiante_id=existing_nia, curso_id=curso_id, estado="en proceso"
                         )
                     )
+
+            # Reasignar credenciales nuevas al estudiante existente.
+            for cred_id in credenciales_ids:
+                db.execute(
+                    credencial.update().where(credencial.c.id == cred_id).values(estudiante_id=existing_nia)
+                )
+
             db.commit()
-            raise HTTPException(
-                status_code=400,
-                detail=f"El estudiante con NIA '{existing_nia}' ya existe. Se han añadido los nuevos cursos."
-            )
+            return {
+                "status": "Estudiante existente actualizado",
+                "nia": existing_nia,
+                "message": "Se han añadido cursos y credenciales al estudiante existente"
+            }
 
 
         # Separar los campos del estudiante de los relacionados
@@ -200,6 +209,9 @@ def create_estudiante(estudiante_data: EstudianteCrear, db: Session = Depends(ge
         db.commit()
 
         return {"status": "Estudiante creado", "nia": nuevo_nia}
+
+    except HTTPException:
+        raise
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
