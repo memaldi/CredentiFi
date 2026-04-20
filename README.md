@@ -165,18 +165,31 @@ Use a single WaltID wallet instance for both tenants so users from both universi
             - Default seeded UNILUM user at init: `eva@unilum.fr` / `eva`
     - A direct **Connexion** link is available in the Lumiere top header.
 
-8. **View logs for a specific service**
+8. **University staff sign-in (multi-tenant)**
+
+    Access the secretary panel to review and manage student applications.
+
+    - Deusto: go to `http://localhost:5173/secretaryLogin`
+      - User: `staffdeusto` / Password: `staff1234`
+    - Lumiere (UNILUM): go to `http://localhost:5174/secretaryLogin`
+      - User: `staffunilum` / Password: `staff1234`
+
+    After login you are redirected to `/secretary` (application review) and can also navigate to `/secretaryActas` (academic records). Select a course from the dropdown to list and manage the student applications for that programme.
+
+    > **Note:** These staff accounts were created via the `/sql/register` endpoint (no token required). To add new staff users, send a `POST` to `http://localhost:5000/sql/register` (Deusto) or `http://localhost:5001/sql/register` (UNILUM) with body `{"username":"…","email":"…","password":"…"}`.
+
+9. **View logs for a specific service**
     ```bash
     docker compose -f docker-compose.tenants.yaml -p credentifi-tenants logs -f api-gateway-deusto
     docker compose -f docker-compose.tenants.yaml -p credentifi-tenants logs -f api-gateway-lumiere
     ```
 
-9. **Stop and remove containers for both tenants**
+10. **Stop and remove containers for both tenants**
     ```bash
     docker compose -f docker-compose.tenants.yaml -p credentifi-tenants down
     ```
 
-10. **Stop and also remove volumes (clean database reset)**
+11. **Stop and also remove volumes (clean database reset)**
     ```bash
     docker compose -f docker-compose.tenants.yaml -p credentifi-tenants down -v
     ```
