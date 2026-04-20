@@ -6,6 +6,276 @@ import ModalAceptado from "../components/ModalAceptado";
 import { apiUrl } from "../config/runtime";
 import { t } from "../config/i18n";
 
+const findCredentialSubjectDeep = (value) => {
+  if (!value || typeof value !== "object") {
+    return null;
+  }
+
+  if (value.credentialSubject && typeof value.credentialSubject === "object") {
+    return value.credentialSubject;
+  }
+
+  for (const nestedValue of Object.values(value)) {
+    const found = findCredentialSubjectDeep(nestedValue);
+    if (found) {
+      return found;
+    }
+  }
+
+  return null;
+};
+
+const decodeJwtPayload = (token) => {
+  if (typeof token !== "string") {
+    return null;
+  }
+
+  const parts = token.split(".");
+  if (parts.length < 2) {
+    return null;
+  }
+
+  try {
+    const base64 = parts[1]
+      .replace(/-/g, "+")
+      .replace(/_/g, "/");
+    const padded = base64.padEnd(Math.ceil(base64.length / 4) * 4, "=");
+    const binary = atob(padded);
+    const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+    const json = new TextDecoder().decode(bytes);
+    return JSON.parse(json);
+  } catch (_error) {
+    return null;
+  }
+};
+
+const findCredentialSubjectFromJwtDeep = (value) => {
+  if (typeof value === "string") {
+    const decoded = decodeJwtPayload(value);
+    if (!decoded) {
+      return null;
+    }
+
+    return (
+      findCredentialSubjectDeep(decoded?.vc) ||
+      findCredentialSubjectDeep(decoded)
+    );
+  }
+
+  if (!value || typeof value !== "object") {
+    return null;
+  }
+
+  for (const nestedValue of Object.values(value)) {
+    const found = findCredentialSubjectFromJwtDeep(nestedValue);
+    if (found) {
+      return found;
+    }
+  }
+
+  return null;
+};
+
+const getEducationalIdSubject = (sessionData) => {
+  const policyResults = Array.isArray(sessionData?.policyResults?.results)
+    ? sessionData.policyResults.results
+    : [];
+
+  const prioritizedResults = [
+    ...policyResults.filter((item) => /educationalid/i.test(String(item?.credential || ""))),
+    ...policyResults.filter((item) => !/educationalid/i.test(String(item?.credential || ""))),
+  ];
+
+  for (const resultItem of prioritizedResults) {
+    const policyList = Array.isArray(resultItem?.policyResults) ? resultItem.policyResults : [];
+    for (const policy of policyList) {
+      const subject =
+        policy?.result?.vc?.credentialSubject ||
+        findCredentialSubjectDeep(policy?.result) ||
+        findCredentialSubjectFromJwtDeep(policy?.result);
+      if (subject && typeof subject === "object") {
+        return subject;
+      }
+    }
+  }
+
+  return findCredentialSubjectDeep(sessionData) || findCredentialSubjectFromJwtDeep(sessionData);
+};
+
+const normalizeBirthDate = (dateOfBirth) => {
+  if (!dateOfBirth) {
+    return "";
+  }
+
+  const raw = String(dateOfBirth).trim();
+  if (!raw) {
+    return "";
+  }
+
+  if (/^\d{8}$/.test(raw)) {
+    const year = raw.substring(0, 4);
+    const month = raw.substring(4, 6);
+    const day = raw.substring(6, 8);
+    return `${year}-${month}-${day}`;
+  }
+
+  if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) {
+    return raw;
+  }
+
+  const isoDateTimeMatch = raw.match(/^(\d{4}-\d{2}-\d{2})T/);
+  if (isoDateTimeMatch) {
+    return isoDateTimeMatch[1];
+  }
+
+  if (/^\d{4}\/\d{2}\/\d{2}$/.test(raw)) {
+    return raw.replace(/\//g, "-");
+  }
+
+  if (/^\d{2}-\d{2}-\d{4}$/.test(raw)) {
+    const [day, month, year] = raw.split("-");
+    return `${year}-${month}-${day}`;
+  }
+
+  if (/^\d{2}\/\d{2}\/\d{4}$/.test(raw)) {
+    const [day, month, year] = raw.split("/");
+    return `${year}-${month}-${day}`;
+  }
+
+  return "";
+};
+
+const readLocalizedValue = (value) => {
+  if (!value) {
+    return "";
+  }
+
+  if (typeof value === "string") {
+    return value;
+  }
+
+  if (Array.isArray(value)) {
+    const firstString = value.find((item) => typeof item === "string" && item.trim());
+    return firstString || "";
+  }
+
+  if (typeof value === "object") {
+    const preferredLocales = ["es", "fr", "en"];
+    for (const locale of preferredLocales) {
+      const localized = readLocalizedValue(value[locale]);
+      if (localized) {
+        return localized;
+      }
+    }
+
+    for (const nested of Object.values(value)) {
+      const parsed = readLocalizedValue(nested);
+      if (parsed) {
+        return parsed;
+      }
+    }
+  }
+
+  return "";
+};
+
+const extractEmailFromSubject = (subject) => {
+  const direct = subject?.mail || subject?.email || subject?.emailAddress;
+  if (typeof direct === "string" && direct.trim()) {
+    return direct;
+  }
+
+  const directLocalized = readLocalizedValue(direct);
+  if (directLocalized) {
+    return directLocalized;
+  }
+
+  const contactPoints = Array.isArray(subject?.contactPoint) ? subject.contactPoint : [];
+  for (const point of contactPoints) {
+    const emailEntries = Array.isArray(point?.emailAddress)
+      ? point.emailAddress
+      : point?.emailAddress
+      ? [point.emailAddress]
+      : [];
+
+    for (const entry of emailEntries) {
+      if (typeof entry === "string" && entry.trim()) {
+        return entry;
+      }
+
+      const entryId = entry?.id || entry?.value || entry?.email;
+      if (typeof entryId === "string" && entryId.trim()) {
+        return entryId;
+      }
+    }
+  }
+
+  return "";
+};
+
+const extractNationalIdFromSubject = (subject) => {
+  const direct =
+    subject?.schacPersonalUniqueID ||
+    subject?.personalUniqueId ||
+    subject?.nationalId ||
+    subject?.documentNumber ||
+    subject?.dni ||
+    subject?.nia;
+  if (typeof direct === "string" && direct.trim()) {
+    return direct;
+  }
+
+  const nationalId = subject?.nationalID;
+  if (typeof nationalId === "string" && nationalId.trim()) {
+    return nationalId;
+  }
+
+  if (nationalId && typeof nationalId === "object") {
+    const notation = nationalId.notation || nationalId.value || nationalId.id;
+    if (typeof notation === "string" && notation.trim()) {
+      return notation;
+    }
+  }
+
+  const localized = readLocalizedValue(direct);
+  if (localized) {
+    return localized;
+  }
+
+  return "";
+};
+
+const extractDateOfBirthFromSubject = (subject) => {
+  const direct =
+    subject?.dateOfBirth ||
+    subject?.birthDate ||
+    subject?.birth_date ||
+    subject?.dob;
+
+  if (typeof direct === "string" && direct.trim()) {
+    return direct;
+  }
+
+  return readLocalizedValue(direct);
+};
+
+const splitFamilyNames = (familyNameRaw) => {
+  const normalized = String(familyNameRaw || "").trim().replace(/\s+/g, " ");
+  if (!normalized) {
+    return { firstSurname: "", secondSurname: "" };
+  }
+
+  const parts = normalized.split(" ");
+  if (parts.length === 1) {
+    return { firstSurname: parts[0], secondSurname: parts[0] };
+  }
+
+  return {
+    firstSurname: parts[0],
+    secondSurname: parts.slice(1).join(" "),
+  };
+};
+
 const PrerequisitesPage = () => {
   const [email, setEmail] = useState("");
   const [nombrePersona, setNombrePersona] = useState("");
@@ -26,7 +296,6 @@ const PrerequisitesPage = () => {
   const idVerificacion = params.get('id');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [enviar, setEnviar] = useState(false);
   const [idCredencial, setIdCredencial] = useState('');
   const [mostrarModalExito, setMostrarModalExito] = useState(false);
 
@@ -86,48 +355,79 @@ const PrerequisitesPage = () => {
         throw new Error("Error al verificar la sesión");
       }
       const sesionData = await sesionResponse.json();
-      setIdCredencial(sesionData._id);
-      const educationalCredentialResult = sesionData?.policyResults?.results?.find(
-        (item) => item.credential === "EducationalID"
-      );
+      const credencialId = sesionData._id;
+      setIdCredencial(credencialId);
+      const userData = sesionData?.educationalIdSubject || getEducationalIdSubject(sesionData);
 
-      if (educationalCredentialResult && educationalCredentialResult.policyResults && educationalCredentialResult.policyResults.length > 0) {
-        const userData = educationalCredentialResult.policyResults[0]?.result?.vc?.credentialSubject;
+      if (userData) {
+        const firstName =
+          userData.firstName ||
+          readLocalizedValue(userData.givenName) ||
+          userData.givenName ||
+          "";
+        const familyNameCandidate =
+          userData.familyName ||
+          readLocalizedValue(userData.familyName) ||
+          userData.lastName ||
+          "";
+        const splitSurnames = splitFamilyNames(familyNameCandidate);
+        const familyName = splitSurnames.firstSurname;
+        const secondLastName =
+          userData.secondLastName ||
+          userData.secondFamilyName ||
+          splitSurnames.secondSurname ||
+          "";
+        const dateOfBirth = extractDateOfBirthFromSubject(userData);
+        const mail = extractEmailFromSubject(userData);
+        const schacPersonalUniqueID = extractNationalIdFromSubject(userData);
+        const formattedDateOfBirth = normalizeBirthDate(dateOfBirth);
 
-        if (userData) {
-          const { firstName, familyName, dateOfBirth, mail, schacPersonalUniqueID, secondLastName } = userData;
-          const year = dateOfBirth.substring(0, 4);
-          const month = dateOfBirth.substring(4, 6);
-          const day = dateOfBirth.substring(6, 8);
-          const formattedDateOfBirth = `${year}-${month}-${day}`;
+        setNombrePersona(firstName);
+        setPrimerApellido(familyName);
+        setBirthDate(formattedDateOfBirth);
+        setEmail(mail);
+        setDNINIE(schacPersonalUniqueID);
+        setSegundoApellido(secondLastName);
 
-          setNombrePersona(firstName);
-          setPrimerApellido(familyName);
-          setBirthDate(formattedDateOfBirth);
-          setEmail(mail);
-          setDNINIE(schacPersonalUniqueID);
-          setSegundoApellido(secondLastName);
+        return {
+          nombrePersona: firstName,
+          primerApellido: familyName,
+          segundoApellido: secondLastName,
+          birthDate: formattedDateOfBirth,
+          email: mail,
+          DNINIE: schacPersonalUniqueID,
+          idCredencial: credencialId,
+        };
 
-        } else {
-          console.log("No se encontraron los datos del usuario dentro de EducationalID.");
-          setError("No se encontraron los datos del usuario.");
-        }
       } else {
-        console.log("No se encontró la credencial EducationalID en los resultados.");
-        setError("No se encontró la información de la credencial.");
+        console.log("No se encontraron los datos del usuario dentro de EducationalID.");
+        setError("No se encontraron los datos del usuario.");
+        return null;
       }
     } catch (err) {
       console.error("Error al obtener datos del usuario:", err);
       alert("Error al obtener los datos del usuario: " + err.message);
       setError(err.message);
+      return null;
     } finally {
       setLoading(false);
     }
   };
 
-  const enviarSolicitud = async () => {
+  const enviarSolicitud = async (datosUsuario = null) => {
     setLoading(true);
     setError(null);
+
+    const datos = datosUsuario || {
+      nombrePersona,
+      primerApellido,
+      segundoApellido,
+      birthDate,
+      email,
+      DNINIE,
+      idCredencial,
+    };
+
     try {
       const insertarPersonaResponse = await fetch(apiUrl("/sql/persona"), {
         method: "POST",
@@ -135,13 +435,13 @@ const PrerequisitesPage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          nombre: nombrePersona,
-          primer_apellido: primerApellido,
-          segundo_apellido: segundoApellido,
-          fecha_nacimiento: birthDate,
-          dni: DNINIE,
-          correo: email,
-          credenciales: [idCredencial]
+          nombre: datos.nombrePersona,
+          primer_apellido: datos.primerApellido,
+          segundo_apellido: datos.segundoApellido,
+          fecha_nacimiento: datos.birthDate,
+          dni: datos.DNINIE,
+          correo: datos.email,
+          credenciales: [datos.idCredencial]
         }),
       });
 
@@ -164,7 +464,7 @@ const PrerequisitesPage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          id: idCredencial,
+          id: datos.idCredencial,
           estado: "en propiedad"
         }),
       });
@@ -198,7 +498,7 @@ const PrerequisitesPage = () => {
           id_curso: idCurso,
           estado: "pendiente",
           id_persona: idPersona,
-          credenciales: [idCredencial],
+          credenciales: [datos.idCredencial],
         }),
       });
 
@@ -228,20 +528,33 @@ const PrerequisitesPage = () => {
       setError(err.message);
     } finally {
       setLoading(false);
-      setEnviar(false);
     }
   };
 
-  const handleClickEnviar = () => {
-    obtenerDatosUsuario();
-    setEnviar(true); // Activar el envío después de obtener los datos
-  };
-
-  useEffect(() => {
-    if (enviar && nombrePersona && primerApellido && birthDate && email && idCredencial) {
-      enviarSolicitud();
+  const handleClickEnviar = async () => {
+    const datosUsuario = await obtenerDatosUsuario();
+    if (!datosUsuario) {
+      return;
     }
-  }, [enviar, nombrePersona, primerApellido, birthDate, email, idCredencial]);
+
+    const camposFaltantes = [];
+    if (!datosUsuario.nombrePersona) camposFaltantes.push("nombre");
+    if (!datosUsuario.primerApellido) camposFaltantes.push("primer apellido");
+    if (!datosUsuario.segundoApellido) camposFaltantes.push("segundo apellido");
+    if (!datosUsuario.birthDate) camposFaltantes.push("fecha de nacimiento");
+    if (!datosUsuario.email) camposFaltantes.push("email");
+    if (!datosUsuario.DNINIE) camposFaltantes.push("DNI/NIE");
+    if (!datosUsuario.idCredencial) camposFaltantes.push("id de credencial");
+
+    if (camposFaltantes.length > 0) {
+      const mensaje = `No se pudo enviar la solicitud. Faltan datos en EducationalID: ${camposFaltantes.join(", ")}.`;
+      setError(mensaje);
+      alert(mensaje);
+      return;
+    }
+
+    await enviarSolicitud(datosUsuario);
+  };
 
 
 

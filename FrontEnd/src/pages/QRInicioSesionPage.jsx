@@ -6,6 +6,131 @@ import BrandLogo from "../components/BrandLogo";
 import { apiUrl, runtimeConfig } from "../config/runtime";
 import { t } from "../config/i18n";
 
+const findCredentialSubjectDeep = (value) => {
+  if (!value || typeof value !== "object") {
+    return null;
+  }
+
+  if (value.credentialSubject && typeof value.credentialSubject === "object") {
+    return value.credentialSubject;
+  }
+
+  for (const nestedValue of Object.values(value)) {
+    const found = findCredentialSubjectDeep(nestedValue);
+    if (found) {
+      return found;
+    }
+  }
+
+  return null;
+};
+
+const decodeJwtPayload = (token) => {
+  if (typeof token !== "string") {
+    return null;
+  }
+
+  const parts = token.split(".");
+  if (parts.length < 2) {
+    return null;
+  }
+
+  try {
+    const base64 = parts[1]
+      .replace(/-/g, "+")
+      .replace(/_/g, "/");
+    const padded = base64.padEnd(Math.ceil(base64.length / 4) * 4, "=");
+    const binary = atob(padded);
+    const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+    const json = new TextDecoder().decode(bytes);
+    return JSON.parse(json);
+  } catch (_error) {
+    return null;
+  }
+};
+
+const findCredentialSubjectFromJwtDeep = (value) => {
+  if (typeof value === "string") {
+    const decoded = decodeJwtPayload(value);
+    if (!decoded) {
+      return null;
+    }
+
+    return (
+      findCredentialSubjectDeep(decoded?.vc) ||
+      findCredentialSubjectDeep(decoded)
+    );
+  }
+
+  if (!value || typeof value !== "object") {
+    return null;
+  }
+
+  for (const nestedValue of Object.values(value)) {
+    const found = findCredentialSubjectFromJwtDeep(nestedValue);
+    if (found) {
+      return found;
+    }
+  }
+
+  return null;
+};
+
+const getEducationalIdSubject = (sessionData) => {
+  const policyResults = Array.isArray(sessionData?.policyResults?.results)
+    ? sessionData.policyResults.results
+    : [];
+
+  const prioritizedResults = [
+    ...policyResults.filter((item) => /educationalid/i.test(String(item?.credential || ""))),
+    ...policyResults.filter((item) => !/educationalid/i.test(String(item?.credential || ""))),
+  ];
+
+  for (const resultItem of prioritizedResults) {
+    const policyList = Array.isArray(resultItem?.policyResults) ? resultItem.policyResults : [];
+    for (const policy of policyList) {
+      const subject =
+        policy?.result?.vc?.credentialSubject ||
+        findCredentialSubjectDeep(policy?.result) ||
+        findCredentialSubjectFromJwtDeep(policy?.result);
+      if (subject && typeof subject === "object") {
+        return subject;
+      }
+    }
+  }
+
+  return findCredentialSubjectDeep(sessionData) || findCredentialSubjectFromJwtDeep(sessionData);
+};
+
+const extractEmailFromSubject = (subject) => {
+  const direct = subject?.mail || subject?.email || subject?.emailAddress;
+  if (typeof direct === "string" && direct.trim()) {
+    return direct;
+  }
+
+  const contactPoints = Array.isArray(subject?.contactPoint) ? subject.contactPoint : [];
+  for (const point of contactPoints) {
+    const emailEntries = Array.isArray(point?.emailAddress)
+      ? point.emailAddress
+      : point?.emailAddress
+      ? [point.emailAddress]
+      : [];
+
+    for (const entry of emailEntries) {
+      if (typeof entry === "string" && entry.trim()) {
+        return entry;
+      }
+
+      const entryId = entry?.id || entry?.value || entry?.email;
+      if (typeof entryId === "string" && entryId.trim()) {
+        return entryId;
+      }
+    }
+  }
+
+  return "";
+};
+
 const QRInicioSesionPage = () => {
   const verificationUrl = apiUrl("/verifierIssuer/verificar/login");
   const [verificationData, setVerificationData] = useState(null);
@@ -81,12 +206,11 @@ const QRInicioSesionPage = () => {
         throw new Error("Error al verificar la sesión");
       }
       const sesionData = await response.json();
-      const educationalCredentialResult = sesionData?.policyResults?.results?.find(
-        (item) => item.credential === "EducationalID"
-      );
+      const userData = sesionData?.educationalIdSubject || getEducationalIdSubject(sesionData);
 
-      if (educationalCredentialResult?.policyResults?.[0]?.result?.vc?.credentialSubject?.mail) {
-        const mail = educationalCredentialResult.policyResults[0].result.vc.credentialSubject.mail;
+      const mail = extractEmailFromSubject(userData);
+
+      if (mail) {
         console.log("Correo encontrado:", mail);
 
         if (mail.endsWith(`@${runtimeConfig.allowedEmailDomain}`)) {
