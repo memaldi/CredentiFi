@@ -361,14 +361,12 @@ const PrerequisitesPage = () => {
 
       if (userData) {
         const firstName =
-          userData.firstName ||
+          readLocalizedValue(userData.firstName) ||
           readLocalizedValue(userData.givenName) ||
-          userData.givenName ||
           "";
         const familyNameCandidate =
-          userData.familyName ||
           readLocalizedValue(userData.familyName) ||
-          userData.lastName ||
+          readLocalizedValue(userData.lastName) ||
           "";
         const splitSurnames = splitFamilyNames(familyNameCandidate);
         const familyName = splitSurnames.firstSurname;

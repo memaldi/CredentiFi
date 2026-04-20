@@ -5,6 +5,25 @@ import ModalSecretary from './ModalSecretary';
 import { apiUrl, runtimeConfig } from '../config/runtime';
 import { t } from '../config/i18n';
 
+// Robustly extract the holder DID from a MongoDB credential document.
+// Tries vc.credentialSubject.id first (Deusto style), then falls back to
+// the VP subject/issuer fields (UNILUM style).
+const extractDidFromCredential = (data) => {
+    const results = data?.policyResults?.results ?? [];
+    for (const r of results) {
+        for (const p of (r?.policyResults ?? [])) {
+            const result = p?.result;
+            if (!result || typeof result !== 'object') continue;
+            const did =
+                result?.vc?.credentialSubject?.id ||
+                result?.sub ||
+                result?.iss;
+            if (typeof did === 'string' && did.startsWith('did:')) return did;
+        }
+    }
+    return undefined;
+};
+
 function AccordionItem({ nombre, primer_apellido, segundo_apellido, correo, fechaNacimiento, id, dni, curso, curso_id, estado, credenciales, onAccept, onReject }) {
     const [credencialesData, setCredencialesData] = useState([]);
     const [estudiantedid, setEstudianteDid] = useState([]);
@@ -37,7 +56,7 @@ function AccordionItem({ nombre, primer_apellido, segundo_apellido, correo, fech
                         return {
                             id: data._id,
                             nombre_credencial: nombresCredenciales,
-                            did: data.policyResults.results[1].policyResults[0].result.vc.credentialSubject.id
+                            did: extractDidFromCredential(data)
                         };
                     })
                 );
