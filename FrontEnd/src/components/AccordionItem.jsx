@@ -51,8 +51,15 @@ function AccordionItem({ nombre, primer_apellido, segundo_apellido, correo, fech
                     credenciales.map(async (credencial) => {
 
                         const response = await fetch(apiUrl(`/mongo/credenciales/${encodeURIComponent(credencial)}`));
+                        if (!response.ok) {
+                            return null;
+                        }
+
                         const data = await response.json();
-                        const nombresCredenciales = data.tokenResponse.presentation_submission.descriptor_map.map(descriptor => descriptor.id);
+                        const descriptorMap = data?.tokenResponse?.presentation_submission?.descriptor_map;
+                        const nombresCredenciales = Array.isArray(descriptorMap)
+                            ? descriptorMap.map(descriptor => descriptor.id).filter(Boolean)
+                            : [];
                         return {
                             id: data._id,
                             nombre_credencial: nombresCredenciales,
@@ -60,23 +67,30 @@ function AccordionItem({ nombre, primer_apellido, segundo_apellido, correo, fech
                         };
                     })
                 );
-                console.log(fetchedData);
-                const nombresCredenciales = fetchedData.map(item => item.nombre_credencial);
+                const validFetchedData = fetchedData.filter(Boolean);
+                console.log(validFetchedData);
+                const nombresCredenciales = validFetchedData.map(item => item.nombre_credencial);
                 setCredencialesData(nombresCredenciales);
 
 
 
-                if (fetchedData.length > 0) {
-                    setEstudianteDid(fetchedData[0].did);
-                    setEstudianteIdCredenciales(fetchedData[0].id);
+                if (validFetchedData.length > 0) {
+                    setEstudianteDid(validFetchedData[0].did);
+                    setEstudianteIdCredenciales(validFetchedData[0].id);
                 } else {
                     setEstudianteDid(undefined);
                     setEstudianteIdCredenciales(undefined);
                 }
+
+                const fallbackCredentialIds = Array.isArray(credenciales) ? credenciales : [];
+                const resolvedCredentialIds = validFetchedData.length > 0
+                    ? validFetchedData.map(item => item.id)
+                    : fallbackCredentialIds;
+
                 setEstudianteData(prevData => ({
                     ...prevData,
-                    did: fetchedData[0].did,
-                    credenciales: fetchedData.map(item => item.id)
+                    did: validFetchedData[0]?.did,
+                    credenciales: resolvedCredentialIds
                 }));
 
             } catch (error) {
