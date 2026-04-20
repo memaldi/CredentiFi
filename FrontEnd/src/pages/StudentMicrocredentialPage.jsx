@@ -93,9 +93,10 @@ const StudentMicrocredentialPage = ({ }) => {
 
   const handleCheckboxChange = (id) => {
     setCheckedCredentials((prev) => {
-      const updatedChecked = {};
-      updatedChecked[id] = !prev[id];
-      return updatedChecked;
+      return {
+        ...prev,
+        [id]: !prev[id],
+      };
     });
   };
 

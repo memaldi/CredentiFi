@@ -73,4 +73,52 @@ describe('StudentMicrocredentialPage', () => {
     const boton = screen.getByRole('button', { name: /solicitar/i });
     expect(boton).not.toBeDisabled();
   });
+
+  it('permite seleccionar múltiples microcredenciales a la vez', async () => {
+    global.fetch = vi.fn()
+      // estudiante/1
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          estudiantes: [{ dni: '11111111A', estado_curso: 'aceptada' }],
+        }),
+      })
+      // curso/1
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ nombre: 'Curso Uno' }),
+      })
+      // estudiante/2
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          estudiantes: [{ dni: '11111111A', estado_curso: 'aceptada' }],
+        }),
+      })
+      // curso/2
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ nombre: 'Curso Dos' }),
+      });
+
+    render(
+      <BrowserRouter>
+        <StudentMicrocredentialPage />
+      </BrowserRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText('Curso Uno')).toBeInTheDocument();
+      expect(screen.getByText('Curso Dos')).toBeInTheDocument();
+    });
+
+    const cursoUnoCheckbox = screen.getByLabelText('Curso Uno');
+    const cursoDosCheckbox = screen.getByLabelText('Curso Dos');
+
+    fireEvent.click(cursoUnoCheckbox);
+    fireEvent.click(cursoDosCheckbox);
+
+    expect(cursoUnoCheckbox).toBeChecked();
+    expect(cursoDosCheckbox).toBeChecked();
+  });
 });
