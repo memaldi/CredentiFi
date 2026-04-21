@@ -344,7 +344,11 @@ const PrerequisitesPage = () => {
     setLoading(true);
     setError(null);
     try {
-      const sesionResponse = await fetch(apiUrl(`/verifierIssuer/verificar/infoSesionVerificacionGuardar/${idVerificacion}`), {
+      const query = new URLSearchParams({
+        courseName: nombreCurso || nombre || "",
+      }).toString();
+
+      const sesionResponse = await fetch(apiUrl(`/verifierIssuer/verificar/infoSesionVerificacionGuardar/${idVerificacion}?${query}`), {
         method: "GET",
         headers: {
           "accept": "application/json",
@@ -352,7 +356,20 @@ const PrerequisitesPage = () => {
       });
 
       if (!sesionResponse.ok) {
-        throw new Error("Error al verificar la sesión");
+        let backendErrorMessage = "Error al verificar la sesión";
+        try {
+          const errorData = await sesionResponse.json();
+          if (errorData?.message) {
+            backendErrorMessage = errorData.message;
+            if (Array.isArray(errorData.missingCredentials) && errorData.missingCredentials.length > 0) {
+              backendErrorMessage = `${backendErrorMessage}: ${errorData.missingCredentials.join(", ")}`;
+            }
+          }
+        } catch (_error) {
+          // Keep default message if backend payload is not JSON
+        }
+
+        throw new Error(backendErrorMessage);
       }
       const sesionData = await sesionResponse.json();
       const credencialId = sesionData._id;

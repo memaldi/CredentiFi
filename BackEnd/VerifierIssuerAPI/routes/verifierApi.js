@@ -65,42 +65,68 @@ function uniqueIssuers(...issuerGroups) {
   return [...new Set(issuerGroups.flatMap((group) => toIssuerArray(group)))];
 }
 
+function validateAllCredentialsPresented(verificationResult, requestedCredentialTypes) {
+  if (!verificationResult?.verificationResult) {
+    return false;
+  }
+
+  if (!requestedCredentialTypes || requestedCredentialTypes.length === 0) {
+    return true;
+  }
+
+  const policyResults = Array.isArray(verificationResult?.policyResults?.results)
+    ? verificationResult.policyResults.results
+    : [];
+
+  const providedCredentialTypes = policyResults
+    .filter((result) => result && result.credential && result.credential !== "VerifiablePresentation")
+    .map((result) => result.credential);
+
+  for (const requiredType of requestedCredentialTypes) {
+    if (!providedCredentialTypes.includes(requiredType)) {
+      console.warn(`Missing required credential: ${requiredType}`);
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function getMissingCredentialTypes(verificationResult, requestedCredentialTypes) {
+  const policyResults = Array.isArray(verificationResult?.policyResults?.results)
+    ? verificationResult.policyResults.results
+    : [];
+
+  const providedCredentialTypes = policyResults
+    .filter((result) => result && result.credential && result.credential !== "VerifiablePresentation")
+    .map((result) => result.credential);
+
+  return requestedCredentialTypes.filter((type) => !providedCredentialTypes.includes(type));
+}
+
+function getRequiredCredentialTypesForCourse(courseName, fallbackRequestedCredentialTypes) {
+  const normalizedCourseName = String(courseName || "").trim().toLowerCase();
+
+  if (normalizedCourseName === "digital transformation of smes and incubator programme") {
+    return [
+      "EducationalID",
+      "DroitNumeriqueEtProtectionDesDonnees",
+      "DroitInternationalDesAffaires",
+      "SciencePolitiqueEtGouvernancePublique",
+      "ManagementStrategiqueDesOrganisations",
+    ];
+  }
+
+  return fallbackRequestedCredentialTypes;
+}
+
 function findCredentialSubjectDeep(value) {
   if (!value || typeof value !== "object") {
     return null;
   }
-  function validateAllCredentialsPresented(verificationResult, requestedCredentialTypes) {
-    if (!verificationResult?.verificationResult) {
-      return false; // Verification failed
-    }
 
-    if (!requestedCredentialTypes || requestedCredentialTypes.length === 0) {
-      return true; // No specific credentials required
-    }
-
-    const policyResults = Array.isArray(verificationResult?.policyResults?.results)
-      ? verificationResult.policyResults.results
-      : [];
-
-    // Extract credential types that were actually provided
-    const providedCredentialTypes = policyResults
-      .filter((result) => result && result.credential && result.credential !== 'VerifiablePresentation')
-      .map((result) => result.credential);
-
-    // Check if all required credentials are present
-    for (const requiredType of requestedCredentialTypes) {
-      if (!providedCredentialTypes.includes(requiredType)) {
-        console.warn(`Missing required credential: ${requiredType}`);
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  function uniqueIssuers(...issuerGroups) {
-    return [...new Set(issuerGroups.flatMap((group) => toIssuerArray(group)))];
-  }
+  if (value.credentialSubject && typeof value.credentialSubject === "object") {
+    return value.credentialSubject;
   }
 
   for (const nestedValue of Object.values(value)) {
@@ -299,25 +325,6 @@ router.get('/infoSesionVerificacion/:id', async (req, res) => {
       const educationalIdSubject = getEducationalIdSubject(resultadoVerificacion);
       resultadoVerificacion.educationalIdSubject = educationalIdSubject;
       return res.status(200).json(resultadoVerificacion);
-    }  
-
-    // Validate that all required credentials were presented
-    const requestedCredentialTypes = resultadoVerificacion?.presentationDefinition?.input_descriptors
-      ?.map((descriptor) => descriptor.id)
-      .filter((id) => id !== 'VerifiablePresentation') || [];
-    
-    if (!validateAllCredentialsPresented(resultadoVerificacion, requestedCredentialTypes)) {
-      return res.status(400).json({
-        message: "Not all required credentials were presented",
-        missingCredentials: requestedCredentialTypes.filter(
-          (type) => {
-            const results = Array.isArray(resultadoVerificacion?.policyResults?.results) 
-              ? resultadoVerificacion.policyResults.results 
-              : [];
-            return !results.some((r) => r?.credential === type);
-          }
-        ),
-      });
     }
   } catch (error) {
     console.error('Error al hacer la petición', error.message);
@@ -328,6 +335,7 @@ router.get('/infoSesionVerificacionGuardar/:id', async (req, res) => {
   //https://verifier.demo.walt.id/openid4vc/session/${id}
   try {
     const { id } = req.params;
+    const { courseName } = req.query;
     const response = await axios.get(`${verifierApiUrl}/openid4vc/session/${id}`, {
       headers: {
         'accept': 'application/json',
@@ -335,6 +343,20 @@ router.get('/infoSesionVerificacionGuardar/:id', async (req, res) => {
     });
 
     const resultadoVerificacion = response.data;
+
+    const requestedFromSession = resultadoVerificacion?.presentationDefinition?.input_descriptors
+      ?.map((descriptor) => descriptor.id)
+      .filter((credentialType) => credentialType && credentialType !== 'VerifiablePresentation') || [];
+
+    const requiredCredentialTypes = getRequiredCredentialTypesForCourse(courseName, requestedFromSession);
+
+    if (!validateAllCredentialsPresented(resultadoVerificacion, requiredCredentialTypes)) {
+      const missingCredentials = getMissingCredentialTypes(resultadoVerificacion, requiredCredentialTypes);
+      return res.status(400).json({
+        message: "Not all required credentials were presented",
+        missingCredentials,
+      });
+    }
 
 
     const respuestaGuardar = await axios.post(`${mongodbApiUrl}/credenciales`, resultadoVerificacion, {
@@ -352,8 +374,36 @@ router.get('/infoSesionVerificacionGuardar/:id', async (req, res) => {
     return res.status(200).json(respuestaGuardar.data); 
 
   } catch (error) {
-    console.error('Error al hacer la petición o guardar el resultado de la verificación', error.message);
-    res.status(500).send('Error al procesar la solicitud');
+    const downstreamStatus = error?.response?.status;
+    const downstreamData = error?.response?.data;
+    const failingUrl = error?.config?.url;
+
+    console.error('Error al hacer la petición o guardar el resultado de la verificación', {
+      message: error.message,
+      status: downstreamStatus,
+      url: failingUrl,
+      data: downstreamData,
+    });
+
+    if (downstreamStatus === 404) {
+      return res.status(404).json({
+        message: 'Verification session not found or downstream resource missing',
+        url: failingUrl,
+      });
+    }
+
+    if (downstreamStatus) {
+      return res.status(downstreamStatus).json({
+        message: 'Downstream verification/save request failed',
+        url: failingUrl,
+        details: downstreamData || error.message,
+      });
+    }
+
+    res.status(500).json({
+      message: 'Error al procesar la solicitud',
+      details: error.message,
+    });
   }
 });
 router.post('/emitirCredencial', async (req, res) => {
