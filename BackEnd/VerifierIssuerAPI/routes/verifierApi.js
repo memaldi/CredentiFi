@@ -69,9 +69,38 @@ function findCredentialSubjectDeep(value) {
   if (!value || typeof value !== "object") {
     return null;
   }
+  function validateAllCredentialsPresented(verificationResult, requestedCredentialTypes) {
+    if (!verificationResult?.verificationResult) {
+      return false; // Verification failed
+    }
 
-  if (value.credentialSubject && typeof value.credentialSubject === "object") {
-    return value.credentialSubject;
+    if (!requestedCredentialTypes || requestedCredentialTypes.length === 0) {
+      return true; // No specific credentials required
+    }
+
+    const policyResults = Array.isArray(verificationResult?.policyResults?.results)
+      ? verificationResult.policyResults.results
+      : [];
+
+    // Extract credential types that were actually provided
+    const providedCredentialTypes = policyResults
+      .filter((result) => result && result.credential && result.credential !== 'VerifiablePresentation')
+      .map((result) => result.credential);
+
+    // Check if all required credentials are present
+    for (const requiredType of requestedCredentialTypes) {
+      if (!providedCredentialTypes.includes(requiredType)) {
+        console.warn(`Missing required credential: ${requiredType}`);
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  function uniqueIssuers(...issuerGroups) {
+    return [...new Set(issuerGroups.flatMap((group) => toIssuerArray(group)))];
+  }
   }
 
   for (const nestedValue of Object.values(value)) {
@@ -272,6 +301,24 @@ router.get('/infoSesionVerificacion/:id', async (req, res) => {
       return res.status(200).json(resultadoVerificacion);
     }  
 
+    // Validate that all required credentials were presented
+    const requestedCredentialTypes = resultadoVerificacion?.presentationDefinition?.input_descriptors
+      ?.map((descriptor) => descriptor.id)
+      .filter((id) => id !== 'VerifiablePresentation') || [];
+    
+    if (!validateAllCredentialsPresented(resultadoVerificacion, requestedCredentialTypes)) {
+      return res.status(400).json({
+        message: "Not all required credentials were presented",
+        missingCredentials: requestedCredentialTypes.filter(
+          (type) => {
+            const results = Array.isArray(resultadoVerificacion?.policyResults?.results) 
+              ? resultadoVerificacion.policyResults.results 
+              : [];
+            return !results.some((r) => r?.credential === type);
+          }
+        ),
+      });
+    }
   } catch (error) {
     console.error('Error al hacer la petición', error.message);
     res.status(500).send('Error al procesar la solicitud');
