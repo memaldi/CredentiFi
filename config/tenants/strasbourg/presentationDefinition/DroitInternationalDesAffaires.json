@@ -9,25 +9,26 @@
          "d": "S2zEMK756adVA2MXt-LseyUVwiaHnZ5bwsFCwAkKaLU"
       }
    },
-   "credentialConfigurationId": "AlgoritmosAvanzadosDeAprendizaje_jwt_vc_json",
+   "credentialConfigurationId": "DroitInternationalDesAffaires_jwt_vc_json",
    "credentialData": {
       "@context": [
          "https://www.w3.org/2018/credentials/v1",
          "https://www.w3.org/2018/credentials/examples/v1"
       ],
-      "id": "http://example.gov/credentials/3732",
+      "id": "http://example.gov/credentials/3734",
       "type": [
          "VerifiableCredential",
-         "AlgoritmosAvanzadosDeAprendizaje"
+         "VerifiableAttestation",
+         "DroitInternationalDesAffaires"
       ],
       "issuer": {
          "id": "<issuerDid>",
          "name": "Université de Lumiére"
       },
-      "issuanceDate": "2025-05-19T17:43:38+02:00",
-      "issued": "2025-05-19T17:43:38+02:00",
-      "validUntil": "2035-05-19T00:00:00+02:00",
-      "validFrom": "2025-05-19T00:00:00+02:00",
+      "issuanceDate": "2025-05-18T14:30:23+02:00",
+      "issued": "2025-05-18T14:30:23+02:00",
+      "validUntil": "2035-05-18T00:00:00+02:00",
+      "validFrom": "2025-05-18T00:00:00+02:00",
       "credentialSubject": {
          "id": "urn:epass:person:1",
          "type": "Person",
@@ -45,17 +46,17 @@
          ],
          "dateOfBirth": "{{fechaNacimiento}}",
          "givenName": {
-            "es": [
+            "fr": [
                "{{nombre}}"
             ]
          },
          "familyName": {
-            "es": [
+            "fr": [
                "{{apellidos}}"
             ]
          },
          "fullName": {
-            "es": [
+            "fr": [
                "{{nombreCompleto}}"
             ]
          },
@@ -64,7 +65,7 @@
             "type": "LegalIdentifier",
             "notation": "{{dniPasaporte}}",
             "spatial": {
-               "id": "http://publications.europa.eu/resource/authority/country/ESP",
+               "id": "http://publications.europa.eu/resource/authority/country/FRA",
                "type": "Concept",
                "inScheme": {
                   "id": "http://publications.europa.eu/resource/authority/country",
@@ -72,10 +73,10 @@
                },
                "prefLabel": {
                   "en": [
-                     "Spain"
+                     "France"
                   ],
-                  "es": [
-                     "España"
+                  "fr": [
+                     "France"
                   ]
                },
                "notation": "country"
@@ -93,8 +94,8 @@
                         "id": "urn:epass:org:1",
                         "type": "Organisation",
                         "altLabel": {
-                           "es": [
-                              "University of Strasbourg"
+                           "fr": [
+                              "Université de Strasbourg"
                            ]
                         },
                         "location": [
@@ -106,7 +107,7 @@
                                     "id": "urn:epass:address:1",
                                     "type": "Address",
                                     "countryCode": {
-                                       "id": "http://publications.europa.eu/resource/authority/country/ESP",
+                                       "id": "http://publications.europa.eu/resource/authority/country/FRA",
                                        "type": "Concept",
                                        "inScheme": {
                                           "id": "http://publications.europa.eu/resource/authority/country",
@@ -114,19 +115,19 @@
                                        },
                                        "prefLabel": {
                                           "en": [
-                                             "Spain"
+                                             "France"
                                           ],
-                                          "es": [
-                                             "España"
+                                          "fr": [
+                                             "France"
                                           ]
                                        },
                                        "notation": "country"
                                     },
                                     "fullAddress": {
-                                       "id": "urn:epass:note:2",
+                                       "id": "urn:epass:note:1",
                                        "type": "Note",
                                        "noteLiteral": {
-                                          "es": [
+                                          "fr": [
                                              "4 rue Blaise Pascal, 67000 Strasbourg, France"
                                           ]
                                        }
@@ -134,8 +135,8 @@
                                  }
                               ],
                               "description": {
-                                 "es": [
-                                    "Dirección principal"
+                                 "fr": [
+                                    "Adresse principale"
                                  ]
                               }
                            }
@@ -148,8 +149,8 @@
                            }
                         ],
                         "legalName": {
-                           "es": [
-                              "University of Strasbourg"
+                           "fr": [
+                              "Université de Strasbourg"
                            ]
                         },
                         "registration": {
@@ -157,7 +158,7 @@
                            "type": "LegalIdentifier",
                            "notation": "REPLACE_WITH_UNISTRA_REGISTRATION_ID",
                            "spatial": {
-                              "id": "http://publications.europa.eu/resource/authority/country/ESP",
+                              "id": "http://publications.europa.eu/resource/authority/country/FRA",
                               "type": "Concept",
                               "inScheme": {
                                  "id": "http://publications.europa.eu/resource/authority/country",
@@ -165,10 +166,10 @@
                               },
                               "prefLabel": {
                                  "en": [
-                                    "Spain"
+                                    "France"
                                  ],
-                                 "es": [
-                                    "España"
+                                 "fr": [
+                                    "France"
                                  ]
                               },
                               "notation": "country"
@@ -176,24 +177,24 @@
                         }
                      }
                   ],
-                  "awardingDate": "2025-05-19T00:00:00+02:00"
+                  "awardingDate": "2025-05-18T00:00:00+02:00"
                },
                "description": {
-                  "es": [
-                     "Diseño, entrenamiento y evaluación de modelos avanzados de aprendizaje supervisado aplicando clasificación multiclase con redes neuronales, árboles de decisión, bosques aleatorios y árboles potenciados utilizando Python y TensorFlow."
+                  "fr": [
+                     "A acquis les compétences nécessaires pour analyser et appliquer les règles du droit international des affaires, incluant les contrats commerciaux internationaux, l'arbitrage international, la propriété intellectuelle dans le commerce mondial et la résolution des litiges transfrontaliers."
                   ]
                },
                "title": {
-                  "es": [
-                     "Diseño, entrenamiento y evaluación de modelos avanzados de aprendizaje supervisado, aplicando técnicas como clasificación multiclase con redes neuronales, árboles de decisión, bosques aleatorios y árboles potenciados."
+                  "fr": [
+                     "Droit international des affaires"
                   ]
                },
                "specifiedBy": {
                   "id": "urn:epass:learningAchievementSpec:1",
                   "type": "LearningAchievementSpecification",
                   "title": {
-                     "es": [
-                        "Diseño, entrenamiento y evaluación de modelos avanzados de aprendizaje supervisado, aplicando técnicas como clasificación multiclase con redes neuronales, árboles de decisión, bosques aleatorios y árboles potenciados."
+                     "fr": [
+                        "Droit international des affaires"
                      ]
                   },
                   "dcType": [
@@ -208,8 +209,8 @@
                            "en": [
                               "Course"
                            ],
-                           "es": [
-                              "Curso"
+                           "fr": [
+                              "Cours"
                            ]
                         }
                      }
@@ -229,7 +230,7 @@
                               "en": [
                                  "ECTS"
                               ],
-                              "es": [
+                              "fr": [
                                  "ECTS"
                               ]
                            }
@@ -237,18 +238,9 @@
                         "point": "1"
                      }
                   ],
-                  "entryRequirement": {
-                     "id": "urn:epass:note:1",
-                     "type": "Note",
-                     "noteLiteral": {
-                        "es": [
-                           "Haber obtenido el curso de \"Aprendizaje automático supervisado: Regresión y clasificación\"."
-                        ]
-                     }
-                  },
                   "language": [
                      {
-                        "id": "http://publications.europa.eu/resource/authority/language/ENG",
+                        "id": "http://publications.europa.eu/resource/authority/language/FRA",
                         "type": "Concept",
                         "inScheme": {
                            "id": "http://publications.europa.eu/resource/authority/language",
@@ -256,10 +248,10 @@
                         },
                         "prefLabel": {
                            "en": [
-                              "English"
+                              "French"
                            ],
-                           "es": [
-                              "inglés"
+                           "fr": [
+                              "Français"
                            ]
                         },
                         "notation": "language"
@@ -276,8 +268,8 @@
                         "en": [
                            "formal learning"
                         ],
-                        "es": [
-                           "Aprendizaje formal"
+                        "fr": [
+                           "Apprentissage formel"
                         ]
                      }
                   },
@@ -294,8 +286,8 @@
                            "en": [
                               "Online"
                            ],
-                           "es": [
-                              "En línea"
+                           "fr": [
+                              "En ligne"
                            ]
                         }
                      }
@@ -312,15 +304,15 @@
                            "en": [
                               "Persons in tertiary education (EQF 6)"
                            ],
-                           "es": [
-                              "Personas que cursan enseñanza superior (EQF 6)"
+                           "fr": [
+                              "Personnes en enseignement supérieur (EQF 6)"
                            ]
                         }
                      }
                   ],
                   "thematicArea": [
                      {
-                        "id": "http://data.europa.eu/snb/isced-f/0613",
+                        "id": "http://data.europa.eu/snb/isced-f/0421",
                         "type": "Concept",
                         "inScheme": {
                            "id": "http://data.europa.eu/snb/isced-f/25831c2",
@@ -328,15 +320,15 @@
                         },
                         "prefLabel": {
                            "en": [
-                              "Software and applications development and analysis"
+                              "Law"
                            ],
-                           "es": [
-                              "Desarrollo y análisis de software y aplicaciones"
+                           "fr": [
+                              "Droit"
                            ]
                         }
                      }
                   ],
-                  "volumeOfLearning": "P1DT10H"
+                  "volumeOfLearning": "P1DT9H"
                }
             }
          ]

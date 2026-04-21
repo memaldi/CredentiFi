@@ -15,31 +15,59 @@ describe('Issuer API', () => {
     jest.resetAllMocks();
   });
 
-  it('POST / - emite credencial con curso válido', async () => {
-    // Mock lectura de plantilla
-    jest.spyOn(fs, 'readFile').mockResolvedValueOnce(
+  it('POST / - emite lote de credenciales con cursos válidos', async () => {
+    jest.spyOn(fs, 'readFile').mockResolvedValue(
       JSON.stringify({ "@context": ["test"], name: "{{nombre}}" })
     );
-    // Mock axios.post
-    axios.post.mockResolvedValueOnce({ data: { success: true, nombre: "Jonan" } });
+    axios.post.mockResolvedValueOnce({ data: "openid-credential-offer://example" });
 
     const res = await request(app)
       .post('/')
       .send({
-        courseName: "Aprendizaje automático supervisado: Regresión y clasificación",
+        courseNames: ["Aprendizaje automático supervisado: Regresión y clasificación"],
         studentInfo: { nombre: "Jonan" }
       });
 
     expect(res.statusCode).toBe(200);
-    expect(res.body.success).toBe(true);
-    expect(res.body.nombre).toBe("Jonan");
+    expect(axios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/issueBatch'),
+      expect.any(Array)
+    );
   });
 
-  it('POST / - curso no soportado', async () => {
+  it('POST / - emite lote con nombre de curso normalizado', async () => {
+    jest.spyOn(fs, 'readFile').mockResolvedValue(
+      JSON.stringify({ "@context": ["test"], name: "{{nombre}}" })
+    );
+    axios.post.mockResolvedValueOnce({ data: "openid-credential-offer://example" });
+
     const res = await request(app)
       .post('/')
       .send({
-        courseName: "No existe",
+        courseNames: ["aprendizaje automatico supervisado: regresion y clasificacion"],
+        studentInfo: { nombre: "Eva" }
+      });
+
+    expect(res.statusCode).toBe(200);
+  });
+
+  it('POST / - courseNames vacío devuelve 400', async () => {
+    const res = await request(app)
+      .post('/')
+      .send({
+        courseNames: [],
+        studentInfo: { nombre: "Jonan" }
+      });
+
+    expect(res.statusCode).toBe(400);
+    expect(res.body.message).toMatch(/courseNames/);
+  });
+
+  it('POST / - curso no soportado en el lote', async () => {
+    const res = await request(app)
+      .post('/')
+      .send({
+        courseNames: ["No existe"],
         studentInfo: { nombre: "Jonan" }
       });
 
@@ -52,7 +80,7 @@ describe('Issuer API', () => {
     const res = await request(app)
       .post('/')
       .send({
-        courseName: "Aprendizaje automático supervisado: Regresión y clasificación",
+        courseNames: ["Aprendizaje automático supervisado: Regresión y clasificación"],
         studentInfo: { nombre: "Jonan" }
       });
 

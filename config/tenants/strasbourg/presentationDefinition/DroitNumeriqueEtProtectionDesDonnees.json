@@ -1,0 +1,351 @@
+{
+   "issuerKey": {
+      "type": "jwk",
+      "jwk": {
+         "kty": "EC",
+         "x": "V_YjS_wCXRaekKKD_ObaxXxD8DtVTWKRLzgCDUlkbh4",
+         "y": "Dg2akRLtTu7_y8rmlGeEOGBlFv9ztNJdPpogQTSgG40",
+         "crv": "P-256",
+         "d": "S2zEMK756adVA2MXt-LseyUVwiaHnZ5bwsFCwAkKaLU"
+      }
+   },
+   "credentialConfigurationId": "DroitNumeriqueEtProtectionDesDonnees_jwt_vc_json",
+   "credentialData": {
+      "@context": [
+         "https://www.w3.org/2018/credentials/v1",
+         "https://www.w3.org/2018/credentials/examples/v1"
+      ],
+      "id": "http://example.gov/credentials/3733",
+      "type": [
+         "VerifiableCredential",
+         "VerifiableAttestation",
+         "DroitNumeriqueEtProtectionDesDonnees"
+      ],
+      "issuer": {
+         "id": "<issuerDid>",
+         "name": "Université de Lumiére"
+      },
+      "issuanceDate": "2025-05-18T14:30:23+02:00",
+      "issued": "2025-05-18T14:30:23+02:00",
+      "validUntil": "2035-05-18T00:00:00+02:00",
+      "validFrom": "2025-05-18T00:00:00+02:00",
+      "credentialSubject": {
+         "id": "urn:epass:person:1",
+         "type": "Person",
+         "contactPoint": [
+            {
+               "id": "urn:epass:contactPoint:1",
+               "type": "ContactPoint",
+               "emailAddress": [
+                  {
+                     "id": "{{email}}",
+                     "type": "Mailbox"
+                  }
+               ]
+            }
+         ],
+         "dateOfBirth": "{{fechaNacimiento}}",
+         "givenName": {
+            "fr": [
+               "{{nombre}}"
+            ]
+         },
+         "familyName": {
+            "fr": [
+               "{{apellidos}}"
+            ]
+         },
+         "fullName": {
+            "fr": [
+               "{{nombreCompleto}}"
+            ]
+         },
+         "nationalID": {
+            "id": "urn:epass:legalIdentifier:3",
+            "type": "LegalIdentifier",
+            "notation": "{{dniPasaporte}}",
+            "spatial": {
+               "id": "http://publications.europa.eu/resource/authority/country/FRA",
+               "type": "Concept",
+               "inScheme": {
+                  "id": "http://publications.europa.eu/resource/authority/country",
+                  "type": "ConceptScheme"
+               },
+               "prefLabel": {
+                  "en": [
+                     "France"
+                  ],
+                  "fr": [
+                     "France"
+                  ]
+               },
+               "notation": "country"
+            }
+         },
+         "hasClaim": [
+            {
+               "id": "urn:epass:learningAchievement:1",
+               "type": "LearningAchievement",
+               "awardedBy": {
+                  "id": "urn:epass:awardingProcess:1",
+                  "type": "AwardingProcess",
+                  "awardingBody": [
+                     {
+                        "id": "urn:epass:org:1",
+                        "type": "Organisation",
+                        "altLabel": {
+                           "fr": [
+                              "Université de Strasbourg"
+                           ]
+                        },
+                        "location": [
+                           {
+                              "id": "urn:epass:location:1",
+                              "type": "Location",
+                              "address": [
+                                 {
+                                    "id": "urn:epass:address:1",
+                                    "type": "Address",
+                                    "countryCode": {
+                                       "id": "http://publications.europa.eu/resource/authority/country/FRA",
+                                       "type": "Concept",
+                                       "inScheme": {
+                                          "id": "http://publications.europa.eu/resource/authority/country",
+                                          "type": "ConceptScheme"
+                                       },
+                                       "prefLabel": {
+                                          "en": [
+                                             "France"
+                                          ],
+                                          "fr": [
+                                             "France"
+                                          ]
+                                       },
+                                       "notation": "country"
+                                    },
+                                    "fullAddress": {
+                                       "id": "urn:epass:note:1",
+                                       "type": "Note",
+                                       "noteLiteral": {
+                                          "fr": [
+                                             "4 rue Blaise Pascal, 67000 Strasbourg, France"
+                                          ]
+                                       }
+                                    }
+                                 }
+                              ],
+                              "description": {
+                                 "fr": [
+                                    "Adresse principale"
+                                 ]
+                              }
+                           }
+                        ],
+                        "homepage": [
+                           {
+                              "id": "urn:epass:webResource:1",
+                              "type": "WebResource",
+                              "contentURL": "https://www.unistra.fr"
+                           }
+                        ],
+                        "legalName": {
+                           "fr": [
+                              "Université de Strasbourg"
+                           ]
+                        },
+                        "registration": {
+                           "id": "urn:epass:legalIdentifier:2",
+                           "type": "LegalIdentifier",
+                           "notation": "REPLACE_WITH_UNISTRA_REGISTRATION_ID",
+                           "spatial": {
+                              "id": "http://publications.europa.eu/resource/authority/country/FRA",
+                              "type": "Concept",
+                              "inScheme": {
+                                 "id": "http://publications.europa.eu/resource/authority/country",
+                                 "type": "ConceptScheme"
+                              },
+                              "prefLabel": {
+                                 "en": [
+                                    "France"
+                                 ],
+                                 "fr": [
+                                    "France"
+                                 ]
+                              },
+                              "notation": "country"
+                           }
+                        }
+                     }
+                  ],
+                  "awardingDate": "2025-05-18T00:00:00+02:00"
+               },
+               "description": {
+                  "fr": [
+                     "A acquis les compétences nécessaires pour comprendre et appliquer les règles du droit numérique et de la protection des données personnelles, incluant le RGPD, la cybersécurité juridique et les enjeux de la gouvernance des données dans l'environnement numérique."
+                  ]
+               },
+               "title": {
+                  "fr": [
+                     "Droit numérique et protection des données"
+                  ]
+               },
+               "specifiedBy": {
+                  "id": "urn:epass:learningAchievementSpec:1",
+                  "type": "LearningAchievementSpecification",
+                  "title": {
+                     "fr": [
+                        "Droit numérique et protection des données"
+                     ]
+                  },
+                  "dcType": [
+                     {
+                        "id": "http://data.europa.eu/snb/learning-opportunity/05053c1cbe",
+                        "type": "Concept",
+                        "inScheme": {
+                           "id": "http://data.europa.eu/snb/learning-opportunity/25831c2",
+                           "type": "ConceptScheme"
+                        },
+                        "prefLabel": {
+                           "en": [
+                              "Course"
+                           ],
+                           "fr": [
+                              "Cours"
+                           ]
+                        }
+                     }
+                  ],
+                  "creditPoint": [
+                     {
+                        "id": "urn:epass:creditPoint:1",
+                        "type": "CreditPoint",
+                        "framework": {
+                           "id": "http://data.europa.eu/snb/education-credit/6fcec5c5af",
+                           "type": "Concept",
+                           "inScheme": {
+                              "id": "http://data.europa.eu/snb/education-credit/25831c2",
+                              "type": "ConceptScheme"
+                           },
+                           "prefLabel": {
+                              "en": [
+                                 "ECTS"
+                              ],
+                              "fr": [
+                                 "ECTS"
+                              ]
+                           }
+                        },
+                        "point": "1"
+                     }
+                  ],
+                  "language": [
+                     {
+                        "id": "http://publications.europa.eu/resource/authority/language/FRA",
+                        "type": "Concept",
+                        "inScheme": {
+                           "id": "http://publications.europa.eu/resource/authority/language",
+                           "type": "ConceptScheme"
+                        },
+                        "prefLabel": {
+                           "en": [
+                              "French"
+                           ],
+                           "fr": [
+                              "Français"
+                           ]
+                        },
+                        "notation": "language"
+                     }
+                  ],
+                  "learningSetting": {
+                     "id": "http://data.europa.eu/snb/learning-setting/6fd4685715",
+                     "type": "Concept",
+                     "inScheme": {
+                        "id": "http://data.europa.eu/snb/learning-setting/25831c2",
+                        "type": "ConceptScheme"
+                     },
+                     "prefLabel": {
+                        "en": [
+                           "formal learning"
+                        ],
+                        "fr": [
+                           "Apprentissage formel"
+                        ]
+                     }
+                  },
+                  "maximumDuration": "P1M",
+                  "mode": [
+                     {
+                        "id": "http://data.europa.eu/snb/learning-assessment/920fbb3cbe",
+                        "type": "Concept",
+                        "inScheme": {
+                           "id": "http://data.europa.eu/snb/learning-assessment/25831c2",
+                           "type": "ConceptScheme"
+                        },
+                        "prefLabel": {
+                           "en": [
+                              "Online"
+                           ],
+                           "fr": [
+                              "En ligne"
+                           ]
+                        }
+                     }
+                  ],
+                  "targetGroup": [
+                     {
+                        "id": "http://data.europa.eu/snb/target-group/1599531db0",
+                        "type": "Concept",
+                        "inScheme": {
+                           "id": "http://data.europa.eu/snb/target-group/25831c2",
+                           "type": "ConceptScheme"
+                        },
+                        "prefLabel": {
+                           "en": [
+                              "Persons in tertiary education (EQF 6)"
+                           ],
+                           "fr": [
+                              "Personnes en enseignement supérieur (EQF 6)"
+                           ]
+                        }
+                     }
+                  ],
+                  "thematicArea": [
+                     {
+                        "id": "http://data.europa.eu/snb/isced-f/0421",
+                        "type": "Concept",
+                        "inScheme": {
+                           "id": "http://data.europa.eu/snb/isced-f/25831c2",
+                           "type": "ConceptScheme"
+                        },
+                        "prefLabel": {
+                           "en": [
+                              "Law"
+                           ],
+                           "fr": [
+                              "Droit"
+                           ]
+                        }
+                     }
+                  ],
+                  "volumeOfLearning": "P1DT9H"
+               }
+            }
+         ]
+      }
+   },
+   "mapping": {
+      "id": "<uuid>",
+      "issuer": {
+         "id": "<issuerDid>"
+      },
+      "credentialSubject": {
+         "id": "<subjectDid>"
+      },
+      "issuanceDate": "<timestamp>",
+      "expirationDate": "<timestamp-in:365d>"
+   },
+   "authenticationMethod": "PRE_AUTHORIZED",
+   "issuerDid": "did:ebsi:z2B8dYp4g8f4XW6Q9kVw3N7mR5tJc1Hs",
+   "standardVersion": "DRAFT13"
+}

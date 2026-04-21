@@ -9,53 +9,58 @@ import { t } from "../config/i18n";
 
 const QREmitir = () => {
   const issuerUrl = apiUrl("/verifierIssuer/emitir");
-  const [issuanceData, setIssueData] = useState(null);
+  const [offerUri, setOfferUri] = useState(null);
+  const [emitError, setEmitError] = useState(null);
   const [copyButtonText, setCopyButtonText] = useState(
     t("Copiar respuesta al portapapeles", "Copier dans le presse-papiers")
   );
   const { studentInfo } = useStudent();
   const location = useLocation();
-  const curso = location.state?.selectedCourseNames[0];
+  const selectedCourses = location.state?.selectedCourseNames || [];
 
   useEffect(() => {
-    if (curso && studentInfo) {
-      const emissionRequests = {
-        courseName: curso,
-        studentInfo: {
-          email: studentInfo?.correo,
-          fechaNacimiento: studentInfo?.fecha_nacimiento ? `${studentInfo.fecha_nacimiento}T00:00:00+01:00` : '',
-          nombre: studentInfo?.nombre,
-          apellidos: `${studentInfo?.primer_apellido || ''} ${studentInfo?.segundo_apellido || ''}`.trim(),
-          nombreCompleto: `${studentInfo?.nombre || ''} ${studentInfo?.primer_apellido || ''} ${studentInfo?.segundo_apellido || ''}`.trim(),
-          dniPasaporte: studentInfo?.dni,
+    if (selectedCourses.length > 0 && studentInfo) {
+      const emitirCursos = async () => {
+        try {
+          const emissionRequest = {
+            courseNames: selectedCourses,
+            studentInfo: {
+              email: studentInfo?.correo,
+              fechaNacimiento: studentInfo?.fecha_nacimiento ? `${studentInfo.fecha_nacimiento}T00:00:00+01:00` : '',
+              nombre: studentInfo?.nombre,
+              apellidos: `${studentInfo?.primer_apellido || ''} ${studentInfo?.segundo_apellido || ''}`.trim(),
+              nombreCompleto: `${studentInfo?.nombre || ''} ${studentInfo?.primer_apellido || ''} ${studentInfo?.segundo_apellido || ''}`.trim(),
+              dniPasaporte: studentInfo?.dni,
+            }
+          };
+
+          const response = await fetch(issuerUrl, {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(emissionRequest),
+          });
+
+          let body = await response.text();
+          body = body.replace(/^"(.*)"$/, "$1");
+
+          if (!response.ok) {
+            setEmitError(body);
+          } else {
+            setOfferUri(body);
+          }
+        } catch (error) {
+          console.error("Error al pasar la información:", error);
+          setEmitError("Error al emitir la credencial. Por favor, inténtalo de nuevo más tarde.");
         }
       };
 
-      console.log("Emisión de credenciales iniciada con los siguientes datos:", emissionRequests);
-      const pasarInfo = async () => {
-        try {
-          const response = await fetch(issuerUrl, {
-            method: "POST",
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(emissionRequests),
-          });
-          let data = await response.text();
-          data = data.replace(/^"(.*)"$/, "$1");
-          setIssueData(data);
-        } catch (error) {
-          console.error("Error al pasar la información:", error);
-          alert("Error al emitir la credencial. Por favor, inténtalo de nuevo más tarde.");
-        }
-      };
-      pasarInfo();
+      emitirCursos();
     }
-  }, [issuerUrl, curso, studentInfo]); // Dependencias actualizadas
+  }, [issuerUrl, selectedCourses, studentInfo]);
 
   const copyToClipboard = () => {
     navigator.clipboard
-      .writeText(issuanceData)
+      .writeText(offerUri || "")
       .then(() => {
         setCopyButtonText(t("Copiado", "Copié"));
         setTimeout(
@@ -74,8 +79,10 @@ const QREmitir = () => {
       <BrandLogo alt={runtimeConfig.universityName} className="logo-deusto" />
       <div className="wallet-box">
         <h1>{t("Obten tu Microcredencial:", "Obtenez votre Microcredential :")}</h1>
-        {issuanceData ? (
-          <QRCode value={issuanceData} size={200} />
+        {emitError ? (
+          <p className="credential-error">{emitError}</p>
+        ) : offerUri ? (
+          <QRCode value={offerUri} size={220} />
         ) : (
           <div className="spinner-border" role="status">
             <span className="visually-hidden">Loading...</span>
@@ -123,6 +130,30 @@ const QREmitir = () => {
           overflow: hidden;
           text-overflow: ellipsis; /* Agregar puntos suspensivos si el texto es muy largo */
           font-size: 17px; /* Reducir el tamaño si es necesario */
+        }
+        .credentials-list {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          max-height: 350px;
+          overflow-y: auto;
+          margin-bottom: 8px;
+        }
+        .credential-item {
+          border: 1px solid #d6d6d6;
+          border-radius: 8px;
+          padding: 10px;
+          background: #fafafa;
+        }
+        .credential-title {
+          font-size: 14px;
+          margin-bottom: 8px;
+          color: #333;
+        }
+        .credential-error {
+          color: #b00020;
+          font-size: 13px;
+          margin: 0;
         }
         .separator {
           display: flex;

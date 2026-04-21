@@ -9,17 +9,17 @@
          "d": "S2zEMK756adVA2MXt-LseyUVwiaHnZ5bwsFCwAkKaLU"
       }
    },
-   "credentialConfigurationId": "AprendizajeAutomaticoSupervisado_jwt_vc_json",
+   "credentialConfigurationId": "ManagementStrategiqueDesOrganisations_jwt_vc_json",
    "credentialData": {
       "@context": [
          "https://www.w3.org/2018/credentials/v1",
          "https://www.w3.org/2018/credentials/examples/v1"
       ],
-      "id": "http://example.gov/credentials/3732",
+      "id": "http://example.gov/credentials/3736",
       "type": [
          "VerifiableCredential",
          "VerifiableAttestation",
-         "AprendizajeAutomaticoSupervisado"
+         "ManagementStrategiqueDesOrganisations"
       ],
       "issuer": {
          "id": "<issuerDid>",
@@ -46,17 +46,17 @@
          ],
          "dateOfBirth": "{{fechaNacimiento}}",
          "givenName": {
-            "es": [
+            "fr": [
                "{{nombre}}"
             ]
          },
          "familyName": {
-            "es": [
+            "fr": [
                "{{apellidos}}"
             ]
          },
          "fullName": {
-            "es": [
+            "fr": [
                "{{nombreCompleto}}"
             ]
          },
@@ -65,7 +65,7 @@
             "type": "LegalIdentifier",
             "notation": "{{dniPasaporte}}",
             "spatial": {
-               "id": "http://publications.europa.eu/resource/authority/country/ESP",
+               "id": "http://publications.europa.eu/resource/authority/country/FRA",
                "type": "Concept",
                "inScheme": {
                   "id": "http://publications.europa.eu/resource/authority/country",
@@ -73,10 +73,10 @@
                },
                "prefLabel": {
                   "en": [
-                     "Spain"
+                     "France"
                   ],
-                  "es": [
-                     "España"
+                  "fr": [
+                     "France"
                   ]
                },
                "notation": "country"
@@ -94,8 +94,8 @@
                         "id": "urn:epass:org:1",
                         "type": "Organisation",
                         "altLabel": {
-                           "es": [
-                              "University of Strasbourg"
+                           "fr": [
+                              "Université de Strasbourg"
                            ]
                         },
                         "location": [
@@ -107,7 +107,7 @@
                                     "id": "urn:epass:address:1",
                                     "type": "Address",
                                     "countryCode": {
-                                       "id": "http://publications.europa.eu/resource/authority/country/ESP",
+                                       "id": "http://publications.europa.eu/resource/authority/country/FRA",
                                        "type": "Concept",
                                        "inScheme": {
                                           "id": "http://publications.europa.eu/resource/authority/country",
@@ -115,10 +115,10 @@
                                        },
                                        "prefLabel": {
                                           "en": [
-                                             "Spain"
+                                             "France"
                                           ],
-                                          "es": [
-                                             "España"
+                                          "fr": [
+                                             "France"
                                           ]
                                        },
                                        "notation": "country"
@@ -127,7 +127,7 @@
                                        "id": "urn:epass:note:1",
                                        "type": "Note",
                                        "noteLiteral": {
-                                          "es": [
+                                          "fr": [
                                              "4 rue Blaise Pascal, 67000 Strasbourg, France"
                                           ]
                                        }
@@ -135,8 +135,8 @@
                                  }
                               ],
                               "description": {
-                                 "es": [
-                                    "Dirección principal"
+                                 "fr": [
+                                    "Adresse principale"
                                  ]
                               }
                            }
@@ -149,8 +149,8 @@
                            }
                         ],
                         "legalName": {
-                           "es": [
-                              "University of Strasbourg"
+                           "fr": [
+                              "Université de Strasbourg"
                            ]
                         },
                         "registration": {
@@ -158,7 +158,7 @@
                            "type": "LegalIdentifier",
                            "notation": "REPLACE_WITH_UNISTRA_REGISTRATION_ID",
                            "spatial": {
-                              "id": "http://publications.europa.eu/resource/authority/country/ESP",
+                              "id": "http://publications.europa.eu/resource/authority/country/FRA",
                               "type": "Concept",
                               "inScheme": {
                                  "id": "http://publications.europa.eu/resource/authority/country",
@@ -166,10 +166,10 @@
                               },
                               "prefLabel": {
                                  "en": [
-                                    "Spain"
+                                    "France"
                                  ],
-                                 "es": [
-                                    "España"
+                                 "fr": [
+                                    "France"
                                  ]
                               },
                               "notation": "country"
@@ -180,21 +180,21 @@
                   "awardingDate": "2025-05-18T00:00:00+02:00"
                },
                "description": {
-                  "es": [
-                     "Ha adquirido las competencias necesarias para implementar modelos de aprendizaje automático supervisado en Python, aplicando técnicas de regresión lineal y clasificación binaria con scikit-learn, así como metodologías de evaluación del rendimiento de los modelos con métricas estándar."
+                  "fr": [
+                     "A acquis les compétences nécessaires pour analyser et mettre en œuvre des stratégies organisationnelles, comprenant la planification stratégique, la gestion du changement, le leadership et la prise de décision dans des environnements complexes et incertains."
                   ]
                },
                "title": {
-                  "es": [
-                     "Diseño, entrenamiento y evaluación de modelos supervisados de regresión y clasificación utilizando Python y scikit-learn"
+                  "fr": [
+                     "Management stratégique des organisations"
                   ]
                },
                "specifiedBy": {
                   "id": "urn:epass:learningAchievementSpec:1",
                   "type": "LearningAchievementSpecification",
                   "title": {
-                     "es": [
-                        "Diseño, entrenamiento y evaluación de modelos supervisados de regresión y clasificación utilizando Python y scikit-learn"
+                     "fr": [
+                        "Management stratégique des organisations"
                      ]
                   },
                   "dcType": [
@@ -209,8 +209,8 @@
                            "en": [
                               "Course"
                            ],
-                           "es": [
-                              "Curso"
+                           "fr": [
+                              "Cours"
                            ]
                         }
                      }
@@ -230,7 +230,7 @@
                               "en": [
                                  "ECTS"
                               ],
-                              "es": [
+                              "fr": [
                                  "ECTS"
                               ]
                            }
@@ -240,7 +240,7 @@
                   ],
                   "language": [
                      {
-                        "id": "http://publications.europa.eu/resource/authority/language/ENG",
+                        "id": "http://publications.europa.eu/resource/authority/language/FRA",
                         "type": "Concept",
                         "inScheme": {
                            "id": "http://publications.europa.eu/resource/authority/language",
@@ -248,10 +248,10 @@
                         },
                         "prefLabel": {
                            "en": [
-                              "English"
+                              "French"
                            ],
-                           "es": [
-                              "inglés"
+                           "fr": [
+                              "Français"
                            ]
                         },
                         "notation": "language"
@@ -268,8 +268,8 @@
                         "en": [
                            "formal learning"
                         ],
-                        "es": [
-                           "Aprendizaje formal"
+                        "fr": [
+                           "Apprentissage formel"
                         ]
                      }
                   },
@@ -286,8 +286,8 @@
                            "en": [
                               "Online"
                            ],
-                           "es": [
-                              "En línea"
+                           "fr": [
+                              "En ligne"
                            ]
                         }
                      }
@@ -304,15 +304,15 @@
                            "en": [
                               "Persons in tertiary education (EQF 6)"
                            ],
-                           "es": [
-                              "Personas que cursan enseñanza superior (EQF 6)"
+                           "fr": [
+                              "Personnes en enseignement supérieur (EQF 6)"
                            ]
                         }
                      }
                   ],
                   "thematicArea": [
                      {
-                        "id": "http://data.europa.eu/snb/isced-f/0613",
+                        "id": "http://data.europa.eu/snb/isced-f/0413",
                         "type": "Concept",
                         "inScheme": {
                            "id": "http://data.europa.eu/snb/isced-f/25831c2",
@@ -320,10 +320,10 @@
                         },
                         "prefLabel": {
                            "en": [
-                              "Software and applications development and analysis"
+                              "Management and administration"
                            ],
-                           "es": [
-                              "Desarrollo y análisis de software y aplicaciones"
+                           "fr": [
+                              "Gestion et administration"
                            ]
                         }
                      }
