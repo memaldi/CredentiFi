@@ -43,63 +43,85 @@ const QRPrerequisitesPage = () => {
   };
 
   const nombresRequisitos = location.state?.nombresRequisitos || [];
+  const courseName = location.state?.nombre || "";
   const requisitosFormateados = formatRequisitos(nombresRequisitos);
 
-
+  console.log("QRPrerequisitesPage - courseName:", courseName);
+  console.log("QRPrerequisitesPage - nombresRequisitos:", nombresRequisitos);
 
   useEffect(() => {
     const verifyCredential = async () => {
-      const requisitosMap = {
-          "Aprendizaje automático supervisado: Regresión y clasificación": "AprendizajeAutomaticoSupervisado",
-          "Algoritmos avanzados de aprendizaje": "AlgoritmosAvanzadosDeAprendizaje"
-        };
-        
       try {
-      const request_credentials = [
-        {
-          type: "EducationalID",
-          format: "jwt_vc_json"
-        },
-        ...nombresRequisitos
-          .map((nombreLegible) => {
-            const type = requisitosMap[nombreLegible];
-            if (type) {
-              return {
-                type,
-                format: "jwt_vc_json"
-              };
-            } else {
-              console.warn("Nombre de requisito no reconocido:", nombreLegible);
-              return null;
-            }
-          })
-          .filter(Boolean) 
-      ];
+        let presentationDefinition;
 
-      const requestBody = {
-        request_credentials,
-        vc_policies: ["expired", "not-before"]
-      };
+        console.log("Checking course name:", courseName);
+        // Check if this is the Digital Transformation course with external prerequisites
+        if (courseName === "Digital Transformation of SMEs and Incubator Programme") {
+          console.log("Loading Digital Transformation presentation definition");
+          // Load the course-specific presentation definition
+          const response = await fetch(apiUrl("/verifierIssuer/verificar/presentationDefinition/DigitalTransformationPrerequisites"));
+          if (response.ok) {
+            presentationDefinition = await response.json();
+          } else {
+            throw new Error("Failed to load presentation definition");
+          }
+        } else {
+          // Build presentation definition dynamically from database prerequisites
+          const requisitosMap = {
+            "Aprendizaje automático supervisado: Regresión y clasificación": "AprendizajeAutomaticoSupervisado",
+            "Algoritmos avanzados de aprendizaje": "AlgoritmosAvanzadosDeAprendizaje",
+            "Droit numérique et protection des données": "DroitNumeriqueEtProtectionDesDonnees",
+            "Droit international des affaires": "DroitInternationalDesAffaires",
+            "Science politique et gouvernance publique": "SciencePolitiqueEtGouvernancePublique",
+            "Management stratégique des organisations": "ManagementStrategiqueDesOrganisations"
+          };
+          
+          const request_credentials = [
+            {
+              type: "EducationalID",
+              format: "jwt_vc_json"
+            },
+            ...nombresRequisitos
+              .map((nombreLegible) => {
+                const type = requisitosMap[nombreLegible];
+                if (type) {
+                  return {
+                    type,
+                    format: "jwt_vc_json"
+                  };
+                } else {
+                  console.warn("Nombre de requisito no reconocido:", nombreLegible);
+                  return null;
+                }
+              })
+              .filter(Boolean) 
+          ];
 
-      const response = await fetch(apiUrl("/verifierIssuer/verificar"), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(requestBody)
-      });
+          presentationDefinition = {
+            request_credentials,
+            vc_policies: ["expired", "not-before"]
+          };
+        }
 
-      let data = await response.text();
-      data = data.replace(/^"(.*)"$/, "$1");
-      setVerificationData(data);
-    } catch (error) {
-      console.error("Error en la verificación:", error);
-      alert("Error al verificar la credencial. Por favor, inténtalo de nuevo más tarde.");
-    }
-  };
+        const response = await fetch(apiUrl("/verifierIssuer/verificar"), {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(presentationDefinition)
+        });
 
-  verifyCredential();
-}, [nombresRequisitos]);
+        let data = await response.text();
+        data = data.replace(/^"(.*)"$/, "$1");
+        setVerificationData(data);
+      } catch (error) {
+        console.error("Error en la verificación:", error);
+        alert("Error al verificar la credencial. Por favor, inténtalo de nuevo más tarde.");
+      }
+    };
+
+    verifyCredential();
+  }, [nombresRequisitos, courseName]);
 
   return (
     <div className="container">

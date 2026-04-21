@@ -1,0 +1,34 @@
+{
+  "vc_policies": [
+    {
+      "policy": "allowed-issuer",
+      "args": [
+        "did:ebsi:z2B8dYp4g8f4XW6Q9kVw3N7mR5tJc1Hs",
+        "did:ebsi:z21Bs13TqhZV7RY727hX22XF"
+      ]
+    },
+    "expired"
+  ],
+  "request_credentials": [
+    {
+      "format": "jwt_vc_json",
+      "type": "EducationalID"
+    },
+    {
+      "format": "jwt_vc_json",
+      "type": "DroitNumeriqueEtProtectionDesDonnees"
+    },
+    {
+      "format": "jwt_vc_json",
+      "type": "DroitInternationalDesAffaires"
+    },
+    {
+      "format": "jwt_vc_json",
+      "type": "SciencePolitiqueEtGouvernancePublique"
+    },
+    {
+      "format": "jwt_vc_json",
+      "type": "ManagementStrategiqueDesOrganisations"
+    }
+  ]
+}

@@ -329,4 +329,23 @@ router.post('/emitirCredencial', async (req, res) => {
   }
 }
 );
+
+router.get('/presentationDefinition/:fileName', (req, res) => {
+  const { fileName } = req.params;
+  
+  // Sanitize fileName to prevent directory traversal
+  if (!fileName || fileName.includes('..') || fileName.includes('/')) {
+    return res.status(400).json({ message: "Invalid file name" });
+  }
+
+  const filePath = path.join(presentationDefinitionDir, `${fileName}.json`);
+  
+  try {
+    const definition = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    res.json(definition);
+  } catch (error) {
+    res.status(404).json({ message: "Presentation definition not found", error: error.message });
+  }
+});
+
 module.exports = router

@@ -300,7 +300,7 @@ const PrerequisitesPage = () => {
   const [mostrarModalExito, setMostrarModalExito] = useState(false);
 
   const handleButtonClick = () => {
-    navigate("/comparteCredenciales", { state: { nombresRequisitos } });
+    navigate("/comparteCredenciales", { state: { nombre, nombresRequisitos } });
   };
 
   const formatRequisitos = (requisitos) => {
