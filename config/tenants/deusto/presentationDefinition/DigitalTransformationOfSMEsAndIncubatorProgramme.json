@@ -9,7 +9,7 @@
          "d": "WeBq_eoI4jFFSy5XGLyWybzfwxq3wmdYxmi5V087Ze4"
       }
    },
-   "credentialConfigurationId": "AprendizajeNoSupervisado_jwt_vc_json",
+   "credentialConfigurationId": "DigitalTransformationOfSMEsAndIncubatorProgramme_jwt_vc_json",
    "credentialData": {
       "@context": [
          "https://www.w3.org/2018/credentials/v1",
@@ -18,7 +18,7 @@
       "id": "http://example.gov/credentials/3732",
       "type": [
          "VerifiableCredential",
-         "AprendizajeNoSupervisado"
+         "DigitalTransformationOfSMEsAndIncubatorProgramme"
       ],
       "issuer": {
          "id": "<issuerDid>",
@@ -179,21 +179,21 @@
                   "awardingDate": "2025-05-19T00:00:00+02:00"
                },
                "description": {
-                  "es": [
-                     "Diseño, implementación y evaluación de algoritmos de agrupamiento y reducción de dimensionalidad para el análisis de datos no etiquetados usando Python y librerías como scikit-learn y TensorFlow."
+                  "en": [
+                     "Digital Transformation of SMEs and Incubator Programme."
                   ]
                },
                "title": {
-                  "es": [
-                     "Diseño, implementación y evaluación de modelos de aprendizaje no supervisad"
+                  "en": [
+                     "Digital Transformation of SMEs and Incubator Programme"
                   ]
                },
                "specifiedBy": {
                   "id": "urn:epass:learningAchievementSpec:1",
                   "type": "LearningAchievementSpecification",
                   "title": {
-                     "es": [
-                        "Diseño, implementación y evaluación de modelos de aprendizaje no supervisado"
+                     "en": [
+                        "Digital Transformation of SMEs and Incubator Programme"
                      ]
                   },
                   "dcType": [
@@ -241,8 +241,8 @@
                      "id": "urn:epass:note:1",
                      "type": "Note",
                      "noteLiteral": {
-                        "es": [
-                           "Haber obtenido anteriormente los cursos: \"Aprendizaje automático supervisado: Regresión y clasificación\" y \"Algoritmos avanzados de aprendizaje\"."
+                        "en": [
+                           "To obtain this credential, the learner must have completed the following courses: 'International business law', 'Digital Law and Data Protection', 'Strategic Management of Organisations' and 'Political Science and Public Governance'."
                         ]
                      }
                   },
@@ -320,7 +320,7 @@
                   ],
                   "thematicArea": [
                      {
-                        "id": "http://data.europa.eu/snb/isced-f/0613",
+                        "id": "http://data.europa.eu/snb/isced-f/0413",
                         "type": "Concept",
                         "inScheme": {
                            "id": "http://data.europa.eu/snb/isced-f/25831c2",
@@ -328,10 +328,10 @@
                         },
                         "prefLabel": {
                            "en": [
-                              "Software and applications development and analysis"
+                              "Management and administration"
                            ],
                            "es": [
-                              "Desarrollo y análisis de software y aplicaciones"
+                              "Gestión y administración"
                            ]
                         }
                      }

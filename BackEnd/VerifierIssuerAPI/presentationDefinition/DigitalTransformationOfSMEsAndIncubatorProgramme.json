@@ -9,7 +9,7 @@
          "d": "WeBq_eoI4jFFSy5XGLyWybzfwxq3wmdYxmi5V087Ze4"
       }
    },
-   "credentialConfigurationId": "AprendizajeAutomaticoSupervisado_jwt_vc_json",
+   "credentialConfigurationId": "DigitalTransformationOfSMEsAndIncubatorProgramme_jwt_vc_json",
    "credentialData": {
       "@context": [
          "https://www.w3.org/2018/credentials/v1",
@@ -18,17 +18,16 @@
       "id": "http://example.gov/credentials/3732",
       "type": [
          "VerifiableCredential",
-         "VerifiableAttestation",
-         "AprendizajeAutomaticoSupervisado"
+         "DigitalTransformationOfSMEsAndIncubatorProgramme"
       ],
       "issuer": {
          "id": "<issuerDid>",
          "name": "Universidad de Deusto"
       },
-      "issuanceDate": "2025-05-18T14:30:23+02:00",
-      "issued": "2025-05-18T14:30:23+02:00",
-      "validUntil": "2035-05-18T00:00:00+02:00",
-      "validFrom": "2025-05-18T00:00:00+02:00",
+      "issuanceDate": "2025-05-19T17:43:38+02:00",
+      "issued": "2025-05-19T17:43:38+02:00",
+      "validUntil": "2035-05-19T00:00:00+02:00",
+      "validFrom": "2025-05-19T00:00:00+02:00",
       "credentialSubject": {
          "id": "urn:epass:person:1",
          "type": "Person",
@@ -60,7 +59,7 @@
                "{{nombreCompleto}}"
             ]
          },
-         "nationalID": {
+          "nationalID": {
             "id": "urn:epass:legalIdentifier:3",
             "type": "LegalIdentifier",
             "notation": "{{dniPasaporte}}",
@@ -124,7 +123,7 @@
                                        "notation": "country"
                                     },
                                     "fullAddress": {
-                                       "id": "urn:epass:note:1",
+                                       "id": "urn:epass:note:2",
                                        "type": "Note",
                                        "noteLiteral": {
                                           "es": [
@@ -177,24 +176,24 @@
                         }
                      }
                   ],
-                  "awardingDate": "2025-05-18T00:00:00+02:00"
+                  "awardingDate": "2025-05-19T00:00:00+02:00"
                },
                "description": {
-                  "es": [
-                     "Ha adquirido las competencias necesarias para implementar modelos de aprendizaje automático supervisado en Python, aplicando técnicas de regresión lineal y clasificación binaria con scikit-learn, así como metodologías de evaluación del rendimiento de los modelos con métricas estándar."
+                  "en": [
+                     "Digital Transformation of SMEs and Incubator Programme."
                   ]
                },
                "title": {
-                  "es": [
-                     "Diseño, entrenamiento y evaluación de modelos supervisados de regresión y clasificación utilizando Python y scikit-learn"
+                  "en": [
+                     "Digital Transformation of SMEs and Incubator Programme"
                   ]
                },
                "specifiedBy": {
                   "id": "urn:epass:learningAchievementSpec:1",
                   "type": "LearningAchievementSpecification",
                   "title": {
-                     "es": [
-                        "Diseño, entrenamiento y evaluación de modelos supervisados de regresión y clasificación utilizando Python y scikit-learn"
+                     "en": [
+                        "Digital Transformation of SMEs and Incubator Programme"
                      ]
                   },
                   "dcType": [
@@ -238,6 +237,15 @@
                         "point": "1"
                      }
                   ],
+                  "entryRequirement": {
+                     "id": "urn:epass:note:1",
+                     "type": "Note",
+                     "noteLiteral": {
+                        "en": [
+                           "To obtain this credential, the learner must have completed the following courses: 'International business law', 'Digital Law and Data Protection', 'Strategic Management of Organisations' and 'Political Science and Public Governance'."
+                        ]
+                     }
+                  },
                   "language": [
                      {
                         "id": "http://publications.europa.eu/resource/authority/language/ENG",
@@ -312,7 +320,7 @@
                   ],
                   "thematicArea": [
                      {
-                        "id": "http://data.europa.eu/snb/isced-f/0613",
+                        "id": "http://data.europa.eu/snb/isced-f/0413",
                         "type": "Concept",
                         "inScheme": {
                            "id": "http://data.europa.eu/snb/isced-f/25831c2",
@@ -320,15 +328,15 @@
                         },
                         "prefLabel": {
                            "en": [
-                              "Software and applications development and analysis"
+                              "Management and administration"
                            ],
                            "es": [
-                              "Desarrollo y análisis de software y aplicaciones"
+                              "Gestión y administración"
                            ]
                         }
                      }
                   ],
-                  "volumeOfLearning": "P1DT9H"
+                  "volumeOfLearning": "P1DT3H"
                }
             }
          ]
