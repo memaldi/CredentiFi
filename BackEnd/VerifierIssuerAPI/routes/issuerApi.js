@@ -13,6 +13,7 @@ const courseTemplateMapPath = process.env.COURSE_TEMPLATE_MAP_PATH;
 
 const defaultCourseToTemplateFile = {
   "Educational ID": "EducationalIDCredential.json",
+  "Digital Transformation of SMEs and Incubator Programme": "DigitalTransformationOfSMEsAndIncubatorProgramme.json",
   "Aprendizaje automático supervisado: Regresión y clasificación": "AprendizajeAutomaticoSupervisado.json",
   "Algoritmos avanzados de aprendizaje": "AlgoritmosAvanzadosDeAprendizaje.json",
   "Aprendizaje no supervisado, recomendadores, aprendizaje por refuerzo": "AprendizajeNoSupervisado.json"
@@ -66,7 +67,18 @@ async function loadCourseTemplateMap() {
 
 async function getTemplateFileName(courseName) {
   const normalizedMap = await loadCourseTemplateMap();
-  return normalizedMap[normalizeCourseName(courseName)];
+  const normalizedName = normalizeCourseName(courseName);
+  const mapped = normalizedMap[normalizedName];
+  if (mapped) {
+    return mapped;
+  }
+
+  // Defensive fallback for tenant-provided course naming variations.
+  if (normalizedName.includes("digital transformation of smes and incubator programme")) {
+    return "DigitalTransformationOfSMEsAndIncubatorProgramme.json";
+  }
+
+  return undefined;
 }
 
 function overrideClaimTitleWithSelectedCourse(credentialPayload, courseName) {

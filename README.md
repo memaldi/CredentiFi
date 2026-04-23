@@ -159,6 +159,7 @@ Use a single WaltID wallet instance for both tenants so users from both universi
 7. **Student sign-in (multi-tenant)**
     - Deusto: go to `http://localhost:5173/studentLogin` and use basic login:
       - User: `mikel@deusto.es` / Password: `mikel` (seeded at init)
+      - User: `eva@opendeusto.es` / Password: `eva` (seeded at init)
     - Lumiere (UNILUM): go to `http://localhost:5174/studentLogin` and use **basic login** (no Google):
       - User: student NIA (or student email)
             - Password: student password (alphanumeric)
@@ -167,16 +168,15 @@ Use a single WaltID wallet instance for both tenants so users from both universi
 
 8. **University staff sign-in (multi-tenant)**
 
-    Access the secretary panel to review and manage student applications.
+        Access the secretary panel to review and manage student applications.
 
-    - Deusto: go to `http://localhost:5173/secretaryLogin`
-      - User: `staffdeusto` / Password: `staff1234`
-    - Lumiere (UNILUM): go to `http://localhost:5174/secretaryLogin`
-      - User: `staffunilum` / Password: `staff1234`
+        - Deusto: go to `http://localhost:5173/secretaryLogin`
+            - User: `staffdeusto` / Password: `staff1234`
+        - Lumiere (UNILUM): go to `http://localhost:5174/secretaryLogin`
+            - User: `staffunilum` / Password: `staff1234`
 
     After login you are redirected to `/secretary` (application review) and can also navigate to `/secretaryActas` (academic records). Select a course from the dropdown to list and manage the student applications for that programme.
 
-    > **Note:** These staff accounts were created via the `/sql/register` endpoint (no token required). To add new staff users, send a `POST` to `http://localhost:5000/sql/register` (Deusto) or `http://localhost:5001/sql/register` (UNILUM) with body `{"username":"…","email":"…","password":"…"}`.
 
 9. **View logs for a specific service**
     ```bash

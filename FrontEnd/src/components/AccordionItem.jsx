@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AccordionTable from "./AccordionTable";
 import CredentialTable from "./CredentialTable";
 import ModalSecretary from './ModalSecretary';
-import { apiUrl, runtimeConfig } from '../config/runtime';
+import { apiUrl } from '../config/runtime';
 import { t } from '../config/i18n';
 
 // Robustly extract the holder DID from a MongoDB credential document.
@@ -35,7 +35,7 @@ function AccordionItem({ nombre, primer_apellido, segundo_apellido, correo, fech
         nombre: nombre,
         primer_apellido: primer_apellido,
         segundo_apellido: segundo_apellido,
-        correo: `${primer_apellido.toLowerCase()}.${nombre.toLowerCase()}@${runtimeConfig.allowedEmailDomain}`,
+        correo: correo,
         dni: dni,
         did: estudiantedid,
         fecha_nacimiento: fechaNacimiento,
@@ -155,28 +155,18 @@ function AccordionItem({ nombre, primer_apellido, segundo_apellido, correo, fech
             if (response.ok) {
                 const data = await response.json();
                 console.log('Estudiante creado:', data);
+                return data?.nia ?? null;
             } else {
                 const errorData = await response.json();
                 console.error('Error al crear estudiante:', errorData);
-                if (errorData.detail?.includes("ya existe")) {
-                    console.log('El estudiante ya existe, llamando a añadirCredenciales con el NIA.');
-                    const niaMatch = errorData.detail.match(/NIA '(\w+)' ya existe/);
-                    if (niaMatch && niaMatch[1]) {
-                        const existingNIA = niaMatch[1];
-                        añadirCredenciales(existingNIA, estudianteData.credenciales); // Asegúrate de pasar las credenciales
-                    } else {
-                        console.warn('No se pudo extraer el NIA del mensaje de error.');
-                        añadirCredenciales(null, estudianteData.credenciales);
-                    }
-                } else {
-                    console.error('Otro error al crear estudiante:', errorData);
-                    alert('Error al crear estudiante. Por favor, inténtalo de nuevo más tarde.');
-                }
+                alert('Error al crear estudiante. Por favor, inténtalo de nuevo más tarde.');
+                return null;
 
             }
         } catch (error) {
             console.error('Error de red:', error);
             alert('Error de red al crear estudiante. Por favor, inténtalo de nuevo más tarde.');
+            return null;
 
         }
     };
@@ -191,7 +181,6 @@ function AccordionItem({ nombre, primer_apellido, segundo_apellido, correo, fech
 
     const handleCloseAcceptModal = () => {
         setShowAcceptModal(false);
-        crearEstudianteEnBackend();
     };
 
     const handleCloseRejectModal = () => {
@@ -209,17 +198,23 @@ function AccordionItem({ nombre, primer_apellido, segundo_apellido, correo, fech
             });
 
             if (response.ok) {
-                //setEstado('aceptada');
+                const nia = await crearEstudianteEnBackend();
+                if (nia) {
+                    await fetch(apiUrl(`/sql/estudiante/${nia}/curso/${curso_id}/estado?nuevo_estado=aceptada`), {
+                        method: 'PUT',
+                    });
+                }
             } else {
                 console.error('Error al aceptar la solicitud');
                 alert('Error al aceptar la solicitud. Por favor, inténtalo de nuevo más tarde.');
+                return;
             }
         } catch (error) {
             console.error('Error de red al aceptar la solicitud:', error);
             alert('Error de red al aceptar la solicitud. Por favor, inténtalo de nuevo más tarde.');
+            return;
         }
         onAccept(id);
-        setShowAcceptModal(false);
     };
 
     const confirmReject = async () => {
