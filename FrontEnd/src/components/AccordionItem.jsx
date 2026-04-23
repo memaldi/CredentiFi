@@ -198,12 +198,7 @@ function AccordionItem({ nombre, primer_apellido, segundo_apellido, correo, fech
             });
 
             if (response.ok) {
-                const nia = await crearEstudianteEnBackend();
-                if (nia) {
-                    await fetch(apiUrl(`/sql/estudiante/${nia}/curso/${curso_id}/estado?nuevo_estado=aceptada`), {
-                        method: 'PUT',
-                    });
-                }
+                await crearEstudianteEnBackend();
             } else {
                 console.error('Error al aceptar la solicitud');
                 alert('Error al aceptar la solicitud. Por favor, inténtalo de nuevo más tarde.');
