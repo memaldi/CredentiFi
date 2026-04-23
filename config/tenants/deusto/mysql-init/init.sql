@@ -94,8 +94,6 @@ CREATE TABLE `estudiante` (
 
 LOCK TABLES `estudiante` WRITE;
 /*!40000 ALTER TABLE `estudiante` DISABLE KEYS */;
-INSERT INTO `estudiante` VALUES (2,'Iñigo','Valdivielso','Perez','valdivielso.iñigo@opendeusto.es','20244879S','2003-02-28','did:jwk:eyJrdHkiOiJPS1AiLCJjcnYiOiJFZDI1NTE5Iiwia2lkIjoiRUY5UHdPQkhDTWwtODlDVjhqNFVQVFRWbFpiNmd3dVJ5TV83U0VwOXk0QSIsIngiOiJxSV9mM0diZE9NOWt1eXNyUWdfaWNOMVhUWW1LaGdhSXh5a3l4LXJJVUhzIn0');
-INSERT INTO `estudiante` VALUES (3,'Mikel','Deusto','Demo','mikel@deusto.es','mikel','1995-01-01',NULL);
 INSERT INTO `estudiante` VALUES (5,'Eva','OpenDeusto','Demo','eva@opendeusto.es','eva','2001-01-01',NULL);
 /*!40000 ALTER TABLE `estudiante` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -148,16 +146,6 @@ CREATE TABLE `persona` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `persona`
---
-
-LOCK TABLES `persona` WRITE;
-/*!40000 ALTER TABLE `persona` DISABLE KEYS */;
-INSERT INTO `persona` VALUES (1,'Iñigo','Valdivielso','Perez','valdivielso.inigo@opendeusto.es','20244879S','2003-02-28');
-/*!40000 ALTER TABLE `persona` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `requisitos_curso`
 --
 
@@ -206,7 +194,6 @@ CREATE TABLE `secretaria` (
 
 LOCK TABLES `secretaria` WRITE;
 /*!40000 ALTER TABLE `secretaria` DISABLE KEYS */;
-INSERT INTO `secretaria` VALUES (1,'secretaria1','secretaria1@gmail.com','gAAAAABoQItLuj1VuMWWrKGS1RaETXq08pE57nP4AAlJGF8Pzpk2J3tO2Erg4NLjovZ3Xr5ReaYF34g36AtL1YlbMeL9mgmmZQ==');
 INSERT INTO `secretaria` VALUES (2,'staffdeusto','staff.deusto@credentifi.local','gAAAAABp5fuUAodnFm3TxW3IIk5CH6pKPphv6nJWCzpc2T_65nKirQc2hpK2IWPGxRBV7iOERsiyGuIwHp1h-9XqdXXU6cuagw==');
 /*!40000 ALTER TABLE `secretaria` ENABLE KEYS */;
 UNLOCK TABLES;

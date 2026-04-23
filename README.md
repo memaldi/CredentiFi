@@ -158,12 +158,10 @@ Use a single WaltID wallet instance for both tenants so users from both universi
 
 7. **Student sign-in (multi-tenant)**
     - Deusto: go to `http://localhost:5173/studentLogin` and use basic login:
-      - User: `mikel@deusto.es` / Password: `mikel` (seeded at init)
       - User: `eva@opendeusto.es` / Password: `eva` (seeded at init)
-    - Lumiere (UNILUM): go to `http://localhost:5174/studentLogin` and use **basic login** (no Google):
+    - Lumiere (UNILUM): go to `http://localhost:5174/studentLogin` and use basic login:
       - User: student NIA (or student email)
-            - Password: student password (alphanumeric)
-            - Default seeded UNILUM user at init: `eva@unilum.fr` / `eva`
+        - User: `eva@unilum.fr` / Password: `eva` (seeded at init)
     - A direct **Connexion** link is available in the Lumiere top header.
 
 8. **University staff sign-in (multi-tenant)**
