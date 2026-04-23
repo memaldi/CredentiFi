@@ -218,15 +218,6 @@ CREATE TABLE `solicitud` (
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `solicitud`
---
-
-LOCK TABLES `solicitud` WRITE;
-/*!40000 ALTER TABLE `solicitud` DISABLE KEYS */;
-INSERT INTO `solicitud` VALUES (2,1,1,'aceptada'),(3,1,1,'aceptada'),(7,1,1,'aceptada');
-/*!40000 ALTER TABLE `solicitud` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `solicitud_doc`
@@ -245,15 +236,7 @@ CREATE TABLE `solicitud_doc` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `solicitud_doc`
---
 
-LOCK TABLES `solicitud_doc` WRITE;
-/*!40000 ALTER TABLE `solicitud_doc` DISABLE KEYS */;
-INSERT INTO `solicitud_doc` VALUES (7,'6849a6227ce5a45d7800c55c');
-/*!40000 ALTER TABLE `solicitud_doc` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
