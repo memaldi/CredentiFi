@@ -65,7 +65,7 @@ const AUDIENCE_LINKS = [
   { label: "Alumni", href: "https://www.unilumiere.fr/fr/universite/partenaires/reseau-alumni" },
 ];
 
-const HeaderStrasbourg = () => {
+const HeaderLumiere = () => {
   const [openMenu, setOpenMenu] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -314,4 +314,4 @@ const HeaderStrasbourg = () => {
   );
 };
 
-export default HeaderStrasbourg;
+export default HeaderLumiere;

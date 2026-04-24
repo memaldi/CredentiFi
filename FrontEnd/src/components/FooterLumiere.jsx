@@ -87,7 +87,7 @@ const SOCIAL_LINKS = [
   },
 ];
 
-const FooterStrasbourg = () => {
+const FooterLumiere = () => {
   const primary = runtimeConfig.primaryColor;
 
   return (
@@ -215,4 +215,4 @@ const FooterStrasbourg = () => {
   );
 };
 
-export default FooterStrasbourg;
+export default FooterLumiere;

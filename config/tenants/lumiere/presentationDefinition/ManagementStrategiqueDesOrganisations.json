@@ -9,17 +9,17 @@
          "d": "S2zEMK756adVA2MXt-LseyUVwiaHnZ5bwsFCwAkKaLU"
       }
    },
-   "credentialConfigurationId": "DroitInternationalDesAffaires_jwt_vc_json",
+   "credentialConfigurationId": "ManagementStrategiqueDesOrganisations_jwt_vc_json",
    "credentialData": {
       "@context": [
          "https://www.w3.org/2018/credentials/v1",
          "https://www.w3.org/2018/credentials/examples/v1"
       ],
-      "id": "http://example.gov/credentials/3734",
+      "id": "http://example.gov/credentials/3736",
       "type": [
          "VerifiableCredential",
          "VerifiableAttestation",
-         "DroitInternationalDesAffaires"
+         "ManagementStrategiqueDesOrganisations"
       ],
       "issuer": {
          "id": "<issuerDid>",
@@ -95,7 +95,7 @@
                         "type": "Organisation",
                         "altLabel": {
                            "fr": [
-                              "Université de Strasbourg"
+                              "Université de Lumière"
                            ]
                         },
                         "location": [
@@ -128,7 +128,7 @@
                                        "type": "Note",
                                        "noteLiteral": {
                                           "fr": [
-                                             "4 rue Blaise Pascal, 67000 Strasbourg, France"
+                                             "1 rue de la Lumière, 75000 Paris, France"
                                           ]
                                        }
                                     }
@@ -145,18 +145,18 @@
                            {
                               "id": "urn:epass:webResource:1",
                               "type": "WebResource",
-                              "contentURL": "https://www.unistra.fr"
+                              "contentURL": "https://www.unilum.fr"
                            }
                         ],
                         "legalName": {
                            "fr": [
-                              "Université de Strasbourg"
+                              "Université de Lumière"
                            ]
                         },
                         "registration": {
                            "id": "urn:epass:legalIdentifier:2",
                            "type": "LegalIdentifier",
-                           "notation": "REPLACE_WITH_UNISTRA_REGISTRATION_ID",
+                           "notation": "REPLACE_WITH_UNILUM_REGISTRATION_ID",
                            "spatial": {
                               "id": "http://publications.europa.eu/resource/authority/country/FRA",
                               "type": "Concept",
@@ -181,12 +181,12 @@
                },
                "description": {
                   "fr": [
-                     "A acquis les compétences nécessaires pour analyser et appliquer les règles du droit international des affaires, incluant les contrats commerciaux internationaux, l'arbitrage international, la propriété intellectuelle dans le commerce mondial et la résolution des litiges transfrontaliers."
+                     "A acquis les compétences nécessaires pour analyser et mettre en œuvre des stratégies organisationnelles, comprenant la planification stratégique, la gestion du changement, le leadership et la prise de décision dans des environnements complexes et incertains."
                   ]
                },
                "title": {
                   "fr": [
-                     "Droit international des affaires"
+                     "Management stratégique des organisations"
                   ]
                },
                "specifiedBy": {
@@ -194,7 +194,7 @@
                   "type": "LearningAchievementSpecification",
                   "title": {
                      "fr": [
-                        "Droit international des affaires"
+                        "Management stratégique des organisations"
                      ]
                   },
                   "dcType": [
@@ -312,7 +312,7 @@
                   ],
                   "thematicArea": [
                      {
-                        "id": "http://data.europa.eu/snb/isced-f/0421",
+                        "id": "http://data.europa.eu/snb/isced-f/0413",
                         "type": "Concept",
                         "inScheme": {
                            "id": "http://data.europa.eu/snb/isced-f/25831c2",
@@ -320,10 +320,10 @@
                         },
                         "prefLabel": {
                            "en": [
-                              "Law"
+                              "Management and administration"
                            ],
                            "fr": [
-                              "Droit"
+                              "Gestion et administration"
                            ]
                         }
                      }

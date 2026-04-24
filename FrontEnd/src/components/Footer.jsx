@@ -4,7 +4,7 @@ import "../styles/estilos.min.css";
 import "../styles/owl.carousel.min.css";
 import "../styles/owl.theme.default.min.css";
 import { runtimeConfig } from "../config/runtime";
-import FooterStrasbourg from "./FooterStrasbourg";
+import FooterLumiere from "./FooterLumiere";
 
 const FooterDeusto = () => {
   return (
@@ -621,8 +621,8 @@ const FooterDeusto = () => {
   );
 };
   const Footer = () => {
-    if (runtimeConfig.tenant === "strasbourg") {
-      return <FooterStrasbourg />;
+    if (runtimeConfig.tenant === "lumiere") {
+      return <FooterLumiere />;
     }
     return <FooterDeusto />;
   };

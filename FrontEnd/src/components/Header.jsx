@@ -4,7 +4,7 @@ import "../styles/estilos.min.css";
 import "../styles/owl.carousel.min.css";
 import "../styles/owl.theme.default.min.css";
 import { runtimeConfig } from "../config/runtime";
-import HeaderStrasbourg from "./HeaderStrasbourg";
+import HeaderLumiere from "./HeaderLumiere";
 
 const HeaderDeusto = () => {
   return (
@@ -1046,8 +1046,8 @@ const HeaderDeusto = () => {
   );
 };
   const Header = () => {
-    if (runtimeConfig.tenant === "strasbourg") {
-      return <HeaderStrasbourg />;
+    if (runtimeConfig.tenant === "lumiere") {
+      return <HeaderLumiere />;
     }
     return <HeaderDeusto />;
   };

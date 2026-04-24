@@ -3,10 +3,10 @@ import { runtimeConfig } from "../config/runtime";
 import { t } from "../config/i18n";
 
 const StudentPortalPage = () => {
-  const isStrasbourg = runtimeConfig.tenant === "strasbourg";
+  const isLumiere = runtimeConfig.tenant === "lumiere";
   const primary = runtimeConfig.primaryColor;
 
-  const tenantButtons = isStrasbourg
+  const tenantButtons = isLumiere
     ? {
         buttonBlue: { ...styles.buttonBlue, backgroundColor: primary },
         buttonOrange: { ...styles.buttonOrange, backgroundColor: "#2b4f8a" },
@@ -42,7 +42,7 @@ const StudentPortalPage = () => {
             marginRight: "3%",
             borderStyle: "solid",
             borderTopWidth: "2px",
-            borderTopColor: isStrasbourg ? primary : "#1B459A",
+            borderTopColor: isLumiere ? primary : "#1B459A",
             borderLeftWidth: "1px",
             borderRightWidth: "1px",
             borderBottomWidth: "1px",

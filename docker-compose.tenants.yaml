@@ -78,7 +78,7 @@ services:
       - "7001:7001"
     networks:
       - deusto_net
-      - strasbourg_net
+      - lumiere_net
 
   waltid-dev-wallet-shared:
     image: docker.io/waltid/waltid-dev-wallet:0.18.0
@@ -170,145 +170,145 @@ services:
     networks:
       - deusto_net
 
-  mysql-strasbourg:
+  mysql-lumiere:
     image: mysql:latest
-    container_name: mysql-strasbourg
+    container_name: mysql-lumiere
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: MySQL1234
-      MYSQL_DATABASE: CredentiFiStrasbourg
-      MYSQL_USER: strasbourg
-      MYSQL_PASSWORD: strasbourg1234
+      MYSQL_DATABASE: CredentiFiLumiere
+      MYSQL_USER: lumiere
+      MYSQL_PASSWORD: lumiere1234
     ports:
       - "3308:3306"
     volumes:
-      - mysql_data_strasbourg:/var/lib/mysql
-      - ./config/tenants/strasbourg/mysql-init:/docker-entrypoint-initdb.d
+      - mysql_data_lumiere:/var/lib/mysql
+      - ./config/tenants/lumiere/mysql-init:/docker-entrypoint-initdb.d
     networks:
-      - strasbourg_net
+      - lumiere_net
 
-  mongo-server-strasbourg:
+  mongo-server-lumiere:
     image: mongo:latest
-    container_name: mongo-server-strasbourg
+    container_name: mongo-server-lumiere
     restart: always
     ports:
       - "27018:27017"
     volumes:
-      - mongo_data_strasbourg:/data/db
+      - mongo_data_lumiere:/data/db
     networks:
-      - strasbourg_net
+      - lumiere_net
 
-  sql-api-strasbourg:
+  sql-api-lumiere:
     build: ./BackEnd/SQL
     env_file:
-      - ./config/tenants/strasbourg/sql.env
+      - ./config/tenants/lumiere/sql.env
     ports:
       - "8001:8000"
     depends_on:
-      - mysql-strasbourg
+      - mysql-lumiere
     networks:
-      - strasbourg_net
+      - lumiere_net
 
-  mongodb-api-strasbourg:
+  mongodb-api-lumiere:
     build: ./BackEnd/MongoDB
     env_file:
-      - ./config/tenants/strasbourg/mongodb.env
+      - ./config/tenants/lumiere/mongodb.env
     ports:
       - "4001:4000"
     depends_on:
-      - mongo-server-strasbourg
+      - mongo-server-lumiere
     networks:
-      - strasbourg_net
+      - lumiere_net
 
-  postgres-strasbourg:
+  postgres-lumiere:
     image: postgres:18
-    container_name: postgres-strasbourg
+    container_name: postgres-lumiere
     restart: always
     environment:
-      POSTGRES_DB: waltid_strasbourg
-      POSTGRES_USER: waltid_strasbourg
-      POSTGRES_PASSWORD: waltid_strasbourg
+      POSTGRES_DB: waltid_lumiere
+      POSTGRES_USER: waltid_lumiere
+      POSTGRES_PASSWORD: waltid_lumiere
     ports:
       - "5433:5432"
     volumes:
-      - waltid_pg_strasbourg:/var/lib/postgresql
+      - waltid_pg_lumiere:/var/lib/postgresql
     networks:
-      - strasbourg_net
+      - lumiere_net
 
-  issuer-api-strasbourg:
+  issuer-api-lumiere:
     image: docker.io/waltid/issuer-api:0.18.0
     env_file:
-      - ./config/tenants/strasbourg/waltid.env
+      - ./config/tenants/lumiere/waltid.env
     depends_on:
-      - postgres-strasbourg
+      - postgres-lumiere
     volumes:
-      - ./config/tenants/strasbourg/waltid/issuer-api/config:/waltid-issuer-api/config
+      - ./config/tenants/lumiere/waltid/issuer-api/config:/waltid-issuer-api/config
     ports:
       - "7012:7012"
     networks:
-      - strasbourg_net
+      - lumiere_net
 
-  verifier-api-strasbourg:
+  verifier-api-lumiere:
     image: docker.io/waltid/verifier-api:0.18.0
     env_file:
-      - ./config/tenants/strasbourg/waltid.env
+      - ./config/tenants/lumiere/waltid.env
     depends_on:
-      - postgres-strasbourg
+      - postgres-lumiere
     volumes:
-      - ./config/tenants/strasbourg/waltid/verifier-api/config:/waltid-verifier-api/config
+      - ./config/tenants/lumiere/waltid/verifier-api/config:/waltid-verifier-api/config
     ports:
       - "7013:7013"
     networks:
-      - strasbourg_net
+      - lumiere_net
 
-  verifierissuer-api-strasbourg:
+  verifierissuer-api-lumiere:
     build: ./BackEnd/VerifierIssuerAPI
     env_file:
-      - ./config/tenants/strasbourg/verifierissuer.env
+      - ./config/tenants/lumiere/verifierissuer.env
     volumes:
-      - ./config/tenants/strasbourg/presentationDefinition:/usr/src/app/presentationDefinition
+      - ./config/tenants/lumiere/presentationDefinition:/usr/src/app/presentationDefinition
     ports:
       - "3001:3000"
     depends_on:
-      - mongodb-api-strasbourg
-      - issuer-api-strasbourg
-      - verifier-api-strasbourg
+      - mongodb-api-lumiere
+      - issuer-api-lumiere
+      - verifier-api-lumiere
     networks:
-      - strasbourg_net
+      - lumiere_net
 
-  api-gateway-strasbourg:
+  api-gateway-lumiere:
     build: ./BackEnd/Api-Gateway
     env_file:
-      - ./config/tenants/strasbourg/api-gateway.env
+      - ./config/tenants/lumiere/api-gateway.env
     ports:
       - "5001:5000"
     depends_on:
-      - sql-api-strasbourg
-      - mongodb-api-strasbourg
-      - verifierissuer-api-strasbourg
+      - sql-api-lumiere
+      - mongodb-api-lumiere
+      - verifierissuer-api-lumiere
     networks:
-      - strasbourg_net
+      - lumiere_net
 
-  frontend-strasbourg:
+  frontend-lumiere:
     build: ./FrontEnd
     env_file:
-      - ./config/tenants/strasbourg/frontend.env
+      - ./config/tenants/lumiere/frontend.env
     ports:
       - "5174:5173"
     depends_on:
-      - api-gateway-strasbourg
+      - api-gateway-lumiere
     networks:
-      - strasbourg_net
+      - lumiere_net
 
 volumes:
   mysql_data_deusto:
   mongo_data_deusto:
   waltid_pg_deusto:
   waltid_wallet_shared:
-  mysql_data_strasbourg:
-  mongo_data_strasbourg:
-  waltid_pg_strasbourg:
+  mysql_data_lumiere:
+  mongo_data_lumiere:
+  waltid_pg_lumiere:
 
 networks:
   deusto_net:
-  strasbourg_net:
+  lumiere_net:

@@ -15,7 +15,7 @@ const CursoPage = () => {
     navigate("/prerequisites", {state: { nombre, descripcion, duracion, requisitos }});
   };
 
-  if (runtimeConfig.tenant === "strasbourg") {
+  if (runtimeConfig.tenant === "lumiere") {
     return (
       <>
         <div className="unistra-curso-header">

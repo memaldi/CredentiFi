@@ -1,6 +1,6 @@
 /* =========================================================
-   Strasbourg tenant – global overrides
-   Applied via <body class="tenant-strasbourg">
+   Lumiere tenant – global overrides
+   Applied via <body class="tenant-lumiere">
    ========================================================= */
 
 :root {
@@ -17,119 +17,119 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap");
 
-body.tenant-strasbourg,
-body.tenant-strasbourg #root {
+body.tenant-lumiere,
+body.tenant-lumiere #root {
   font-family: var(--unistra-font);
   color: var(--unistra-text);
   background-color: var(--unistra-bg) !important;
 }
 
-body.tenant-strasbourg a {
+body.tenant-lumiere a {
   color: var(--unistra-primary);
 }
 
-body.tenant-strasbourg .btn-primary,
-body.tenant-strasbourg .navbar.bg-primary,
-body.tenant-strasbourg .bg-primary {
+body.tenant-lumiere .btn-primary,
+body.tenant-lumiere .navbar.bg-primary,
+body.tenant-lumiere .bg-primary {
   background-color: var(--unistra-primary) !important;
   border-color: var(--unistra-primary) !important;
 }
 
-body.tenant-strasbourg .btn-primary:hover,
-body.tenant-strasbourg .btn-primary:focus,
-body.tenant-strasbourg .btn-primary:active {
+body.tenant-lumiere .btn-primary:hover,
+body.tenant-lumiere .btn-primary:focus,
+body.tenant-lumiere .btn-primary:active {
   background-color: var(--unistra-primary-dark) !important;
   border-color: var(--unistra-primary-dark) !important;
 }
 
-body.tenant-strasbourg .btn-outline-primary {
+body.tenant-lumiere .btn-outline-primary {
   color: var(--unistra-primary) !important;
   border-color: var(--unistra-primary) !important;
 }
 
-body.tenant-strasbourg .btn-outline-primary:hover {
+body.tenant-lumiere .btn-outline-primary:hover {
   color: #fff !important;
   background-color: var(--unistra-primary) !important;
 }
 
 /* Keep top navbar text readable over the tenant primary background. */
-body.tenant-strasbourg .navbar.bg-primary .navbar-brand,
-body.tenant-strasbourg .navbar.bg-primary .nav-link,
-body.tenant-strasbourg .navbar.bg-primary .navbar-text {
+body.tenant-lumiere .navbar.bg-primary .navbar-brand,
+body.tenant-lumiere .navbar.bg-primary .nav-link,
+body.tenant-lumiere .navbar.bg-primary .navbar-text {
   color: #ffffff !important;
 }
 
-body.tenant-strasbourg .navbar.bg-primary .nav-link:hover,
-body.tenant-strasbourg .navbar.bg-primary .nav-link:focus,
-body.tenant-strasbourg .navbar.bg-primary .nav-link.active {
+body.tenant-lumiere .navbar.bg-primary .nav-link:hover,
+body.tenant-lumiere .navbar.bg-primary .nav-link:focus,
+body.tenant-lumiere .navbar.bg-primary .nav-link.active {
   color: #e7eefb !important;
 }
 
-body.tenant-strasbourg .firstBox,
-body.tenant-strasbourg .secondBox,
-body.tenant-strasbourg .wallet-box,
-body.tenant-strasbourg .listaCredenciales,
-body.tenant-strasbourg .accordion-item {
+body.tenant-lumiere .firstBox,
+body.tenant-lumiere .secondBox,
+body.tenant-lumiere .wallet-box,
+body.tenant-lumiere .listaCredenciales,
+body.tenant-lumiere .accordion-item {
   border-color: var(--unistra-border) !important;
   border-top-color: var(--unistra-primary) !important;
   background-color: var(--unistra-surface) !important;
   box-shadow: 0 8px 22px rgba(29, 52, 97, 0.12) !important;
 }
 
-body.tenant-strasbourg .table-bordered td,
-body.tenant-strasbourg .table-bordered th,
-body.tenant-strasbourg .table th,
-body.tenant-strasbourg .table td {
+body.tenant-lumiere .table-bordered td,
+body.tenant-lumiere .table-bordered th,
+body.tenant-lumiere .table th,
+body.tenant-lumiere .table td {
   border-color: var(--unistra-border) !important;
 }
 
-body.tenant-strasbourg .table-bordered tbody td[style*="#EBEBEB"],
-body.tenant-strasbourg .table-bordered tbody th[style*="#EBEBEB"],
-body.tenant-strasbourg .table thead th[style*="#EBEBEB"],
-body.tenant-strasbourg .accordion-item[style*="#EBEBEB"] {
+body.tenant-lumiere .table-bordered tbody td[style*="#EBEBEB"],
+body.tenant-lumiere .table-bordered tbody th[style*="#EBEBEB"],
+body.tenant-lumiere .table thead th[style*="#EBEBEB"],
+body.tenant-lumiere .accordion-item[style*="#EBEBEB"] {
   background: #edf2fa !important;
 }
 
-body.tenant-strasbourg .form-control,
-body.tenant-strasbourg .form-select,
-body.tenant-strasbourg .input-group-text {
+body.tenant-lumiere .form-control,
+body.tenant-lumiere .form-select,
+body.tenant-lumiere .input-group-text {
   border-color: var(--unistra-border) !important;
 }
 
-body.tenant-strasbourg .form-control:focus,
-body.tenant-strasbourg .form-select:focus {
+body.tenant-lumiere .form-control:focus,
+body.tenant-lumiere .form-select:focus {
   border-color: var(--unistra-primary) !important;
   box-shadow: 0 0 0 0.2rem rgba(29, 52, 97, 0.15) !important;
 }
 
-body.tenant-strasbourg .titulo,
-body.tenant-strasbourg h3.titulo,
-body.tenant-strasbourg h1.titulo,
-body.tenant-strasbourg #headingSolicitantes,
-body.tenant-strasbourg #headingAceptadas,
-body.tenant-strasbourg #headingRechazadas,
-body.tenant-strasbourg .cabeceraPrograma .tituloCabecera h1 {
+body.tenant-lumiere .titulo,
+body.tenant-lumiere h3.titulo,
+body.tenant-lumiere h1.titulo,
+body.tenant-lumiere #headingSolicitantes,
+body.tenant-lumiere #headingAceptadas,
+body.tenant-lumiere #headingRechazadas,
+body.tenant-lumiere .cabeceraPrograma .tituloCabecera h1 {
   color: var(--unistra-primary) !important;
 }
 
-body.tenant-strasbourg .custom-checkbox:checked {
+body.tenant-lumiere .custom-checkbox:checked {
   background-color: var(--unistra-primary) !important;
 }
 
-body.tenant-strasbourg .btnCopiar {
+body.tenant-lumiere .btnCopiar {
   color: var(--unistra-primary) !important;
 }
 
-body.tenant-strasbourg .btnCopiar:hover {
+body.tenant-lumiere .btnCopiar:hover {
   color: var(--unistra-primary-dark) !important;
 }
 
-body.tenant-strasbourg .separator hr {
+body.tenant-lumiere .separator hr {
   border-color: var(--unistra-primary) !important;
   opacity: 0.28;
 }
 
-/* Strasbourg hero section */
+/* Lumiere hero section */
 .unistra-hero {
   background: linear-gradient(135deg, var(--unistra-primary-dark) 0%, var(--unistra-primary) 58%, var(--unistra-primary-soft) 100%);
   padding: 64px 24px;
@@ -371,7 +371,7 @@ body.tenant-strasbourg .separator hr {
 }
 
 /* Student menu button */
-body.tenant-strasbourg #botonMenu {
+body.tenant-lumiere #botonMenu {
   background-color: var(--unistra-primary) !important;
 }
 
