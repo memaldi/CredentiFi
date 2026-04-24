@@ -9,9 +9,37 @@ const EDUCATIONAL_ID_CREDENTIAL_NAME = "Educational ID";
 
 const StudentMicrocredentialPage = ({ }) => {
   const navigate = useNavigate();
-  const { studentInfo } = useStudent();
+  const { studentInfo, setStudentInfo } = useStudent();
   const [solicitableCredentialsInfo, setSolicitableCredentialsInfo] = useState([]);
   const [checkedCredentials, setCheckedCredentials] = useState({});
+
+
+  useEffect(() => {
+    const refreshStudentInfo = async () => {
+      if (!studentInfo?.correo) {
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          apiUrl(`/sql/estudiante/correo?correo=${encodeURIComponent(studentInfo.correo)}`)
+        );
+
+        if (!response.ok) {
+          console.error("Error refreshing student info:", response.status);
+          return;
+        }
+
+        const freshStudentInfo = await response.json();
+        setStudentInfo(freshStudentInfo);
+        localStorage.setItem("studentInfo", JSON.stringify(freshStudentInfo));
+      } catch (error) {
+        console.error("Error refreshing student info:", error);
+      }
+    };
+
+    refreshStudentInfo();
+  }, [studentInfo?.correo, setStudentInfo]);
 
 
 

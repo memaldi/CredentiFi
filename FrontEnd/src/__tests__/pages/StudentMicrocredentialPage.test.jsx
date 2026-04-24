@@ -27,12 +27,19 @@ const mockStudentInfo = {
   cursos: [1, 2],
 };
 
+const mockSetStudentInfo = vi.fn();
+
 describe('StudentMicrocredentialPage', () => {
   beforeEach(() => {
     vi.resetAllMocks();
-    useStudent.mockReturnValue({ studentInfo: mockStudentInfo });
+    useStudent.mockReturnValue({ studentInfo: mockStudentInfo, setStudentInfo: mockSetStudentInfo });
 
     global.fetch = vi.fn()
+      // Refresco inicial estudiante/correo
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockStudentInfo,
+      })
       // Primer fetch para estudiante/1
       .mockResolvedValueOnce({
         ok: true,
@@ -76,6 +83,11 @@ describe('StudentMicrocredentialPage', () => {
 
   it('permite seleccionar múltiples microcredenciales a la vez', async () => {
     global.fetch = vi.fn()
+      // Refresco inicial estudiante/correo
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockStudentInfo,
+      })
       // estudiante/1
       .mockResolvedValueOnce({
         ok: true,

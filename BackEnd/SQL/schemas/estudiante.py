@@ -10,6 +10,7 @@ class EstudianteCrear(BaseModel):
     correo: str
     dni: str
     fecha_nacimiento: date
+    password: Optional[str] = None
     did: Optional[str] = None
     cursos: Optional[List[int]] = []
     credenciales: Optional[List[str]] = []

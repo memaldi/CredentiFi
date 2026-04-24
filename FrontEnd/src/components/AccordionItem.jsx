@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AccordionTable from "./AccordionTable";
 import CredentialTable from "./CredentialTable";
 import ModalSecretary from './ModalSecretary';
-import { apiUrl } from '../config/runtime';
+import { apiUrl, runtimeConfig } from '../config/runtime';
 import { t } from '../config/i18n';
 
 // Robustly extract the holder DID from a MongoDB credential document.
@@ -31,12 +31,21 @@ function AccordionItem({ nombre, primer_apellido, segundo_apellido, correo, fech
     const targetId = `#${id}`;
     const [showAcceptModal, setShowAcceptModal] = useState(false);
     const [showRejectModal, setShowRejectModal] = useState(false);
+
+    // Derive an institutional email for the accepting tenant.
+    // At Deusto, incoming students receive an @opendeusto.es address
+    // derived from their first name, replacing their foreign email.
+    const institutionalEmail = runtimeConfig.tenant === 'deusto'
+        ? nombre.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '.') + '@opendeusto.es'
+        : correo;
+
     const [estudianteData, setEstudianteData] = useState({
         nombre: nombre,
         primer_apellido: primer_apellido,
         segundo_apellido: segundo_apellido,
-        correo: correo,
+        correo: institutionalEmail,
         dni: dni,
+        password: dni,
         did: estudiantedid,
         fecha_nacimiento: fechaNacimiento,
         cursos: [curso_id],

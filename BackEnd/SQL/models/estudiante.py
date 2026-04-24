@@ -13,5 +13,6 @@ estudiante = Table("estudiante", meta,
                 Column("correo", String(255)),
                 Column("dni", String(255)),
                 Column("fecha_nacimiento", Date),
+                Column("password", String(255), nullable=True),
                 Column("did", String(255), nullable=True))
 

@@ -83,9 +83,10 @@ CREATE TABLE `estudiante` (
   `correo` varchar(255) DEFAULT NULL,
   `dni` varchar(255) DEFAULT NULL,
   `fecha_nacimiento` date DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
   `did` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`NIA`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,7 +95,6 @@ CREATE TABLE `estudiante` (
 
 LOCK TABLES `estudiante` WRITE;
 /*!40000 ALTER TABLE `estudiante` DISABLE KEYS */;
-INSERT INTO `estudiante` VALUES (5,'Eva','OpenDeusto','Demo','eva@opendeusto.es','eva','2001-01-01',NULL);
 /*!40000 ALTER TABLE `estudiante` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -122,7 +122,6 @@ CREATE TABLE `estudiante_curso` (
 
 LOCK TABLES `estudiante_curso` WRITE;
 /*!40000 ALTER TABLE `estudiante_curso` DISABLE KEYS */;
-INSERT INTO `estudiante_curso` VALUES (2,1,'aceptada');
 /*!40000 ALTER TABLE `estudiante_curso` ENABLE KEYS */;
 UNLOCK TABLES;
 

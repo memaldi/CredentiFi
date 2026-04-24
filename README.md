@@ -157,8 +157,10 @@ To run both tenants in parallel, use the `docker-compose.tenants.yaml` file.
 Use a single WaltID wallet instance for both tenants so users from both universities authenticate and manage credentials in the same wallet UI/API. Both tenant frontends should point to this shared wallet endpoint.
 
 7. **Student sign-in (multi-tenant)**
-    - Deusto: go to `http://localhost:5173/studentLogin` and use basic login:
-      - User: `eva@opendeusto.es` / Password: `eva` (seeded at init)
+    - Deusto: go to `http://localhost:5173/studentLogin` and use basic login.
+      Eva's student record and Deusto credentials are created automatically when the secretariat accepts her application.
+      The system assigns her an institutional email derived from her first name:
+      - User: `eva@opendeusto.es` / Password: `UNILUM0001` (her DNI from her UNILUM VC)
     - Lumiere (UNILUM): go to `http://localhost:5174/studentLogin` and use basic login:
       - User: student NIA (or student email)
         - User: `eva@unilum.fr` / Password: `eva` (seeded at init)

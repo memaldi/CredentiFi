@@ -181,13 +181,20 @@ def create_estudiante(estudiante_data: EstudianteCrear, db: Session = Depends(ge
         if existing_estudiante:
             existing_nia = existing_estudiante._mapping["NIA"]
 
-            # Backfill DID for legacy rows that were created without it.
+            # Update institutional credentials (correo, password) and backfill DID.
+            update_values = {}
+            if estudiante_data.correo:
+                update_values["correo"] = estudiante_data.correo
+            if estudiante_data.password:
+                update_values["password"] = estudiante_data.password
             current_did = existing_estudiante._mapping.get("did")
             if not current_did and estudiante_data.did:
+                update_values["did"] = estudiante_data.did
+            if update_values:
                 db.execute(
                     estudiante.update()
                     .where(estudiante.c.NIA == existing_nia)
-                    .values(did=estudiante_data.did)
+                    .values(**update_values)
                 )
 
             for curso_id in cursos_ids:

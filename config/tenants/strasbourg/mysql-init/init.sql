@@ -123,7 +123,6 @@ CREATE TABLE `estudiante_curso` (
 
 LOCK TABLES `estudiante_curso` WRITE;
 /*!40000 ALTER TABLE `estudiante_curso` DISABLE KEYS */;
-INSERT INTO `estudiante_curso` VALUES (2,1,'aceptada');
 /*!40000 ALTER TABLE `estudiante_curso` ENABLE KEYS */;
 UNLOCK TABLES;
 
