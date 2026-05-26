@@ -1,0 +1,8 @@
+{
+	admin off
+}
+
+https://api-conformance.ebsi.eu https://api-pilot.ebsi.eu {
+	tls internal
+	reverse_proxy http://ebsifake:2000
+}

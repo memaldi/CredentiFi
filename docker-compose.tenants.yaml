@@ -110,9 +110,15 @@ services:
     env_file:
       - ./config/tenants/deusto/waltid.env
     depends_on:
-      - postgres-deusto
+      postgres-deusto:
+        condition: service_started
+      ebsi-trust-init:
+        condition: service_completed_successfully
+    environment:
+      JAVA_TOOL_OPTIONS: "-Djavax.net.ssl.trustStore=/ebsi-certs/cacerts -Djavax.net.ssl.trustStorePassword=changeit"
     volumes:
       - ./config/tenants/deusto/waltid/issuer-api/config:/waltid-issuer-api/config
+      - ebsi_cacerts:/ebsi-certs:ro
     ports:
       - "7002:7002"
     networks:
@@ -123,9 +129,15 @@ services:
     env_file:
       - ./config/tenants/deusto/waltid.env
     depends_on:
-      - postgres-deusto
+      postgres-deusto:
+        condition: service_started
+      ebsi-trust-init:
+        condition: service_completed_successfully
+    environment:
+      JAVA_TOOL_OPTIONS: "-Djavax.net.ssl.trustStore=/ebsi-certs/cacerts -Djavax.net.ssl.trustStorePassword=changeit"
     volumes:
       - ./config/tenants/deusto/waltid/verifier-api/config:/waltid-verifier-api/config
+      - ebsi_cacerts:/ebsi-certs:ro
     ports:
       - "7003:7003"
     networks:
@@ -240,9 +252,15 @@ services:
     env_file:
       - ./config/tenants/lumiere/waltid.env
     depends_on:
-      - postgres-lumiere
+      postgres-lumiere:
+        condition: service_started
+      ebsi-trust-init:
+        condition: service_completed_successfully
+    environment:
+      JAVA_TOOL_OPTIONS: "-Djavax.net.ssl.trustStore=/ebsi-certs/cacerts -Djavax.net.ssl.trustStorePassword=changeit"
     volumes:
       - ./config/tenants/lumiere/waltid/issuer-api/config:/waltid-issuer-api/config
+      - ebsi_cacerts:/ebsi-certs:ro
     ports:
       - "7012:7012"
     networks:
@@ -253,9 +271,15 @@ services:
     env_file:
       - ./config/tenants/lumiere/waltid.env
     depends_on:
-      - postgres-lumiere
+      postgres-lumiere:
+        condition: service_started
+      ebsi-trust-init:
+        condition: service_completed_successfully
+    environment:
+      JAVA_TOOL_OPTIONS: "-Djavax.net.ssl.trustStore=/ebsi-certs/cacerts -Djavax.net.ssl.trustStorePassword=changeit"
     volumes:
       - ./config/tenants/lumiere/waltid/verifier-api/config:/waltid-verifier-api/config
+      - ebsi_cacerts:/ebsi-certs:ro
     ports:
       - "7013:7013"
     networks:
@@ -300,6 +324,60 @@ services:
     networks:
       - lumiere_net
 
+  ebsifake:
+    build: ./BackEnd/EbsiFake
+    networks:
+      - deusto_net
+      - lumiere_net
+
+  caddy-ebsi:
+    image: caddy:2
+    volumes:
+      - ./config/caddy-ebsi/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_ebsi_data:/data
+      - caddy_ebsi_config:/config
+    depends_on:
+      - ebsifake
+    networks:
+      deusto_net:
+        aliases:
+          - api-conformance.ebsi.eu
+          - api-pilot.ebsi.eu
+      lumiere_net:
+        aliases:
+          - api-conformance.ebsi.eu
+          - api-pilot.ebsi.eu
+
+  ebsi-trust-init:
+    image: amazoncorretto:22
+    volumes:
+      - caddy_ebsi_data:/caddy-data:ro
+      - ebsi_cacerts:/ebsi-certs
+    depends_on:
+      - caddy-ebsi
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        set -e
+        CADDY_CA=/caddy-data/caddy/pki/authorities/local/root.crt
+        JKS=/ebsi-certs/cacerts
+        SRC=/usr/lib/jvm/java-22-amazon-corretto/lib/security/cacerts
+        echo "Waiting for Caddy CA..."
+        tries=0
+        while [ ! -f "$$CADDY_CA" ] && [ $$tries -lt 60 ]; do
+          sleep 2; tries=$$((tries+1))
+        done
+        [ -f "$$CADDY_CA" ] || { echo "ERROR: Caddy CA not found"; exit 1; }
+        if [ ! -f "$$JKS" ]; then
+          cp "$$SRC" "$$JKS"
+        fi
+        keytool -importcert -noprompt \
+          -keystore "$$JKS" -storepass changeit \
+          -alias caddy-ebsi-local \
+          -file "$$CADDY_CA" 2>/dev/null || true
+        echo "Truststore ready."
+    restart: "no"
+
 volumes:
   mysql_data_deusto:
   mongo_data_deusto:
@@ -308,6 +386,9 @@ volumes:
   mysql_data_lumiere:
   mongo_data_lumiere:
   waltid_pg_lumiere:
+  caddy_ebsi_data:
+  caddy_ebsi_config:
+  ebsi_cacerts:
 
 networks:
   deusto_net:
